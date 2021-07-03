@@ -1,0 +1,78 @@
+#   _____                     _ _               _  ___ _   _____        _____
+#  / ____|                   | (_)             | |/ (_) | |  __ \      |  __ \
+# | |  __ _   _  __ _ _ __ __| |_  __ _ _ __   | ' / _| |_| |__) |_   _| |__) |
+# | | |_ | | | |/ _` | '__/ _` | |/ _` | '_ \  |  < | | __|  ___/\ \ / /  ___/
+# | |__| | |_| | (_| | | | (_| | | (_| | | | | | . \| | |_| |     \ V /| |
+#  \_____|\__,_|\__,_|_|  \__,_|_|\__,_|_| |_| |_|\_\_|\__|_|      \_/ |_|
+#
+#
+# Created by: MrUniverse44
+# SpigotMC Link: N/A
+#
+# Add Ability to an item adding 'ABILITIES' path in a item, example:
+#
+# sword:
+#   item: DIAMOND_SWORD
+#   name: '&b&lSTARTER SWORD'
+#   slot: 0
+#   abilities: 'GHOST'
+#   lore:
+#     - '&7Here your lore'
+#     - '&eplay.servername.net'
+#
+# Abilities List:
+# - DRAGON, PHANTOM, LORD_OF_THE_TIMES, ZEN, VIPER, HULK, SUICIDAL, SUMMONER, STOMPER
+# - BLINKER, BANE, SUNDER, THOR, HADES, DRACULA, FISHERMAN, KANGAROO, CLIMBER, SPIDER_MAN
+# - GHOST, PRISONER
+#
+kits:
+  default:
+    KitInfo:
+      item: BEACON
+      name: '&b&lSTARTER'
+      kitID: '0'
+      slot: 0
+      price: 0
+      lore:
+        - '&7Kit Starter Default'
+        - '&aClick to select'
+    Armor:
+      Helmet:
+        item: IRON_HELMET
+        name: '&bStarter'
+        lore:
+          - '&7Here your lore'
+          - '&eplay.servername.net'
+      Chestplate:
+        item: IRON_CHESTPLATE
+        name: '&bStarter'
+        lore:
+          - '&7Here your lore'
+          - '&eplay.servername.net'
+      Leggings:
+        item: IRON_LEGGINGS
+        name: '&bStarter'
+        lore:
+          - '&7Here your lore'
+          - '&eplay.servername.net'
+      Boots:
+        item: IRON_BOOTS
+        name: '&bStarter'
+        lore:
+          - '&7Here your lore'
+          - '&eplay.servername.net'
+    Inventory:
+      sword:
+        item: DIAMOND_SWORD
+        name: '&b&lSTARTER SWORD'
+        slot: 0
+        lore:
+          - '&7Here your lore'
+          - '&eplay.servername.net'
+      soup:
+        item: MUSHROOM_STEW
+        amount: 36
+        slot: 1
+        lore:
+          - '&7Here your lore'
+          - '&eplay.servername.net'

@@ -14,6 +14,12 @@ messsages:
   only-users: 'Only players may use this command!'
   Command-Disabled: 'This command has been disabled!'
   Unknown-Map: 'Couldn''t find a map with that name!'
+  ability-delay-action-bar:
+    left: '&7['
+    right: '&7]'
+    complete-color: '&a'
+    pending-color: '&8'
+    line: '[bx]'
   tournament:
     join-game: '&b%player% &7has joined the game! &3(&b%game_online%&3/&b%game_max%&3)&7!'
     leave-game: '&b%player% &7has left the game! &3(&b%game_online%&3/&b%game_max%&3)&7!'
