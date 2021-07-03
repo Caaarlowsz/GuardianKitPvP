@@ -1,0 +1,29 @@
+#   _____                     _ _               _  ___ _   _____        _____
+#  / ____|                   | (_)             | |/ (_) | |  __ \      |  __ \
+# | |  __ _   _  __ _ _ __ __| |_  __ _ _ __   | ' / _| |_| |__) |_   _| |__) |
+# | | |_ | | | |/ _` | '__/ _` | |/ _` | '_ \  |  < | | __|  ___/\ \ / /  ___/
+# | |__| | |_| | (_| | | | (_| | | (_| | | | | | . \| | |_| |     \ V /| |
+#  \_____|\__,_|\__,_|_|  \__,_|_|\__,_|_| |_| |_|\_\_|\__|_|      \_/ |_|
+#
+# Requirements: ON_KILL,ON_KILL_STREAK,ON_DEATH,ON_ABILITY_USE,ON_KILL_WITH_ARROW,ON_ARROW_USE,ON_LEVEL_UP,ON_EARN_XP
+# Rewards: [XP],[MESSAGE],[CONSOLE_COMMAND],[PLAYER_COMMAND],[SOUND],[FIREWORK]
+#
+achievements:
+  killstreak:
+    Name: "&a&lKS - 10"
+    Item: "IRON_SWORD"
+    Requeriment: "ON_KILL_STREAK"
+    Requeriment-value: 10
+    Message:
+      - "&a[bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx]"
+      - "<center>&e&lCongratulations: &fNew Achievement Unlocked!"
+      - " "
+      - "<center>&aKillStreak 10 players achievement has been unlocked!"
+      - " "
+      - " &7You earned:"
+      - "  &f[px] &3100 Coins"
+      - " "
+      - "&a[bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx][bx]"
+    Rewards:
+      - "[XP]100"
+      - "[FIREWORK]"

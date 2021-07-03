@@ -1,0 +1,122 @@
+#   _____                     _ _               _  ___ _   _____        _____
+#  / ____|                   | (_)             | |/ (_) | |  __ \      |  __ \
+# | |  __ _   _  __ _ _ __ __| |_  __ _ _ __   | ' / _| |_| |__) |_   _| |__) |
+# | | |_ | | | |/ _` | '__/ _` | |/ _` | '_ \  |  < | | __|  ___/\ \ / /  ___/
+# | |__| | |_| | (_| | | | (_| | | (_| | | | | | . \| | |_| |     \ V /| |
+#  \_____|\__,_|\__,_|_|  \__,_|_|\__,_|_| |_| |_|\_\_|\__|_|      \_/ |_|
+#
+# Created by: MrUniverse44
+# SpigotMC Link: N/A
+#
+# Variables (This variable only work in Waiting Scoreboard):
+# - <isWaiting> = This line only appear if the game is Waiting.
+# - <isVoting> = This line only appear when the game is voting a map.
+# - <isStarting> = This line only appear when the game is starting.
+# - <GracePeriod> = This line only appear when the game is in grace period.
+# Variables In Game:
+# - <arena_online> = online players
+# - <arena_max> = max players of the map
+# - <arena_need> = need players to start
+# - <arena_time_text> = time-left-timer for text example: "seconds" or "second"
+# - <arena_beast> = beast of the game
+# - <arena_runners> = Runners size
+# - <arena_mode> = Arena Mode
+# - <arena_timeLeft> | <arena_time_number> = time-left (you can use this variable with <arena_time_text> to do this: "60 seconds" or "1 second"
+# - <arena_status>  = Arena Status
+#
+scoreboards:
+  animatedTitle:
+    toggle: true
+    repeatTime: 20
+    titles:
+      - '&b&lGRFTB'
+      - '&f&lGRFTB'
+      - '&b&lGRFTB'
+      - '&f&lGRFTB'
+      - '&b&lGRFTB'
+      - '&f&lGRFTB'
+      - '&f&lG&b&lRFTB'
+      - '&f&lGR&b&lFTB'
+      - '&b&lG&f&lRF&b&lTB'
+      - '&b&lGR&f&lFT&b&lB'
+      - '&b&lGRF&f&lTB'
+      - '&b&lGRFT&f&lB'
+      - '&b&lGRFTB'
+  normal:
+    toggle: true
+    title: '&b&lGKitPvP'
+    lines:
+      - ' '
+      - '&fKillStreak: &a%ks%'
+      - '&fKills: &a%kills%'
+      - ' '
+      - '&fDeaths: &c%deaths%'
+      - '&fCoins: &e%coins%'
+      - ' '
+      - '&fRank: &b%rank%'
+      - '&fExp: &a%exp%&b/%next_rank_exp%'
+      - ' '
+      - '&fMap: &f%map%'
+      - '&fKit: &b%selected_kit%'
+      - ' '
+      - '&eplay.servername.net'
+  waiting:
+    title: '&b&lGKitPvP'
+    lines:
+      - '&7<arena_mode> | <timeFormat>'
+      - ' '
+      - '&fMap: &a<arena_name>'
+      - '&fPlayers: &a<arena_online>/<arena_max>'
+      - ' '
+      - '&f<isWaiting>Waiting for'
+      - '&a<isWaiting><arena_need> &fplayers to start'
+      - '&f<isVoting>Voting ends in &a<arena_time_number>'
+      - '&f<isStarting>Starting in &a<arena_time_number> &f<arena_time_text>.'
+      - '&f<GracePeriod>GP ends in &a<arena_time_number>&f!'
+      - ' '
+      - '&eplay.servername.net'
+  one-vs-one-playing:
+    - '&7<timeFormat>'
+    - ' '
+    - '&fTime Left: &b<arena_timeLeft>'
+    - ' '
+    - '&fOpponent:'
+    - '&7<player_name> <player_status>'
+    - ' '
+    - '&fSpectators: &b<arena_spectators>'
+    - '&fMode: &c<arena_mode>'
+    - ' '
+    - '&eplay.servername.net'
+  tournament-playing:
+    title: '&b&lGKitPvP'
+    lines:
+      - '&7<timeFormat>'
+      - ' '
+      - '&fPlayers Left: &3<arena_runners>'
+      - '&fTime Left: &b<arena_timeLeft>'
+      - ' '
+      - '&fMap: &a<arena_name>'
+      - '&fKills: &a<player_kills>'
+      - ' '
+      - '&fSpectators: &b<arena_spectators>'
+      - '&fMode: &c<arena_mode>'
+      - ' '
+      - '&eplay.servername.net'
+  victory:
+    forWinner:
+      title: '&b&lGKitPvP'
+      lines:
+        - '&7<timeFormat>'
+        - ' '
+        - '&fYou are the best beast'
+        - '&aWell played&f!'
+        - ' '
+        - '&eplay.servername.net'
+    forOthers:
+      title: '&b&lGKitPvP'
+      lines:
+        - '&7<timeFormat>'
+        - ' '
+        - '&fWell.. you tried'
+        - ' '
+        - '&eplay.servername.net'

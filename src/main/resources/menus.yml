@@ -1,0 +1,13 @@
+Inventories:
+  Kits: '&9Kits'
+  Shop: '&9Shop'
+  Selling: '&cAre you sure about selling?'
+  Reorder: '&9Kits &cReorder'
+  Queue: '&9Select targeted queues'
+  Kit-Unlocker: '&d&kA &4&nUnlocking a kit &d&kA'
+  Kit-Preview: '&cKit preview: &9'
+  Achievements-Inventory: '&cAchievements'
+  Profile-Inventory: '&4Profile'
+  Stats-Inventory: '&4Stats'
+  Trails-Inventory: '&5&nTrails:'
+  Map-Vote: '&c&nMap vote:'

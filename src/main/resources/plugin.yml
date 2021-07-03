@@ -4,4 +4,4 @@ main: dev.mruniverse.guardiankitpvp.GuardianKitPvP
 api-version: 1.16
 depend: [ GuardianLIB ]
 authors: [ MrUniverse44 ]
-description: KitPvP Plugin
+description: Simple KitPvP Plugin
