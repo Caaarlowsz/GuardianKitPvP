@@ -45,6 +45,7 @@ settings:
   # MySQL Settings
   mysql:
     toggle: false
+    jdbc-url: 'jdbc:mysql://[host]:[port]/[db]?autoReconnect=true'
     table-prefix: 'guardiankitpvp_'
     host: 'localhost'
     port: '3306'
