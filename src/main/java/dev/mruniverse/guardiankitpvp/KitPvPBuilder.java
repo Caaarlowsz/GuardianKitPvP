@@ -4,6 +4,9 @@ import dev.mruniverse.guardiankitpvp.enums.GuardianClass;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.interfaces.*;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitLoader;
+import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
+import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.BoardController;
+import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.ScoreInfo;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.FileStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerData;
@@ -25,6 +28,12 @@ public class KitPvPBuilder implements KitPvP {
 
     private PlayerData playerData;
 
+    private ListenerController listenerController;
+
+    private BoardController boardController;
+
+    private ScoreInfo scoreInfo;
+
     @Override
     public KitPvP setMain(GuardianKitPvP plugin) {
         this.plugin = plugin;
@@ -34,6 +43,24 @@ public class KitPvPBuilder implements KitPvP {
     @Override
     public KitPvP setPlayerData(PlayerData playerData) {
         this.playerData = playerData;
+        return this;
+    }
+
+    @Override
+    public KitPvP setBoardController(BoardController boardController) {
+        this.boardController = boardController;
+        return this;
+    }
+
+    @Override
+    public KitPvP setListenerController(ListenerController listenerController) {
+        this.listenerController = listenerController;
+        return this;
+    }
+
+    @Override
+    public KitPvP setScoreInfo(ScoreInfo scoreInfo) {
+        this.scoreInfo = scoreInfo;
         return this;
     }
 
@@ -96,6 +123,19 @@ public class KitPvPBuilder implements KitPvP {
     public PlayerData getPlayers() {
         return playerData;
     }
+
+    @Override
+    public ListenerController getListenerController() {
+        return listenerController;
+    }
+
+    @Override
+    public BoardController getBoardController() { return boardController; }
+
+    @Override
+    public ScoreInfo getScoreInfo() { return scoreInfo; }
+
+
 
     @Override
     public void create() {

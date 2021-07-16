@@ -3,6 +3,9 @@ package dev.mruniverse.guardiankitpvp.interfaces;
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianClass;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitLoader;
+import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
+import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.BoardController;
+import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.ScoreInfo;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.FileStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerData;
@@ -17,9 +20,15 @@ public interface KitPvP {
 
     KitPvP setKitLoader(KitLoader kitLoader);
 
+    KitPvP setListenerController(ListenerController listenerController);
+
     KitPvP setDataStorage(DataStorage dataStorage);
 
     KitPvP setPlayerData(PlayerData playerData);
+
+    KitPvP setBoardController(BoardController boardController);
+
+    KitPvP setScoreInfo(ScoreInfo scoreInfo);
 
     KitPvP setDefaultPlayerManager(PlayerManager playerManager);
 
@@ -34,6 +43,12 @@ public interface KitPvP {
     PlayerManager getPlayerManager();
 
     PlayerData getPlayers();
+
+    BoardController getBoardController();
+
+    ScoreInfo getScoreInfo();
+
+    ListenerController getListenerController();
 
     void create();
 

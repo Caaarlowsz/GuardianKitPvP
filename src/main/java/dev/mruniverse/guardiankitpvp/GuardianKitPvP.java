@@ -1,6 +1,10 @@
 package dev.mruniverse.guardiankitpvp;
 
 import dev.mruniverse.guardiankitpvp.interfaces.KitPvP;
+import dev.mruniverse.guardiankitpvp.listeners.ListenerControllerBuilder;
+import dev.mruniverse.guardiankitpvp.scoreboard.BoardControllerBuilder;
+import dev.mruniverse.guardiankitpvp.scoreboard.ScoreInfoBuilder;
+import dev.mruniverse.guardiankitpvp.storage.DataStorageBuilder;
 import dev.mruniverse.guardiankitpvp.storage.FileStorageBuilder;
 import dev.mruniverse.guardiankitpvp.storage.PlayerDataBuilder;
 import dev.mruniverse.guardiankitpvp.storage.PlayerManagerBuilder;
@@ -19,6 +23,8 @@ public class GuardianKitPvP extends JavaPlugin {
 
     private ExternalLogger logger;
 
+    private boolean hasPAPI = false;
+
     public ExternalLogger getLogs() { return logger; }
 
     public KitPvP getKitPvP() { return kitPvP; }
@@ -28,17 +34,24 @@ public class GuardianKitPvP extends JavaPlugin {
 
     public void setLogs(ExternalLogger logger) { this.logger = logger; }
 
+    public boolean hasPAPI() { return hasPAPI; }
+
     @Override
     public void onEnable() {
         instance = this;
 
-        setLogs(new ExternalLogger(this,"GuardianKitPvP","dev.mruniverse.guardiankitpvp"));
+        setLogs(new ExternalLogger(this,"GuardianKitPvP","dev.mruniverse.guardiankitpvp."));
 
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
+                hasPAPI = getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
                 kitPvP = new KitPvPBuilder();
                 kitPvP.setPlayerData(new PlayerDataBuilder())
+                        .setDataStorage(new DataStorageBuilder(instance))
+                        .setListenerController(new ListenerControllerBuilder(instance))
+                        .setBoardController(new BoardControllerBuilder(instance))
+                        .setScoreInfo(new ScoreInfoBuilder(instance))
                         .setDefaultPlayerManager(new PlayerManagerBuilder().setPlugin(instance))
                         .setFileStorage(new FileStorageBuilder(instance))
                         .create();
