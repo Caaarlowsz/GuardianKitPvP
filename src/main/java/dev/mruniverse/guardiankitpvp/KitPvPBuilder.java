@@ -140,6 +140,7 @@ public class KitPvPBuilder implements KitPvP {
     @Override
     public void create() {
         if(playerData == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 0");
+        playerData.setPlugin(plugin);
         if(itemsInfo == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 1");
         if(fileStorage == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 2");
         if(kitLoader == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 3");

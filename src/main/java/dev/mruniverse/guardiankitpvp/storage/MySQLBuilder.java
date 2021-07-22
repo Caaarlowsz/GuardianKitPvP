@@ -11,8 +11,11 @@ import java.util.List;
 
 public class MySQLBuilder implements MySQL {
     private GuardianKitPvP plugin;
+
+    private String portReceiver;
     public MySQLBuilder(GuardianKitPvP main) {
         plugin = main;
+        portReceiver = "player_name";
     }
     public Connection con;
 
@@ -26,6 +29,9 @@ public class MySQLBuilder implements MySQL {
         try {
             FileConfiguration settings = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS);
             String url= settings.getString("settings.game.mysql.jdbc-url");
+            boolean porterReceiver = settings.getBoolean("settings.game.user-uuid-on-data",false);
+            if(porterReceiver) portReceiver = "player_uuid";
+
             int port = settings.getInt("settings.game.mysql.port");
             if(url == null) url = "jdbc:mysql://" + host + ":" + settings.getInt("settings.game.mysql.port") + "/" + db + "?autoReconnect=true";
             url = url.replace("[host]",host)
@@ -34,14 +40,10 @@ public class MySQLBuilder implements MySQL {
             con = DriverManager.getConnection(url,user,password);
             plugin.getLogs().info("Connected with MySQLImpl! creating tables");
             List<String> integers = new ArrayList<>();
-            integers.add("Coins");
-            integers.add("Wins");
-            integers.add("Deaths");
-            integers.add("Kills");
             List<String> strings = new ArrayList<>();
-            strings.add("Player");
+            strings.add(portReceiver);
             strings.add("Kits");
-            strings.add("SelectedKit");
+            strings.add("Statistics");
             plugin.getKitPvP().getDataStorage().createMultiTable(settings.getString("settings.game.mysql.table-prefix"), integers, strings);
             plugin.getLogs().info("Tables created!");
         } catch (SQLException e) {
@@ -51,6 +53,16 @@ public class MySQLBuilder implements MySQL {
             plugin.getLogs().error("-------------------------");
             plugin.getKitPvP().getDataStorage().getSQL().loadData();
         }
+    }
+
+    @Override
+    public void setReceiverSender(String paramString) {
+        this.portReceiver = paramString;
+    }
+
+    @Override
+    public String getReceiverSender() {
+        return portReceiver;
     }
 
     @Override

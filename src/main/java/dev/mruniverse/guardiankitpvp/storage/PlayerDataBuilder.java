@@ -27,6 +27,7 @@ public class PlayerDataBuilder implements PlayerData {
     @Override
     public void addPlayer(Player player) {
         if(!existPlayer(player.getUniqueId())) {
+            if(kitPvP.getKitPvP() == null) reportNull();
             PlayerManager manager = kitPvP.getKitPvP().getPlayerManager();
             try {
                 manager = manager.getClass().newInstance();
@@ -39,6 +40,10 @@ public class PlayerDataBuilder implements PlayerData {
             }
             players.put(player.getUniqueId(),manager);
         }
+    }
+
+    public void reportNull() {
+        kitPvP.getLogs().info("The KitPvP Instance is null. :(");
     }
 
     @Override

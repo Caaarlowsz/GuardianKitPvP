@@ -18,6 +18,12 @@ public interface MySQL {
 
     void Update(String qry);
 
+    void setReceiverSender(String paramString);
+
+
+    String getReceiverSender();
+
+
     @SuppressWarnings("unused")
     ResultSet pQuery(String query);
 

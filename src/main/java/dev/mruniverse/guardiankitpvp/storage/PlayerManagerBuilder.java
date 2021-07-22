@@ -66,7 +66,8 @@ public class PlayerManagerBuilder implements PlayerManager {
         DataStorage dataStorage = plugin.getKitPvP().getDataStorage();
         if (plugin.getKitPvP().isUsingMySQL()) {
             String table = plugin.getKitPvP().getDataStorage().getTable();
-            if (!dataStorage.isRegistered(table, "Player", getID())) {
+            String portReceiver = plugin.getKitPvP().getDataStorage().getMySQL().getReceiverSender();
+            if (!dataStorage.isRegistered(table, portReceiver, getID())) {
                 dataStorage.getData().addPlayer(player.getUniqueId());
                 coins = dataStorage.getData().getCoins(player.getUniqueId());
                 selectedKit = dataStorage.getData().getSelectedKit(player.getUniqueId());

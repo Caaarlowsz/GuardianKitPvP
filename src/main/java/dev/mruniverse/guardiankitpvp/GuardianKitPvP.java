@@ -46,16 +46,18 @@ public class GuardianKitPvP extends JavaPlugin {
             @Override
             public void run() {
                 hasPAPI = getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
-                kitPvP = new KitPvPBuilder();
-                kitPvP.setMain(instance)
+
+                setKitPvP(new KitPvPBuilder().setMain(instance)
+                        .setDefaultPlayerManager(new PlayerManagerBuilder().setPlugin(instance))
                         .setPlayerData(new PlayerDataBuilder())
                         .setDataStorage(new DataStorageBuilder(instance))
                         .setListenerController(new ListenerControllerBuilder(instance))
                         .setBoardController(new BoardControllerBuilder(instance))
                         .setScoreInfo(new ScoreInfoBuilder(instance))
-                        .setDefaultPlayerManager(new PlayerManagerBuilder().setPlugin(instance))
                         .setFileStorage(new FileStorageBuilder(instance))
-                        .create();
+                );
+
+                getKitPvP().create();
 
             }
         };

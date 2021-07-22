@@ -20,6 +20,7 @@ public class ListenerControllerBuilder implements ListenerController {
     public void loadListeners() {
         PluginManager manager = plugin.getServer().getPluginManager();
         manager.registerEvents(new JoinListener(plugin),plugin);
+        manager.registerEvents(new QuitListener(plugin),plugin);
     }
 
     @Override
