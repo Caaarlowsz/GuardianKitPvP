@@ -9,8 +9,10 @@ import dev.mruniverse.guardiankitpvp.storage.FileStorageBuilder;
 import dev.mruniverse.guardiankitpvp.storage.PlayerDataBuilder;
 import dev.mruniverse.guardiankitpvp.storage.PlayerManagerBuilder;
 import dev.mruniverse.guardianlib.core.utils.ExternalLogger;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Scoreboard;
 
 public class GuardianKitPvP extends JavaPlugin {
 
@@ -41,6 +43,12 @@ public class GuardianKitPvP extends JavaPlugin {
         instance = this;
 
         setLogs(new ExternalLogger(this,"GuardianKitPvP","dev.mruniverse.guardiankitpvp."));
+
+        if(Bukkit.getScoreboardManager() != null) {
+            Scoreboard manager = Bukkit.getScoreboardManager().getMainScoreboard();
+            manager.getEntries().clear();
+            manager.getTeams().clear();
+        }
 
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override

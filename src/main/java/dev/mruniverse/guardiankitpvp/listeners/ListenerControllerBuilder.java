@@ -5,9 +5,9 @@ import dev.mruniverse.guardiankitpvp.enums.GMenus;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.enums.ShopMenu;
 import dev.mruniverse.guardiankitpvp.extras.GuardianMenuBuilder;
-import dev.mruniverse.guardiankitpvp.interfaces.extras.GuardianItems;
 import dev.mruniverse.guardiankitpvp.interfaces.extras.GuardianMenu;
 import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
+import dev.mruniverse.guardiankitpvp.utils.ExtraUtils;
 import dev.mruniverse.guardianlib.core.GuardianLIB;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,9 +26,7 @@ public class ListenerControllerBuilder implements ListenerController {
         loadMenus();
     }
 
-    @SuppressWarnings("unchecked")
     public void loadMenus() {
-        Class<Enum<? extends GuardianItems>> currentClass = (Class<Enum<? extends GuardianItems>>) ShopMenu.BOOSTERS.getClass();
         FileConfiguration fileConfiguration = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.MENUS);
         shopMenu = new GuardianMenuBuilder().setMenu(GMenus.SHOP)
                 .setTitle(fileConfiguration.getString("shop.title","&8Shop Menu"))
@@ -36,7 +34,7 @@ public class ListenerControllerBuilder implements ListenerController {
                 .setClickCancellable(true)
                 .setInventoryOwner(null)
                 .createMenu()
-                .setItems(fileConfiguration,currentClass);
+                .setItems(fileConfiguration, ExtraUtils.getEnums(ShopMenu.class));
         shopMenu.register(plugin);
     }
 

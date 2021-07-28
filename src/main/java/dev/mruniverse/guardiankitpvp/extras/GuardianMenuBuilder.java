@@ -21,9 +21,9 @@ import java.util.Map;
 import java.util.Optional;
 
 public class GuardianMenuBuilder implements GuardianMenu {
-    private Enum<? extends Menus> currentMenu;
+    private Menus currentMenu;
 
-    private Class<Enum<? extends GuardianItems>> currentIdentifier;
+    private GuardianItems[] currentIdentifier;
 
     private int menuSize = 3;
 
@@ -31,7 +31,7 @@ public class GuardianMenuBuilder implements GuardianMenu {
 
     private HashMap<ItemStack,Integer> MENUS_ITEM_SLOT;
 
-    private HashMap<ItemStack,Enum<? extends GuardianItems>> MENUS_ITEMS;
+    private HashMap<ItemStack,GuardianItems> MENUS_ITEMS;
 
     private FileConfiguration fileConfiguration = null;
 
@@ -42,7 +42,7 @@ public class GuardianMenuBuilder implements GuardianMenu {
     private boolean cancellable = true;
 
     @Override
-    public GuardianMenu setMenu(Enum<? extends Menus> menuName) {
+    public GuardianMenu setMenu(Menus menuName) {
         this.currentMenu = menuName;
         return this;
     }
@@ -88,7 +88,7 @@ public class GuardianMenuBuilder implements GuardianMenu {
     }
 
     @Override
-    public Enum<? extends Menus> getMenu() {
+    public Menus getMenu() {
         return currentMenu;
     }
 
@@ -101,21 +101,21 @@ public class GuardianMenuBuilder implements GuardianMenu {
     }
 
     @Override
-    public GuardianMenu setItems(FileConfiguration fileConfiguration, Class<Enum<? extends GuardianItems>> itemIdentifier) {
+    public GuardianMenu setItems(FileConfiguration fileConfiguration, GuardianItems[] itemIdentifier) {
         this.fileConfiguration = fileConfiguration;
         this.currentIdentifier = itemIdentifier;
         return this;
     }
 
     @Override
-    public GuardianMenu setItems(HashMap<ItemStack, Enum<? extends GuardianItems>> items, HashMap<ItemStack, Integer> itemSlot) {
+    public GuardianMenu setItems(HashMap<ItemStack,GuardianItems> items, HashMap<ItemStack, Integer> itemSlot) {
         this.MENUS_ITEMS = items;
         this.MENUS_ITEM_SLOT = itemSlot;
         return this;
     }
 
     @Override
-    public HashMap<ItemStack, Enum<? extends GuardianItems>> getItems() {
+    public HashMap<ItemStack,GuardianItems> getItems() {
         return MENUS_ITEMS;
     }
 
@@ -131,7 +131,7 @@ public class GuardianMenuBuilder implements GuardianMenu {
     }
 
     @Override
-    public Class<Enum<? extends GuardianItems>> getIdentifier() {
+    public GuardianItems[] getIdentifier() {
         return currentIdentifier;
     }
 
@@ -162,7 +162,7 @@ public class GuardianMenuBuilder implements GuardianMenu {
     }
 
     @Override
-    public void updateItems(FileConfiguration fileConfiguration, Class<Enum<? extends GuardianItems>> itemIdentifier) {
+    public void updateItems(FileConfiguration fileConfiguration,GuardianItems[] itemIdentifier) {
         this.fileConfiguration = fileConfiguration;
         this.currentIdentifier = itemIdentifier;
         updateNow();
@@ -174,8 +174,8 @@ public class GuardianMenuBuilder implements GuardianMenu {
         ItemStack currentItem;
         MENUS_ITEMS.clear();
         MENUS_ITEM_SLOT.clear();
-        for(Enum<? extends GuardianItems> item : currentIdentifier.getEnumConstants()) {
-            String path = ((GuardianItems)item).getPath();
+        for(GuardianItems item : currentIdentifier) {
+            String path = item.getPath();
             if(fileConfiguration.getBoolean(path + "toggle")) {
                 String name = fileConfiguration.getString(path + "name","Unknown Item Name");
                 String material = fileConfiguration.getString(path + "item","BEDROCK");
@@ -190,13 +190,13 @@ public class GuardianMenuBuilder implements GuardianMenu {
     }
 
     @Override
-    public void updateItems(HashMap<ItemStack, Enum<? extends GuardianItems>> items) {
+    public void updateItems(HashMap<ItemStack,GuardianItems> items) {
         MENUS_ITEMS.clear();
         MENUS_ITEMS = items;
     }
 
     @Override
-    public void updateItems(HashMap<ItemStack, Enum<? extends GuardianItems>> items, HashMap<ItemStack, Integer> itemSlot) {
+    public void updateItems(HashMap<ItemStack,GuardianItems> items, HashMap<ItemStack, Integer> itemSlot) {
         MENUS_ITEMS.clear();
         MENUS_ITEM_SLOT.clear();
 

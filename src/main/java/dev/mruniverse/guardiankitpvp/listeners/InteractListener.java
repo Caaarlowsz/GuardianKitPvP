@@ -11,13 +11,10 @@ import org.bukkit.event.Listener;
 
 public class InteractListener implements Listener {
 
-    /*
-     * SHOP
-     */
     @EventHandler
     public void onShopInteract(GuardianMenuClickEvent event) {
-        Enum<? extends Menus> menu = event.getMenu();
-        Enum<? extends GuardianItems> currentItem = event.getIdentifier();
+        Menus menu = event.getMenu();
+        GuardianItems currentItem = event.getIdentifier();
         if(menu == GMenus.SHOP) {
             if(currentItem == ShopMenu.BOOSTERS){
                 Bukkit.broadcastMessage("I'm a god");

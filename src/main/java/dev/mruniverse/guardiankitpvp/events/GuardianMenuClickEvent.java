@@ -13,11 +13,11 @@ public class GuardianMenuClickEvent extends Event {
 
     private final Player player;
 
-    private final Enum<? extends GuardianItems> currentIdentifier;
+    private final GuardianItems currentIdentifier;
 
-    private final Enum<? extends Menus> currentMenu;
+    private final Menus currentMenu;
 
-    public GuardianMenuClickEvent(Player player, Enum<? extends GuardianItems> currentIdentifier, Enum<? extends Menus> currentMenu) {
+    public GuardianMenuClickEvent(Player player, GuardianItems currentIdentifier, Menus currentMenu) {
         this.player = player;
         this.currentIdentifier = currentIdentifier;
         this.currentMenu = currentMenu;
@@ -27,11 +27,11 @@ public class GuardianMenuClickEvent extends Event {
         return player;
     }
 
-    public Enum<? extends GuardianItems> getIdentifier() {
+    public GuardianItems getIdentifier() {
         return currentIdentifier;
     }
 
-    public Enum<? extends Menus> getMenu() {
+    public Menus getMenu() {
         return currentMenu;
     }
 

@@ -25,7 +25,7 @@ public class MenuListener implements Listener {
             if (event.getItem() == null) return;
             if (event.getItem().getItemMeta() == null) return;
 
-            for(Map.Entry<ItemStack,Enum<? extends GuardianItems>> entry : guardianMenu.getItems().entrySet()) {
+            for(Map.Entry<ItemStack,GuardianItems> entry : guardianMenu.getItems().entrySet()) {
                 ItemStack item = entry.getKey();
                 if(event.getItem().getType().equals(item.getType()) && event.getItem().getItemMeta().equals(item.getItemMeta())) {
                     event.setCancelled(guardianMenu.isCancellable());

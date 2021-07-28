@@ -9,14 +9,14 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
-
+@SuppressWarnings("unused")
 public interface GuardianMenu {
 
-    Enum<? extends Menus> getMenu();
+    Menus getMenu();
 
     GuardianMenu setInventoryOwner(@Nullable InventoryHolder owner);
 
-    GuardianMenu setMenu(Enum<? extends Menus> menuName);
+    GuardianMenu setMenu(Menus menuName);
 
     GuardianMenu setClickCancellable(boolean cancellable);
 
@@ -24,17 +24,17 @@ public interface GuardianMenu {
 
     GuardianMenu setTitle(String menuTitle);
 
-    GuardianMenu setItems(FileConfiguration fileConfiguration,Class<Enum<? extends GuardianItems>> itemIdentifier);
+    GuardianMenu setItems(FileConfiguration fileConfiguration,GuardianItems[] itemIdentifier);
 
-    GuardianMenu setItems(HashMap<ItemStack,Enum<? extends GuardianItems>> items, HashMap<ItemStack,Integer> itemSlot);
+    GuardianMenu setItems(HashMap<ItemStack,GuardianItems> items, HashMap<ItemStack,Integer> itemSlot);
 
-    HashMap<ItemStack,Enum<? extends GuardianItems>> getItems();
+    HashMap<ItemStack,GuardianItems> getItems();
 
     HashMap<ItemStack,Integer> getItemsSlot();
 
     GuardianMenu createMenu();
 
-    Class<Enum<? extends GuardianItems>> getIdentifier();
+    GuardianItems[] getIdentifier();
 
     Inventory getInventory();
 
@@ -50,9 +50,9 @@ public interface GuardianMenu {
 
     void updateItems(FileConfiguration fileConfiguration);
 
-    void updateItems(FileConfiguration fileConfiguration,Class<Enum<? extends GuardianItems>> itemIdentifier);
+    void updateItems(FileConfiguration fileConfiguration,GuardianItems[] itemIdentifier);
 
-    void updateItems(HashMap<ItemStack,Enum<? extends GuardianItems>> items);
+    void updateItems(HashMap<ItemStack,GuardianItems> items);
 
-    void updateItems(HashMap<ItemStack,Enum<? extends GuardianItems>> items, HashMap<ItemStack,Integer> itemSlot);
+    void updateItems(HashMap<ItemStack,GuardianItems> items, HashMap<ItemStack,Integer> itemSlot);
 }
