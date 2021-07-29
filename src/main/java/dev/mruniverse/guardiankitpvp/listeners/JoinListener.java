@@ -47,12 +47,11 @@ public class JoinListener implements Listener {
 
     @EventHandler
     public void teleport(PlayerJoinEvent event) {
+        if(inventory == null) fixInventory();
+        inventory.giveInventory(event.getPlayer(),true);
         if(plugin.getKitPvP().getListenerController().getMapLocation() != null) {
             try {
-                if(inventory == null) fixInventory();
-                Bukkit.getLogger().info("Items: " + inventory.getItems().size());
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> event.getPlayer().teleport(plugin.getKitPvP().getListenerController().getMapLocation()), 4L);
-                inventory.giveInventory(event.getPlayer(),true);
             } catch (Throwable throwable) {
                 plugin.getLogs().error("Can't teleport " + event.getPlayer().getName() + " to the lobby!");
                 plugin.getLogs().error(throwable);
