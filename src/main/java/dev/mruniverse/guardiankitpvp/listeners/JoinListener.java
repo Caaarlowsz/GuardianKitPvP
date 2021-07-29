@@ -22,9 +22,10 @@ public class JoinListener implements Listener {
         if(plugin.getKitPvP() != null) {
             if(plugin.getKitPvP().getFileStorage() != null) {
                 if (plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.ITEMS) != null) {
-                    inventory = new GuardianInventoryBuilder().setClickCancellable(true)
-                            .setItems(plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.ITEMS), ExtraUtils.getEnums(NormalItems.class))
-                            .setID("normal-inventory");
+                    inventory = new GuardianInventoryBuilder()
+                            .setID("normal-inventory")
+                            .setClickCancellable(true)
+                            .setItems(plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.ITEMS), ExtraUtils.getEnums(NormalItems.class));
                     inventory.register(plugin);
                 }
             }
