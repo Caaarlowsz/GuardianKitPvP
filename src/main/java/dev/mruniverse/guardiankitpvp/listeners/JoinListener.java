@@ -34,9 +34,8 @@ public class JoinListener implements Listener {
         if(plugin.getKitPvP() != null) {
             if(plugin.getKitPvP().getFileStorage() != null) {
                 if (plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.ITEMS) != null) {
-                    inventory = new GuardianInventoryBuilder()
-                            .setID("normal-inventory")
-                            .setClickCancellable(true)
+                    inventory = new GuardianInventoryBuilder().setID("normal-inventory");
+                    inventory = inventory.setClickCancellable(true)
                             .setItems(plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.ITEMS), ExtraUtils.getEnums(NormalItems.class));
                     inventory.register(plugin);
                     plugin.getLogs().info("Normal-Inventory registered");
@@ -50,6 +49,7 @@ public class JoinListener implements Listener {
         if(plugin.getKitPvP().getListenerController().getMapLocation() != null) {
             try {
                 if(inventory == null) fixInventory();
+                Bukkit.getLogger().info("Items: " + inventory.getItems().size());
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> event.getPlayer().teleport(plugin.getKitPvP().getListenerController().getMapLocation()), 4L);
                 inventory.giveInventory(event.getPlayer(),true);
             } catch (Throwable throwable) {
