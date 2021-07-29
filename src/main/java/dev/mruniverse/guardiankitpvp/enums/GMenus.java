@@ -1,6 +1,7 @@
 package dev.mruniverse.guardiankitpvp.enums;
 
-import dev.mruniverse.guardiankitpvp.interfaces.extras.Menus;
+
+import dev.mruniverse.guardianlib.core.menus.interfaces.Menus;
 
 public enum GMenus implements Menus {
     SHOP{

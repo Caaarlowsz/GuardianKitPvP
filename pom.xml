@@ -90,7 +90,7 @@
         <dependency>
             <groupId>com.github.MrUniverse44</groupId>
             <artifactId>GuardianLIB</artifactId>
-            <version>1.0.8.3-SNAPSHOT-FIX</version>
+            <version>1.0.9-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

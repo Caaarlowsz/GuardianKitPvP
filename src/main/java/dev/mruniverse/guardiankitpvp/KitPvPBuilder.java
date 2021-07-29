@@ -11,6 +11,7 @@ import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.FileStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerData;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
+import dev.mruniverse.guardiankitpvp.storage.FileStorageBuilder;
 
 public class KitPvPBuilder implements KitPvP {
 
@@ -99,9 +100,15 @@ public class KitPvPBuilder implements KitPvP {
         return itemsInfo;
     }
 
+    private GuardianKitPvP getMain() {
+        if(plugin != null) return plugin;
+        return GuardianKitPvP.getInstance();
+    }
+
     @Override
     public FileStorage getFileStorage() {
-        return fileStorage;
+        if(fileStorage != null) return fileStorage;
+        return new FileStorageBuilder(getMain());
     }
 
     @Override

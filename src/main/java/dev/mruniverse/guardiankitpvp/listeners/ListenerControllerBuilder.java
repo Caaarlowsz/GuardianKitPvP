@@ -4,11 +4,11 @@ import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GMenus;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.enums.ShopMenu;
-import dev.mruniverse.guardiankitpvp.extras.GuardianMenuBuilder;
-import dev.mruniverse.guardiankitpvp.interfaces.extras.GuardianMenu;
+import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianMenu;
 import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
 import dev.mruniverse.guardiankitpvp.utils.ExtraUtils;
 import dev.mruniverse.guardianlib.core.GuardianLIB;
+import dev.mruniverse.guardianlib.core.menus.gui.GuardianMenuBuilder;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -39,10 +39,15 @@ public class ListenerControllerBuilder implements ListenerController {
     }
 
     @Override
+    public GuardianMenu getShopMenu() {
+        return shopMenu;
+    }
+
+    @Override
     public void loadListeners() {
         PluginManager manager = plugin.getServer().getPluginManager();
         manager.registerEvents(new JoinListener(plugin),plugin);
-        manager.registerEvents(new InteractListener(),plugin);
+        manager.registerEvents(new InteractListener(plugin),plugin);
         manager.registerEvents(new QuitListener(plugin),plugin);
     }
 

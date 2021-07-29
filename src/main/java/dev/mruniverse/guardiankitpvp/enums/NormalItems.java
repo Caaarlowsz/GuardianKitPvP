@@ -2,7 +2,7 @@ package dev.mruniverse.guardiankitpvp.enums;
 
 import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianItems;
 
-public enum ShopMenu implements GuardianItems {
+public enum NormalItems implements GuardianItems {
     KITS {
         @Override
         public String getID() {
@@ -10,27 +10,27 @@ public enum ShopMenu implements GuardianItems {
         }
         @Override
         public String getPath() {
-            return "shop.items.kits.";
+            return "items.kit-selector.";
         }
     },
-    COINS {
+    SHOP {
         @Override
         public String getID() {
             return "coins";
         }
         @Override
         public String getPath() {
-            return "shop.items.coins.";
+            return "items.shop.";
         }
     },
-    BOOSTERS{
+    KITUNLOCKER{
         @Override
         public String getID() {
-            return "boosters";
+            return "unlocker";
         }
         @Override
         public String getPath() {
-            return "shop.items.boosters.";
+            return "items.kit-unlocker.";
         }
     }
 }

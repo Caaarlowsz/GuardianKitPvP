@@ -3,6 +3,10 @@ package dev.mruniverse.guardiankitpvp.listeners;
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianBoard;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
+import dev.mruniverse.guardiankitpvp.enums.NormalItems;
+import dev.mruniverse.guardiankitpvp.utils.ExtraUtils;
+import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianInventory;
+import dev.mruniverse.guardianlib.core.menus.inventory.GuardianInventoryBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,14 +15,42 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class JoinListener implements Listener {
     private final GuardianKitPvP plugin;
+    private GuardianInventory inventory = null;
+
     public JoinListener(GuardianKitPvP plugin) {
         this.plugin = plugin;
+        if(plugin.getKitPvP() != null) {
+            if(plugin.getKitPvP().getFileStorage() != null) {
+                if (plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.ITEMS) != null) {
+                    inventory = new GuardianInventoryBuilder().setClickCancellable(true)
+                            .setItems(plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.ITEMS), ExtraUtils.getEnums(NormalItems.class))
+                            .setID("normal-inventory");
+                    inventory.register(plugin);
+                }
+            }
+        }
     }
+    private void fixInventory() {
+        if(plugin.getKitPvP() != null) {
+            if(plugin.getKitPvP().getFileStorage() != null) {
+                if (plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.ITEMS) != null) {
+                    inventory = new GuardianInventoryBuilder().setClickCancellable(true)
+                            .setItems(plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.ITEMS), ExtraUtils.getEnums(NormalItems.class))
+                            .setID("normal-inventory");
+                    inventory.register(plugin);
+                    plugin.getLogs().info("Normal-Inventory registered");
+                }
+            }
+        }
+    }
+
     @EventHandler
     public void teleport(PlayerJoinEvent event) {
         if(plugin.getKitPvP().getListenerController().getMapLocation() != null) {
             try {
+                if(inventory == null) fixInventory();
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> event.getPlayer().teleport(plugin.getKitPvP().getListenerController().getMapLocation()), 4L);
+                inventory.giveInventory(event.getPlayer(),true);
             } catch (Throwable throwable) {
                 plugin.getLogs().error("Can't teleport " + event.getPlayer().getName() + " to the lobby!");
                 plugin.getLogs().error(throwable);
