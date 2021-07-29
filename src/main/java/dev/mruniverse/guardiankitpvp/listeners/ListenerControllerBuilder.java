@@ -36,6 +36,7 @@ public class ListenerControllerBuilder implements ListenerController {
                 .createMenu()
                 .setItems(fileConfiguration, ExtraUtils.getEnums(ShopMenu.class));
         shopMenu.register(plugin);
+        shopMenu.updateItems();
     }
 
     @Override
