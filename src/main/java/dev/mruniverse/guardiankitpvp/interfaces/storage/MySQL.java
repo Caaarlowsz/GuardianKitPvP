@@ -1,6 +1,7 @@
 package dev.mruniverse.guardiankitpvp.interfaces.storage;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
+import org.bukkit.entity.Player;
 
 import java.sql.*;
 
@@ -20,6 +21,13 @@ public interface MySQL {
 
     void setReceiverSender(String paramString);
 
+    void addKit(String paramPlayer,String kit);
+
+    void removeKit(String paramPlayer,String kit);
+
+    void loadStats(final Player player);
+
+    void saveStats(Player paramPlayer);
 
     String getReceiverSender();
 

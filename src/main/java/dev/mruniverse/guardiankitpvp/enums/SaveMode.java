@@ -4,6 +4,7 @@ public enum SaveMode {
     SETTINGS,
     DATA,
     ABILITIES,
+    RANKS,
     ACHIEVEMENTS,
     HOLOGRAMS,
     MESSAGES,

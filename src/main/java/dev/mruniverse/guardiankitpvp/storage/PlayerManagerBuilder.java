@@ -2,24 +2,23 @@ package dev.mruniverse.guardiankitpvp.storage;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianBoard;
-import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.enums.KitType;
 import dev.mruniverse.guardiankitpvp.enums.PlayerStatus;
 import dev.mruniverse.guardiankitpvp.interfaces.Game;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitMenu;
+import dev.mruniverse.guardiankitpvp.interfaces.rank.Rank;
+import dev.mruniverse.guardiankitpvp.interfaces.rank.RankManager;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
-import dev.mruniverse.guardiankitpvp.interfaces.storage.SQL;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings({"FieldCanBeLocal","unused"})
 public class PlayerManagerBuilder implements PlayerManager {
 
-    private int leaveDelay;
+    private int leaveDelay = 0;
 
     private int kills = 0;
 
@@ -29,20 +28,44 @@ public class PlayerManagerBuilder implements PlayerManager {
 
     private int deaths = 0;
 
+    private int kitUnlockers = 0;
+
+    private int dataExp = 0;
+
+    private int projectiles_hit = 0;
+
+    private int tournament_wins = 0;
+
+    private int challenge_wins = 0;
+
+    private int abilities_used = 0;
+
+    private int soups_eaten = 0;
+
+    private int killstreaks_earned = 0;
+
+    private int killStreak = 0;
+
     private boolean autoPlay = false;
+
+    private Rank currentRank = null;
+
+    private Rank nextRank = null;
 
     private GuardianKitPvP plugin;
 
     private Player player;
 
-    private PlayerStatus playerStatus;
+    private PlayerStatus playerStatus = PlayerStatus.IN_LOBBY;
 
     private GuardianBoard guardianBoard;
 
-    private Game currentGame;
+    private Game currentGame = null;
 
-    private String selectedKit;
-    private String kits;
+    private String selectedKit = "";
+
+    private String kits = "";
+
 
     @Override
     public PlayerManager setPlayer(Player player) {
@@ -57,6 +80,71 @@ public class PlayerManagerBuilder implements PlayerManager {
     }
 
     @Override
+    public void setKs(int killStreak) {
+        this.killStreak = killStreak;
+    }
+
+
+    @Override
+    public int getKs() {
+        return killStreak;
+    }
+
+    @Override
+    public void setStatsFromString(String paramString) {
+        String[] arrayString = paramString.split(":");
+        this.kills = Integer.parseInt(arrayString[0]);
+        this.deaths = Integer.parseInt(arrayString[1]);
+        this.coins = Integer.parseInt(arrayString[2]);
+        this.kitUnlockers = Integer.parseInt(arrayString[3]);
+        this.dataExp = Integer.parseInt(arrayString[4]);
+        this.projectiles_hit = Integer.parseInt(arrayString[5]);
+        this.tournament_wins = Integer.parseInt(arrayString[6]);
+        this.challenge_wins = Integer.parseInt(arrayString[7]);
+        this.abilities_used = Integer.parseInt(arrayString[8]);
+        this.soups_eaten = Integer.parseInt(arrayString[9]);
+        this.killstreaks_earned = Integer.parseInt(arrayString[10]);
+        updateRank();
+    }
+
+    @Override
+    public void updateRank() {
+        RankManager rankManager = plugin.getKitPvP().getRankManager();
+        for (byte b = 0; b < rankManager.getRanks().size(); b++) {
+            Rank rank = rankManager.getRanks().get(b);
+            if (this.dataExp >= rank.getRequiredExp()) {
+                this.currentRank = rank;
+                this.nextRank = (rankManager.getRanks().size() <= b + 1) ? null : rankManager.getRanks().get(b + 1);
+            }
+        }
+    }
+
+    @Override
+    public void resetPlayer() {
+        this.coins = 0;
+        this.kills = 0;
+        this.deaths = 0;
+        this.dataExp = 0;
+        this.projectiles_hit = 0;
+        this.tournament_wins = 0;
+        this.challenge_wins = 0;
+        this.abilities_used = 0;
+        this.soups_eaten = 0;
+        this.killstreaks_earned = 0;
+        updateRank();
+    }
+
+    @Override
+    public Rank getRank() {
+        return currentRank;
+    }
+
+    @Override
+    public Rank getNextRank() {
+        return nextRank;
+    }
+
+    @Override
     public void finish() {
         if(player == null) return;
         leaveDelay = 0;
@@ -65,23 +153,19 @@ public class PlayerManagerBuilder implements PlayerManager {
         currentGame = null;
         DataStorage dataStorage = plugin.getKitPvP().getDataStorage();
         if (plugin.getKitPvP().isUsingMySQL()) {
-            String table = plugin.getKitPvP().getDataStorage().getTable();
-            String portReceiver = plugin.getKitPvP().getDataStorage().getMySQL().getReceiverSender();
-            if (!dataStorage.isRegistered(table, portReceiver, getID())) {
-                dataStorage.getData().addPlayer(player.getUniqueId());
-                coins = dataStorage.getData().getCoins(player.getUniqueId());
-                selectedKit = dataStorage.getData().getSelectedKit(player.getUniqueId());
-                kits = dataStorage.getData().getKits(player.getUniqueId());
-                coins = dataStorage.getData().getCoins(player.getUniqueId());
-            }
-            return;
+            plugin.getKitPvP().getDataStorage().getMySQL().loadStats(player);
         }
-        SQL sql = dataStorage.getSQL();
-        if(!sql.exist(player.getUniqueId())) sql.createPlayer(player);
-        coins = sql.getCoins(player.getUniqueId());
-        selectedKit = sql.getSelectedKit(player.getUniqueId());
-        kits = sql.getKits(player.getUniqueId());
-        coins = sql.getCoins(player.getUniqueId());
+        plugin.getKitPvP().getDataStorage().getSQL().loadStats(player);
+    }
+
+    @Override
+    public String getKitsString() {
+        return kits;
+    }
+
+    @Override
+    public String getStatsString() {
+        return kills + ":" + deaths + ":" + coins + ":" + kitUnlockers + ":" + dataExp + ":" + projectiles_hit + ":" + tournament_wins + ":" + challenge_wins + ":" + abilities_used + ":" + soups_eaten + ":" + killstreaks_earned;
     }
 
     @Override
@@ -181,7 +265,6 @@ public class PlayerManagerBuilder implements PlayerManager {
     @Override
     public void setCoins(int coinCounter) {
         coins = coinCounter;
-        plugin.getKitPvP().getDataStorage().getData().setCoins(player.getUniqueId(),coinCounter);
     }
 
     public int getKills() {
@@ -194,7 +277,6 @@ public class PlayerManagerBuilder implements PlayerManager {
 
     public void setSelectedKit(String kitID) {
         selectedKit = kitID;
-        plugin.getKitPvP().getDataStorage().getData().setSelectedKit(player.getUniqueId(),kitID);
     }
 
     public void setKits(String kits) {
@@ -205,42 +287,9 @@ public class PlayerManagerBuilder implements PlayerManager {
         return selectedKit;
     }
 
-    public void addKit(String kitID) {
-        if (plugin.getKitPvP().isUsingMySQL()) {
-            if(!kits.equalsIgnoreCase("")) {
-                plugin.getKitPvP().getDataStorage().getData().setKits(player.getUniqueId(),kits + ",K" + kitID);
-                kits = kits + ",K" + kitID;
-            } else {
-                plugin.getKitPvP().getDataStorage().getData().setKits(player.getUniqueId(),"K" + kitID);
-                kits = "K" + kitID;
-            }
-        }
-        SQL sql = plugin.getKitPvP().getDataStorage().getSQL();
-        if(sql.getKits().get(getID()) != null) {
-            String lastResult = sql.getKits().get(getID());
-            if(!lastResult.equalsIgnoreCase("")) {
-                sql.getKits().put(getID(), lastResult + ",K" + kitID);
-                kits = lastResult + ",K" + kitID;
-            } else {
-                sql.getKits().put(getID(), "K" + kitID);
-                kits = "K" + kitID;
-            }
-        }
-    }
-
     public List<String> getKits() {
-        if (plugin.getKitPvP().isUsingMySQL()) {
-            String[] kitShortList = kits.split(",");
-            return Arrays.asList(kitShortList);
-        }
-        SQL sql = plugin.getKitPvP().getDataStorage().getSQL();
-        if(sql.getKits().get(getID()) != null) {
-            String kitsBuy = sql.getKits().get(getID());
-            kitsBuy = kitsBuy.replace(" ","");
-            String[] kitShortList = kitsBuy.split(",");
-            return Arrays.asList(kitShortList);
-        }
-        return new ArrayList<>();
+        String[] kitShortList = kits.split(",");
+        return Arrays.asList(kitShortList);
     }
 
     @SuppressWarnings("unused")
@@ -265,6 +314,7 @@ public class PlayerManagerBuilder implements PlayerManager {
     }
 
     public void create() {
+        /*
         FileConfiguration settings = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS);
         String table = settings.getString("settings.game.mysql.table");
         String defaultKit = settings.getString("settings.game.default-kits.default");
@@ -274,7 +324,7 @@ public class PlayerManagerBuilder implements PlayerManager {
             values.add("Coins-0");
             if(settings.getBoolean("settings.game.default-kits.toggle")) {
 
-                values.add("Kits-K" + defaultKit);
+                values.add("Kits-" + defaultKit);
             } else{
                 values.add("Kits-NONE");
             }
@@ -283,12 +333,14 @@ public class PlayerManagerBuilder implements PlayerManager {
             return;
         }
         if(settings.getBoolean("settings.game.default-kits.toggle")) {
-            kits = "Kits-K" + defaultKit;
+            kits = "Kits-" + defaultKit;
         } else {
             kits = "Kits-NONE";
         }
         selectedKit = "NONE";
         coins = 0;
-        plugin.getKitPvP().getDataStorage().getData().addPlayer(player.getUniqueId());
+        * plugin.getKitPvP().getDataStorage().getData().addPlayer(player.getUniqueId());
+        */
+
     }
 }

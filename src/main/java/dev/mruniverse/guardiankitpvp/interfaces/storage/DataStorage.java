@@ -1,6 +1,7 @@
 package dev.mruniverse.guardiankitpvp.interfaces.storage;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -12,9 +13,9 @@ public interface DataStorage {
 
     void setMySQL(MySQL mysql);
 
-    void setDataInfo(DataInfo dataInfo);
-
     void setSQL(SQL sql);
+
+    void saveStats(final Player p, boolean sync);
 
     void createMultiTable(String tableName, List<String> intLists, List<String> sLists);
 
@@ -36,8 +37,6 @@ public interface DataStorage {
     void loadDatabase();
 
     void disableDatabase();
-
-    DataInfo getData();
 
     MySQL getMySQL();
     SQL getSQL();

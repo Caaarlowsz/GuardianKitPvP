@@ -6,5 +6,6 @@ public enum GuardianClass {
     DATA_STORAGE,
     KIT_LOADER,
     PLAYER_MANAGER,
+    RANK_MANAGER,
     ALL
 }

@@ -13,6 +13,12 @@ settings:
   dateFormat: "dd/MM/yyyy"
   # Toggle perWorldTab option
   perWorldTab: false
+  # Chat System
+  chat:
+    # Toggle this option
+    toggle: true
+    # Format (Support PlaceholderAPI)
+    format: '%rank%&7%player% &8» &7%message%.'
   # Leave Cancel Time (In Seconds)
   leaveCancelTime: 3
   # Toggle Update Check

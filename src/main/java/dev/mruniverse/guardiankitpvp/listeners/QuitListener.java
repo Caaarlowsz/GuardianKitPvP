@@ -16,16 +16,9 @@ public class QuitListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
+        plugin.getKitPvP().getDataStorage().saveStats(event.getPlayer(),false);
+
         plugin.getKitPvP().getBoardController().removeScore(event.getPlayer());
-        /*
-        PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(event.getPlayer().getUniqueId());
-
-        if(manager.getGame() != null) {
-
-            * REMOVE PLAYER FROM THE CURRENT GAME
-
-        }
-        */
         plugin.getKitPvP().getPlayers().removePlayer(event.getPlayer().getUniqueId());
         GuardianLIB.getControl().getNMS().deleteBossBar(event.getPlayer());
         event.setQuitMessage(null);

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class FileStorageBuilder implements FileStorage {
     private GuardianKitPvP plugin;
-    private FileConfiguration settings,messages,achievements,titles,data,menus,items,games,boards,abilities,kits,signs,sounds,holograms;
+    private FileConfiguration settings,messages,achievements,titles,data,menus,items,games,boards,abilities,kits,signs,sounds,holograms,ranks;
     private final File rxSettings;
     private final File rxAchievements;
     private final File rxAbilities;
@@ -24,6 +24,7 @@ public class FileStorageBuilder implements FileStorage {
     private final File rxData;
     private final File rxMenus;
     private final File rxItems;
+    private final File rxRanks;
     private final File rxGames;
     private final File rxSounds;
     private final File rxBoards;
@@ -34,6 +35,7 @@ public class FileStorageBuilder implements FileStorage {
     public FileStorageBuilder(GuardianKitPvP plugin) {
         this.plugin = plugin;
         File dataFolder = plugin.getDataFolder();
+        rxRanks = new File(dataFolder,"ranks.yml");
         rxSettings = new File(dataFolder, "settings.yml");
         rxTitles = new File(dataFolder, "titles.yml");
         rxAchievements = new File(dataFolder, "achievements.yml");
@@ -49,6 +51,7 @@ public class FileStorageBuilder implements FileStorage {
         rxKits = new File(dataFolder, "kits.yml");
         rxSounds = new File(dataFolder,"sounds.yml");
         settings = loadConfig("settings");
+        ranks = loadConfig("ranks");
         menus = loadConfig("menus");
         titles = loadConfig("titles");
         holograms = loadConfig("holograms");
@@ -73,6 +76,8 @@ public class FileStorageBuilder implements FileStorage {
     @Override
     public File getFile(GuardianFiles fileToGet) {
         switch (fileToGet) {
+            case RANKS:
+                return rxRanks;
             case MESSAGES:
                 return rxMessages;
             case HOLOGRAMS:
@@ -162,6 +167,8 @@ public class FileStorageBuilder implements FileStorage {
     @Override
     public void reloadFile(SaveMode Mode) {
         switch (Mode) {
+            case RANKS:
+                ranks = YamlConfiguration.loadConfiguration(rxRanks);
             case SETTINGS:
                 settings = YamlConfiguration.loadConfiguration(rxSettings);
                 break;
@@ -196,6 +203,8 @@ public class FileStorageBuilder implements FileStorage {
     public void save(SaveMode fileToSave) {
         try {
             switch (fileToSave) {
+                case RANKS:
+                    getControl(GuardianFiles.RANKS).save(rxRanks);
                 case ACHIEVEMENTS:
                     getControl(GuardianFiles.ACHIEVEMENTS).save(rxAchievements);
                     break;
@@ -237,6 +246,7 @@ public class FileStorageBuilder implements FileStorage {
                     break;
                 case ALL:
                 default:
+                    getControl(GuardianFiles.RANKS).save(rxRanks);
                     getControl(GuardianFiles.SIGNS).save(rxSigns);
                     getControl(GuardianFiles.TITLES).save(rxTitles);
                     getControl(GuardianFiles.ABILITIES).save(rxAbilities);
@@ -316,6 +326,9 @@ public class FileStorageBuilder implements FileStorage {
     @Override
     public FileConfiguration getControl(GuardianFiles fileToControl) {
         switch (fileToControl) {
+            case RANKS:
+                if(ranks == null) ranks = loadConfig(rxRanks);
+                return ranks;
             case ACHIEVEMENTS:
                 if(achievements == null) achievements = loadConfig(rxAchievements);
                 return achievements;

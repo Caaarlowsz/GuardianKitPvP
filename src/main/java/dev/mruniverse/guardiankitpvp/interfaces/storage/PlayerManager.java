@@ -6,6 +6,7 @@ import dev.mruniverse.guardiankitpvp.enums.KitType;
 import dev.mruniverse.guardiankitpvp.enums.PlayerStatus;
 import dev.mruniverse.guardiankitpvp.interfaces.Game;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitMenu;
+import dev.mruniverse.guardiankitpvp.interfaces.rank.Rank;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -35,6 +36,8 @@ public interface PlayerManager {
 
     int getWins();
 
+    void resetPlayer();
+
     void setLeaveDelay(int delay);
 
     void setStatus(PlayerStatus status);
@@ -44,6 +47,8 @@ public interface PlayerManager {
     void setGame(Game game);
 
     void setWins(int wins);
+
+    void setKs(int killStreak);
 
     void addWins();
 
@@ -65,9 +70,19 @@ public interface PlayerManager {
 
     void finish();
 
+    void setStatsFromString(String paramString);
+
+    void updateRank();
+
+    String getKitsString();
+
+    String getStatsString();
+
     String getSelectedKit();
 
-    void addKit(String kitID);
+    Rank getRank();
+
+    Rank getNextRank();
 
     List<String> getKits();
 
@@ -75,6 +90,8 @@ public interface PlayerManager {
     void addKills();
 
     int getDeaths();
+
+    int getKs();
 
     void setDeaths(int deaths);
 

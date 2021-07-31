@@ -1,0 +1,5 @@
+# Ranks go in order, so the first rank would be the default rank!
+# Changing a rank name while players have that rank will cause errors!
+# The general ranks prefix will be used if the rank does not have a 'Prefix' setting
+
+General-Ranks-Prefix: '&b&l%rank% '

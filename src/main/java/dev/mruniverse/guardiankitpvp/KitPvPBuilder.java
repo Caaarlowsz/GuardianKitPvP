@@ -5,6 +5,7 @@ import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.interfaces.*;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitLoader;
 import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
+import dev.mruniverse.guardiankitpvp.interfaces.rank.RankManager;
 import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.BoardController;
 import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.ScoreInfo;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
@@ -20,6 +21,8 @@ public class KitPvPBuilder implements KitPvP {
     private ItemsInfo itemsInfo;
 
     private FileStorage fileStorage;
+
+    private RankManager rankManager;
 
     private KitLoader kitLoader;
 
@@ -50,6 +53,12 @@ public class KitPvPBuilder implements KitPvP {
     @Override
     public KitPvP setBoardController(BoardController boardController) {
         this.boardController = boardController;
+        return this;
+    }
+
+    @Override
+    public KitPvP setRankManager(RankManager rankManager) {
+        this.rankManager = rankManager;
         return this;
     }
 
@@ -127,6 +136,9 @@ public class KitPvPBuilder implements KitPvP {
     }
 
     @Override
+    public RankManager getRankManager() { return rankManager; }
+
+    @Override
     public PlayerData getPlayers() {
         return playerData;
     }
@@ -153,6 +165,7 @@ public class KitPvPBuilder implements KitPvP {
         if(kitLoader == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 3");
         if(dataStorage == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 4");
         if(playerManager == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 5");
+        if(rankManager == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 6");
         plugin.getLogs().info("The KitPvP internal management was loaded correctly using default settings.");
     }
 
@@ -182,12 +195,16 @@ public class KitPvPBuilder implements KitPvP {
                 case PLAYER_MANAGER:
                     if(playerManager != null) playerManager = playerManager.getClass().newInstance();
                     break;
+                case RANK_MANAGER:
+                    if(rankManager != null) rankManager = rankManager.getClass().newInstance();
+                    break;
                 case ALL:
                     itemsInfo = itemsInfo.getClass().newInstance();
                     kitLoader = kitLoader.getClass().newInstance();
                     dataStorage = dataStorage.getClass().newInstance();
                     fileStorage = fileStorage.getClass().newInstance();
                     playerManager = playerManager.getClass().newInstance();
+                    rankManager = rankManager.getClass().newInstance();
                     break;
             }
         } catch (Throwable throwable) {

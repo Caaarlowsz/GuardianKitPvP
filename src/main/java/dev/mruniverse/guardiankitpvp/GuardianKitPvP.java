@@ -2,13 +2,16 @@ package dev.mruniverse.guardiankitpvp;
 
 import dev.mruniverse.guardiankitpvp.interfaces.KitPvP;
 import dev.mruniverse.guardiankitpvp.listeners.ListenerControllerBuilder;
+import dev.mruniverse.guardiankitpvp.rank.RankManagerBuilder;
 import dev.mruniverse.guardiankitpvp.scoreboard.BoardControllerBuilder;
 import dev.mruniverse.guardiankitpvp.scoreboard.ScoreInfoBuilder;
 import dev.mruniverse.guardiankitpvp.storage.DataStorageBuilder;
 import dev.mruniverse.guardiankitpvp.storage.FileStorageBuilder;
 import dev.mruniverse.guardiankitpvp.storage.PlayerDataBuilder;
 import dev.mruniverse.guardiankitpvp.storage.PlayerManagerBuilder;
+import dev.mruniverse.guardiankitpvp.utils.GuardianUtils;
 import dev.mruniverse.guardianlib.core.utils.ExternalLogger;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -23,6 +26,8 @@ public class GuardianKitPvP extends JavaPlugin {
 
     private ExternalLogger logger;
 
+    public GuardianUtils utils;
+
     private boolean hasPAPI = false;
 
     public ExternalLogger getLogs() { return logger; }
@@ -33,6 +38,8 @@ public class GuardianKitPvP extends JavaPlugin {
     public void setKitPvP(KitPvP kitPvP) { this.kitPvP = kitPvP; }
 
     public void setLogs(ExternalLogger logger) { this.logger = logger; }
+
+    public GuardianUtils getUtils() { return utils; }
 
     public boolean hasPAPI() { return hasPAPI; }
 
@@ -54,16 +61,24 @@ public class GuardianKitPvP extends JavaPlugin {
                         .setDataStorage(new DataStorageBuilder(instance))
                         .setBoardController(new BoardControllerBuilder(instance))
                         .setScoreInfo(new ScoreInfoBuilder(instance))
+                        .setListenerController(new ListenerControllerBuilder(instance))
+                        .setRankManager(new RankManagerBuilder(instance))
                 );
 
-                getKitPvP().setListenerController(new ListenerControllerBuilder(instance));
-
                 getKitPvP().create();
+
+                utils = new GuardianUtils(instance);
 
             }
         };
         runnable.runTaskLater(this, 1L);
 
+    }
+
+    @Override
+    public void onDisable(){
+        for (Player player : getServer().getOnlinePlayers())
+            kitPvP.getDataStorage().saveStats(player,true);
     }
 
 }

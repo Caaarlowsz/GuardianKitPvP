@@ -4,8 +4,6 @@ import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianBoard;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.ScoreInfo;
-import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -236,25 +234,7 @@ public class ScoreInfoBuilder implements ScoreInfo {
     }
 
     public String replaceVariables(String text,Player player) {
-        text = text.replace("<player_name>",player.getName());
-        PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
-        if(manager != null) {
-
-            text = text.replace("<player_coins>", "" + manager.getCoins())
-                    .replace("<player_kits>","" + manager.getKits().size())
-                    .replace("<player_wins>","" + manager.getWins());
-        } else {
-            text = text.replace("<player_coins>", "0")
-                    .replace("<player_kits>", "1")
-                    .replace("<player_wins>", "0");
-        }
-        text = text.replace("<player_beast_kit>","Not selected")
-                .replace("<player_runner_kit>","Not selected")
-                .replace("<server_online>",plugin.getServer().getOnlinePlayers().size() + "")
-                .replace("<timeFormat>",getDateFormat());
-
-        if(plugin.hasPAPI()) { text = PlaceholderAPI.setPlaceholders(player,text); }
-        return ChatColor.translateAlternateColorCodes('&',text);
+        return plugin.getUtils().replaceVariables(text,player);
     }
 
     public String getDateFormat() {

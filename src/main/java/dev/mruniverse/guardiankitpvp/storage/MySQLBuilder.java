@@ -3,19 +3,36 @@ package dev.mruniverse.guardiankitpvp.storage;
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.MySQL;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MySQLBuilder implements MySQL {
     private GuardianKitPvP plugin;
 
-    private String portReceiver;
+
+    //settings:
+    //    //  mysql:
+    //    //    toggle: false
+    //    //    jdbc-url: 'jdbc:mysql://[host]:[port]/[db]?autoReconnect=true'
+    //    //    table-prefix: 'guardiankitpvp_'
+    //    //    host: 'localhost'
+    //    //    port: '3306'
+    //    //    database: 'database'
+    //    //    username: 'root'
+    //    //    password: 'root'
+
+    private String MYSQL_PORT_RECEIVER = "player_name";
+    private String TABLE_PREFIX = "";
+
+    private boolean isUUID = false;
+
+
     public MySQLBuilder(GuardianKitPvP main) {
         plugin = main;
-        portReceiver = "player_name";
     }
     public Connection con;
 
@@ -30,7 +47,12 @@ public class MySQLBuilder implements MySQL {
             FileConfiguration settings = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS);
             String url= settings.getString("settings.game.mysql.jdbc-url");
             boolean porterReceiver = settings.getBoolean("settings.game.user-uuid-on-data",false);
-            if(porterReceiver) portReceiver = "player_uuid";
+            if(porterReceiver) {
+                MYSQL_PORT_RECEIVER = "player_uuid";
+                isUUID = true;
+            }
+
+            this.TABLE_PREFIX = settings.getString("settings.mysql.table-prefix","guardiankitpvp_");
 
             int port = settings.getInt("settings.game.mysql.port");
             if(url == null) url = "jdbc:mysql://" + host + ":" + settings.getInt("settings.game.mysql.port") + "/" + db + "?autoReconnect=true";
@@ -38,31 +60,119 @@ public class MySQLBuilder implements MySQL {
                     .replace("[port]",port + "")
                     .replace("[db]",db);
             con = DriverManager.getConnection(url,user,password);
-            plugin.getLogs().info("Connected with MySQLImpl! creating tables");
-            List<String> integers = new ArrayList<>();
-            List<String> strings = new ArrayList<>();
-            strings.add(portReceiver);
-            strings.add("Kits");
-            strings.add("Statistics");
-            plugin.getKitPvP().getDataStorage().createMultiTable(settings.getString("settings.game.mysql.table-prefix"), integers, strings);
-            plugin.getLogs().info("Tables created!");
+            plugin.getLogs().info("Connected with MySQL! creating tables");
         } catch (SQLException e) {
-            plugin.getLogs().error("Plugin can't connect to MySQLImpl or cant initialize tables.");
+            plugin.getLogs().error("Plugin can't connect to MySQLor cant initialize tables.");
             plugin.getLogs().error(e);
-            plugin.getLogs().error("Using SQLImpl instead MySQLImpl.");
             plugin.getLogs().error("-------------------------");
+            plugin.getLogs().info(" ");
+            plugin.getLogs().info("-------------------------");
+            plugin.getLogs().info("Using SQL instead MySQL.");
+            plugin.getLogs().info("-------------------------");
             plugin.getKitPvP().getDataStorage().getSQL().loadData();
         }
     }
 
     @Override
+    public void addKit(String paramPlayer,String kit) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    Statement statement = con.createStatement();
+                    String query = "SELECT Kits FROM " + TABLE_PREFIX + " WHERE " + MYSQL_PORT_RECEIVER + " = '" + paramPlayer + "';";
+                    ResultSet resultSet = statement.executeQuery(query);
+                    resultSet.next();
+                    String kits = resultSet.getString("Kits");
+                    kits = kits + "," + kit;
+                    String updateQuery = "UPDATE " + TABLE_PREFIX + " SET Kits='" + kits + "' WHERE " + MYSQL_PORT_RECEIVER + "='" + paramPlayer + "';";
+                    con.prepareStatement(updateQuery).executeUpdate();
+                } catch (Throwable throwable) {
+                    plugin.getLogs().error("Can't add kit '" + kit + "' to player '" + paramPlayer + "'");
+                    plugin.getLogs().error(throwable);
+                }
+            }
+        };
+        runnable.runTaskAsynchronously(plugin);
+    }
+    @Override
+    public void removeKit(String paramPlayer,String kit) {
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    Statement statement = con.createStatement();
+                    String query = "SELECT Kits FROM " + TABLE_PREFIX + " WHERE " + MYSQL_PORT_RECEIVER + " = '" + paramPlayer + "';";
+                    ResultSet resultSet = statement.executeQuery(query);
+                    resultSet.next();
+                    String kits = resultSet.getString("Kits");
+                    kits = kits.replace("," + kit, "").replace(kit + ",", "");
+                    String updateQuery = "UPDATE " + TABLE_PREFIX + " SET Kits='" + kits + "' WHERE " + MYSQL_PORT_RECEIVER + "='" + paramPlayer + "';";
+                    con.prepareStatement(updateQuery).executeUpdate();
+                } catch (Throwable throwable) {
+                    plugin.getLogs().error("Can't remove kit '" + kit + "' from player '" + paramPlayer + "'");
+                    plugin.getLogs().error(throwable);
+                }
+            }
+        };
+        runnable.runTaskAsynchronously(plugin);
+    }
+
+
+    @Override
+    public void loadStats(final Player player) {
+        final String playerName =  isUUID ? player.getUniqueId().toString() : player.getName();
+        (new BukkitRunnable() {
+            public void run() {
+                FileConfiguration fileConfiguration = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.DATA);
+                PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
+                if (fileConfiguration.contains("Players." + playerName)) {
+                    StringBuilder kits = new StringBuilder();
+                    for (String str : fileConfiguration.getStringList("Players." + playerName + ".Kits"))
+                        if(kits.toString().equalsIgnoreCase("")) {
+                            kits = new StringBuilder(str);
+                        } else {
+                            kits.append(",").append(str);
+                        }
+                    manager.setKits(kits.toString());
+                    manager.setStatsFromString(fileConfiguration.getString("Players." + playerName + ".Statistics"));
+                } else {
+                    manager.resetPlayer();
+                }
+            }
+        }).runTaskLaterAsynchronously(plugin, 2L);
+    }
+
+    @SuppressWarnings("UnnecessaryToStringCall")
+    @Override
+    public void saveStats(Player paramPlayer) {
+        String kits = "NO_KITS";
+        PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(paramPlayer.getUniqueId());
+        if(!manager.getKitsString().equalsIgnoreCase("")) kits = manager.getKitsString();
+        String call = isUUID ? paramPlayer.getUniqueId().toString() : paramPlayer.getName();
+        String stats = manager.getStatsString();
+        try {
+            Statement statement = con.createStatement();
+            if (statement.executeQuery("SELECT * FROM " + TABLE_PREFIX + " WHERE " + MYSQL_PORT_RECEIVER + " = '" + call + "';").next()) {
+                con.prepareStatement("UPDATE " + TABLE_PREFIX + " SET player_uuid='" + paramPlayer.getUniqueId().toString() + "', player_name='" + paramPlayer.getName() + "', Kits='" + kits + "', Statistics='" + stats + "' WHERE " + MYSQL_PORT_RECEIVER + "='" + call + "';").executeUpdate();
+            } else {
+                statement.executeUpdate("INSERT INTO " + TABLE_PREFIX + " (player_uuid, player_name, Kits, Statistics) VALUES ('" + paramPlayer.getUniqueId().toString() + "', '" + paramPlayer.getName() + "', '" + kits + "', '" + stats + "')");
+            }
+            statement.close();
+        } catch (Throwable throwable) {
+            plugin.getLogs().error("Can't save stats for " + paramPlayer.getName());
+            plugin.getLogs().error(throwable);
+        }
+    }
+
+    @Override
     public void setReceiverSender(String paramString) {
-        this.portReceiver = paramString;
+        this.MYSQL_PORT_RECEIVER = paramString;
     }
 
     @Override
     public String getReceiverSender() {
-        return portReceiver;
+        return MYSQL_PORT_RECEIVER;
     }
 
     @Override

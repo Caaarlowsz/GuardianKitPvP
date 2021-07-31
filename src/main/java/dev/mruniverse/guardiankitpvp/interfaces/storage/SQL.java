@@ -2,29 +2,14 @@ package dev.mruniverse.guardiankitpvp.interfaces.storage;
 
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 public interface SQL {
 
-    HashMap<String, Integer> getCoins();
+    void addKit(String paramPlayer,String kit);
 
-    HashMap<String, String> getKits();
+    void removeKit(String paramPlayer,String kit);
 
-    HashMap<String, String> getSelectedKits();
+    void loadStats(final Player player);
 
-    void putData();
+    void saveStats(Player paramPlayer);
 
-    void loadData();
-
-    int getCoins(UUID uuid);
-
-    String getKits(UUID uuid);
-
-    String getSelectedKit(UUID uuid);
-
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    boolean exist(UUID uuid);
-
-    void createPlayer(Player player);
 }

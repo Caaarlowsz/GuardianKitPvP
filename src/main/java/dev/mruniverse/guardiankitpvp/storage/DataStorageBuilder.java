@@ -2,11 +2,10 @@ package dev.mruniverse.guardiankitpvp.storage;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
-import dev.mruniverse.guardiankitpvp.interfaces.storage.DataInfo;
-import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
-import dev.mruniverse.guardiankitpvp.interfaces.storage.MySQL;
-import dev.mruniverse.guardiankitpvp.interfaces.storage.SQL;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.*;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +14,6 @@ import java.util.List;
 
 public class DataStorageBuilder implements DataStorage {
     private GuardianKitPvP plugin;
-    private DataInfo dataInfoImpl;
     private MySQL mySQLImpl;
     private SQL sqlImpl;
     private String table;
@@ -24,8 +22,26 @@ public class DataStorageBuilder implements DataStorage {
     public DataStorageBuilder(GuardianKitPvP main) {
         plugin = main;
         mySQLImpl = new MySQLBuilder(main);
-        dataInfoImpl = new DataInfoBuilder(main);
         sqlImpl = new SQLBuilder(main);
+    }
+
+    @Override
+    public void saveStats(final Player p, boolean sync) {
+        if (!sync) {
+            (new BukkitRunnable() {
+                public void run() {
+                    if (plugin.getKitPvP().isUsingMySQL()) {
+                        getMySQL().saveStats(p);
+                    } else {
+                        getSQL().saveStats(p);
+                    }
+                }
+            }).runTaskAsynchronously(plugin);
+        } else if (this.plugin.getKitPvP().isUsingMySQL()) {
+            getMySQL().saveStats(p);
+        } else {
+            getSQL().saveStats(p);
+        }
     }
 
     @Override
@@ -42,11 +58,6 @@ public class DataStorageBuilder implements DataStorage {
     @Override
     public void setMySQL(MySQL mysql){
         this.mySQLImpl = mysql;
-    }
-
-    @Override
-    public void setDataInfo(DataInfo dataInfo) {
-        this.dataInfoImpl = dataInfo;
     }
 
     @Override
@@ -148,7 +159,6 @@ public class DataStorageBuilder implements DataStorage {
         if (settings.getBoolean("settings.game.mysql.toggle")) {
             mySQLImpl.connect(settings.getString("settings.game.mysql.host"),settings.getString("settings.game.mysql.database"),settings.getString("settings.game.mysql.username"),settings.getString("settings.game.mysql.password"));
         } else {
-            sqlImpl.loadData();
             plugin.getLogs().info("MySQLImpl is disabled, using data.yml");
         }
     }
@@ -156,16 +166,8 @@ public class DataStorageBuilder implements DataStorage {
     @Override
     public void disableDatabase() {
         if (plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS).getBoolean("settings.game.mysql.toggle")) {
-            dataInfoImpl.save();
             mySQLImpl.close();
-        } else {
-            sqlImpl.putData();
         }
-    }
-
-    @Override
-    public DataInfo getData() {
-        return dataInfoImpl;
     }
 
     @Override

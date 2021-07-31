@@ -10,8 +10,12 @@ import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianItems;
 import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianMenu;
 import dev.mruniverse.guardianlib.core.menus.interfaces.Menus;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 public class InteractListener implements Listener {
@@ -29,6 +33,30 @@ public class InteractListener implements Listener {
             if(currentItem == ShopMenu.BOOSTERS){
                 Bukkit.broadcastMessage("I'm a god");
             }
+        }
+    }
+
+    @EventHandler
+    public void inventoryFix(InventoryClickEvent event){
+        if(event.isCancelled()) {
+            Player player = (Player)event.getWhoClicked();
+            player.updateInventory();
+        }
+    }
+
+    @EventHandler
+    public void placeFix(BlockPlaceEvent event){
+        if(event.isCancelled()) {
+            Player player = event.getPlayer();
+            player.updateInventory();
+        }
+    }
+
+    @EventHandler
+    public void breakFix(BlockBreakEvent event){
+        if(event.isCancelled()) {
+            Player player = event.getPlayer();
+            player.updateInventory();
         }
     }
 

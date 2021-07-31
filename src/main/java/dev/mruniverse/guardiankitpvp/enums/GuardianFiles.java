@@ -4,6 +4,7 @@ public enum GuardianFiles {
     SETTINGS,
     DATA,
     ABILITIES,
+    RANKS,
     ACHIEVEMENTS,
     HOLOGRAMS,
     MESSAGES,
