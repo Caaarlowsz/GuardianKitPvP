@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class GuardianUtils {
+    @SuppressWarnings("unused")
     private final Utils utils = GuardianLIB.getControl().getUtils();
     private final GuardianKitPvP plugin;
 
@@ -66,17 +67,24 @@ public class GuardianUtils {
                 .replace("%kits%", manager.getKits().size() + "")
                 .replace("%kills%", manager.getKills() + "")
                 .replace("%deaths%", manager.getDeaths() + "")
-                .replace("%rank%",manager.getRank().getName())
-                .replace("%player_rank%",manager.getRank().getName())
-                .replace("%player_next_rank%",manager.getRank().getName())
                 .replace("%online%",plugin.getServer().getOnlinePlayers().size() + "")
-                .replace("%rank_required%",manager.getRank().getName())
                 .replace("%timeFormat%",getDateFormat());
+        if(manager.getRank() != null) {
+            text = text.replace("%rank%",manager.getRank().getName())
+                    .replace("%player_rank%",manager.getRank().getName())
+                    .replace("%rank_required%",manager.getRank().getName());
+        } else {
+            text = text.replace("%rank%","Loading")
+                    .replace("%player_rank%","Loading")
+                    .replace("%rank_required%","0");
+        }
         if(manager.getNextRank() != null) {
-            text = text.replace("%next_rank%",manager.getRank().getName())
+            text = text.replace("%next_rank%",manager.getNextRank().getName())
+                    .replace("%player_next_rank%",manager.getNextRank().getName())
                     .replace("%next_rank_required%",manager.getNextRank().getRequiredExp() + "");
         } else {
             text = text.replace("%next_rank%","MAX")
+                    .replace("%player_next_rank%","MAX")
                     .replace("%next_rank_required%","0");
         }
         if(plugin.hasPAPI()) { text = PlaceholderAPI.setPlaceholders(player,text); }

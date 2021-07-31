@@ -58,12 +58,17 @@ public class GuardianKitPvP extends JavaPlugin {
                         .setDefaultPlayerManager(new PlayerManagerBuilder().setPlugin(instance))
                         .setFileStorage(new FileStorageBuilder(instance))
                         .setPlayerData(new PlayerDataBuilder())
-                        .setDataStorage(new DataStorageBuilder(instance))
                         .setBoardController(new BoardControllerBuilder(instance))
                         .setScoreInfo(new ScoreInfoBuilder(instance))
-                        .setListenerController(new ListenerControllerBuilder(instance))
                         .setRankManager(new RankManagerBuilder(instance))
                 );
+
+
+                setKitPvP(getKitPvP().setDataStorage(new DataStorageBuilder(instance)));
+
+                setKitPvP(getKitPvP().setListenerController(new ListenerControllerBuilder(instance)));
+
+                getKitPvP().getRankManager().loadRanks();
 
                 getKitPvP().create();
 
