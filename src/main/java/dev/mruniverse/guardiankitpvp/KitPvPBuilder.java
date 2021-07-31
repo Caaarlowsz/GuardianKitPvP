@@ -175,7 +175,7 @@ public class KitPvPBuilder implements KitPvP {
     public void reportIssue(String errorMessage) {
         if(plugin == null) return;
         if(plugin.getLogs() == null) return;
-        plugin.getLogs().error(errorMessage);
+        plugin.getLogs().info(errorMessage);
     }
 
     public void disableMySQL() {

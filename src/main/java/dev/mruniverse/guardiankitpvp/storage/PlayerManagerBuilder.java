@@ -108,6 +108,11 @@ public class PlayerManagerBuilder implements PlayerManager {
     }
 
     @Override
+    public int getXP() {
+        return dataExp;
+    }
+
+    @Override
     public void updateRank() {
         RankManager rankManager = plugin.getKitPvP().getRankManager();
         for (byte b = 0; b < rankManager.getRanks().size(); b++) {

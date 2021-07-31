@@ -93,6 +93,8 @@ public interface PlayerManager {
 
     int getKs();
 
+    int getXP();
+
     void setDeaths(int deaths);
 
     String getID();

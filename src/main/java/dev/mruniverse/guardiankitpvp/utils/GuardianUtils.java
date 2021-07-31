@@ -59,7 +59,7 @@ public class GuardianUtils {
         }
         text = text.replace("%player_name%",player.getName())
                 .replace("%player%",player.getName())
-                .replace("%ks",manager.getKs() + "")
+                .replace("%ks%",manager.getKs() + "")
                 .replace("%player_display_name%",player.getDisplayName())
                 .replace("[new line]","\n")
                 .replace("%coins%", manager.getCoins() + "")
@@ -67,6 +67,9 @@ public class GuardianUtils {
                 .replace("%kits%", manager.getKits().size() + "")
                 .replace("%kills%", manager.getKills() + "")
                 .replace("%deaths%", manager.getDeaths() + "")
+                .replace("%selected_kit%",manager.getSelectedKit())
+                .replace("%map%","Normal")
+                .replace("%exp%",manager.getXP() + "")
                 .replace("%online%",plugin.getServer().getOnlinePlayers().size() + "")
                 .replace("%timeFormat%",getDateFormat());
         if(manager.getRank() != null) {
@@ -81,10 +84,12 @@ public class GuardianUtils {
         if(manager.getNextRank() != null) {
             text = text.replace("%next_rank%",manager.getNextRank().getName())
                     .replace("%player_next_rank%",manager.getNextRank().getName())
+                    .replace("%next_rank_exp%",manager.getNextRank().getRequiredExp() + "")
                     .replace("%next_rank_required%",manager.getNextRank().getRequiredExp() + "");
         } else {
             text = text.replace("%next_rank%","MAX")
                     .replace("%player_next_rank%","MAX")
+                    .replace("%next_rank_exp%","0")
                     .replace("%next_rank_required%","0");
         }
         if(plugin.hasPAPI()) { text = PlaceholderAPI.setPlaceholders(player,text); }
