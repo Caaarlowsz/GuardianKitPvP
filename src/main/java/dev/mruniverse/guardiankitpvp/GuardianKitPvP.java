@@ -70,6 +70,8 @@ public class GuardianKitPvP extends JavaPlugin {
 
                 getKitPvP().getRankManager().loadRanks();
 
+                getKitPvP().getDataStorage().loadDatabase();
+
                 getKitPvP().create();
 
                 utils = new GuardianUtils(instance);

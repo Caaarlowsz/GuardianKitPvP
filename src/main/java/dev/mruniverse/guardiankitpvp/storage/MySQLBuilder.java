@@ -45,7 +45,7 @@ public class MySQLBuilder implements MySQL {
     public void connect(String host, String db, String user, String password) {
         try {
             FileConfiguration settings = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS);
-            String url= settings.getString("settings.game.mysql.jdbc-url");
+            String url= settings.getString("settings.mysql.jdbc-url");
             boolean porterReceiver = settings.getBoolean("settings.game.user-uuid-on-data",false);
             if(porterReceiver) {
                 MYSQL_PORT_RECEIVER = "player_uuid";
@@ -54,15 +54,15 @@ public class MySQLBuilder implements MySQL {
 
             this.TABLE_PREFIX = settings.getString("settings.mysql.table-prefix","guardiankitpvp_");
 
-            int port = settings.getInt("settings.game.mysql.port");
-            if(url == null) url = "jdbc:mysql://" + host + ":" + settings.getInt("settings.game.mysql.port") + "/" + db + "?autoReconnect=true";
+            int port = settings.getInt("settings.mysql.port");
+            if(url == null) url = "jdbc:mysql://" + host + ":" + settings.getInt("settings.mysql.port") + "/" + db + "?autoReconnect=true";
             url = url.replace("[host]",host)
                     .replace("[port]",port + "")
                     .replace("[db]",db);
             con = DriverManager.getConnection(url,user,password);
             plugin.getLogs().info("Connected with MySQL! creating tables");
         } catch (SQLException e) {
-            plugin.getLogs().error("Plugin can't connect to MySQLor cant initialize tables.");
+            plugin.getLogs().error("Plugin can't connect to MySQL or cant initialize tables.");
             plugin.getLogs().error(e);
             plugin.getLogs().error("-------------------------");
             plugin.getLogs().info(" ");
