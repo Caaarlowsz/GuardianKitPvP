@@ -121,23 +121,32 @@ public class MySQLBuilder implements MySQL {
 
     @Override
     public void loadStats(final Player player) {
+        plugin.getLogs().debug("loading stats of " + player.getName());
         final String playerName =  isUUID ? player.getUniqueId().toString() : player.getName();
         (new BukkitRunnable() {
             public void run() {
-                FileConfiguration fileConfiguration = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.DATA);
-                PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
-                if (fileConfiguration.contains("Players." + playerName)) {
-                    StringBuilder kits = new StringBuilder();
-                    for (String str : fileConfiguration.getStringList("Players." + playerName + ".Kits"))
-                        if(kits.toString().equalsIgnoreCase("")) {
-                            kits = new StringBuilder(str);
-                        } else {
-                            kits.append(",").append(str);
+                try {
+                    PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
+
+                    Statement statement = con.createStatement();
+                    if (statement.executeQuery("SELECT * FROM " + TABLE_PREFIX + " WHERE " + MYSQL_PORT_RECEIVER + " = '" + playerName + "';").next()) {
+                        ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_PREFIX + " WHERE " + MYSQL_PORT_RECEIVER + " = '" + playerName + "';");
+                        resultSet.next();
+                        manager.setKits(resultSet.getString("Kits"));
+                        manager.setStatsFromString(resultSet.getString("Statistics"));
+                        statement.close();
+                        resultSet.close();
+                    } else {
+                        manager.resetPlayer();
+                    }
+                }catch(Throwable ignored) {
+                    if(plugin.getKitPvP() != null) {
+                        if(plugin.getKitPvP().getPlayers() != null) {
+                            if(plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()) != null) {
+                                plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()).resetPlayer();
+                            }
                         }
-                    manager.setKits(kits.toString());
-                    manager.setStatsFromString(fileConfiguration.getString("Players." + playerName + ".Statistics"));
-                } else {
-                    manager.resetPlayer();
+                    }
                 }
             }
         }).runTaskLaterAsynchronously(plugin, 2L);

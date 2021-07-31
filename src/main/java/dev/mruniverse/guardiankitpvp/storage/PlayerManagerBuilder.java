@@ -92,6 +92,7 @@ public class PlayerManagerBuilder implements PlayerManager {
 
     @Override
     public void setStatsFromString(String paramString) {
+        plugin.getLogs().debug(paramString);
         String[] arrayString = paramString.split(":");
         this.kills = Integer.parseInt(arrayString[0]);
         this.deaths = Integer.parseInt(arrayString[1]);
