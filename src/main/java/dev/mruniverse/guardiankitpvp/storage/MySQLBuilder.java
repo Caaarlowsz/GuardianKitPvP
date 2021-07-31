@@ -69,7 +69,7 @@ public class MySQLBuilder implements MySQL {
             plugin.getLogs().info("-------------------------");
             plugin.getLogs().info("Using SQL instead MySQL.");
             plugin.getLogs().info("-------------------------");
-            plugin.getKitPvP().getDataStorage().getSQL().loadData();
+            plugin.getKitPvP().disableMySQL();
         }
     }
 
