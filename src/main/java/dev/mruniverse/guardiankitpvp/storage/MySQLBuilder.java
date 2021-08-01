@@ -54,7 +54,7 @@ public class MySQLBuilder implements MySQL {
 
             this.TABLE_PREFIX = settings.getString("settings.mysql.table-prefix","guardiankitpvp_");
 
-            int port = settings.getInt("settings.mysql.port");
+            int port = settings.getInt("settings.mysql.port",3306);
             if(url == null) url = "jdbc:mysql://" + host + ":" + settings.getInt("settings.mysql.port") + "/" + db + "?autoReconnect=true";
             url = url.replace("[host]",host)
                     .replace("[port]",port + "")
