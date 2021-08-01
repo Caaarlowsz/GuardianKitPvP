@@ -26,13 +26,19 @@ public class RankManagerBuilder implements RankManager {
         for (String currentRank : plugin.getKitPvP().getFileStorage().getContent(GuardianFiles.RANKS,"Ranks",false)) {
             int i = fileConfiguration.getInt("Ranks." + currentRank + ".Required-Exp");
             List<String> list = fileConfiguration.getStringList("Ranks." + currentRank + ".Commands-Executed-When-Rank-Reached");
-            String prefix = "";
+            String prefix;
+            String secondPrefix;
             if(fileConfiguration.contains("Ranks." + currentRank + ".Prefix")) {
                 prefix = ChatColor.translateAlternateColorCodes('&',fileConfiguration.getString("Ranks." + currentRank + ".Prefix","&4&lX&c&lPrefixError&4&lX &7"));
             } else {
                 prefix = ChatColor.translateAlternateColorCodes('&',fileConfiguration.getString("General-Ranks-Prefix","&4&lX&c&lPrefixError&4&lX &6"));
             }
-            ranks.add(new RankBuilder(currentRank,prefix.replace("%rank%",currentRank),i,list));
+            if(fileConfiguration.contains("Ranks." + currentRank + ".SecondPrefix")) {
+                secondPrefix = ChatColor.translateAlternateColorCodes('&',fileConfiguration.getString("Ranks." + currentRank + ".SecondPrefix","&4&lX&c&lPrefixError&4&lX &7"));
+            } else {
+                secondPrefix = ChatColor.translateAlternateColorCodes('&',fileConfiguration.getString("General-Ranks-Prefix","&4&lX&c&lPrefixError&4&lX &6"));
+            }
+            ranks.add(new RankBuilder(currentRank,prefix.replace("%rank%",currentRank),secondPrefix.replace("%rank%",currentRank),i,list));
         }
     }
 

@@ -14,10 +14,13 @@ public class RankBuilder implements Rank {
 
     private final String prefix;
 
-    public RankBuilder(String rankName, String rankPrefix, int rankRequiredExp, List<String> rankCommands) {
+    private final String secondPrefix;
+
+    public RankBuilder(String rankName, String rankPrefix, String rankSecondPrefix, int rankRequiredExp, List<String> rankCommands) {
         this.RequiredExp = rankRequiredExp;
         this.commands = rankCommands;
         this.name = rankName;
+        this.secondPrefix = rankSecondPrefix;
         this.prefix = rankPrefix;
     }
 
@@ -36,5 +39,7 @@ public class RankBuilder implements Rank {
     public String getPrefix() {
         return this.prefix;
     }
+
+    public String getSecondPrefix() { return this.secondPrefix; }
 
 }

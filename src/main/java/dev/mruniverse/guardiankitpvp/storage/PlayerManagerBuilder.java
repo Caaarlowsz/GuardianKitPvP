@@ -48,6 +48,8 @@ public class PlayerManagerBuilder implements PlayerManager {
 
     private boolean autoPlay = false;
 
+    private boolean disableChat = false;
+
     private Rank currentRank = null;
 
     private Rank nextRank = null;
@@ -186,6 +188,17 @@ public class PlayerManagerBuilder implements PlayerManager {
     public boolean toggleAutoplay() {
         autoPlay = !autoPlay;
         return autoPlay;
+    }
+
+    @Override
+    public boolean toggleChat() {
+        disableChat = !disableChat;
+        return disableChat;
+    }
+
+    @Override
+    public boolean isDisableChat() {
+        return disableChat;
     }
 
     @Override

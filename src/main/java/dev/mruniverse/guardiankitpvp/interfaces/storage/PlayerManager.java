@@ -95,6 +95,10 @@ public interface PlayerManager {
 
     int getXP();
 
+    boolean toggleChat();
+
+    boolean isDisableChat();
+
     void setDeaths(int deaths);
 
     String getID();

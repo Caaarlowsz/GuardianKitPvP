@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.UUID;
 
 public class PlayerRunnableBuilder extends BukkitRunnable implements PlayerRunnable {
-    private GuardianKitPvP plugin;
+    private final GuardianKitPvP plugin;
 
     public PlayerRunnableBuilder(GuardianKitPvP plugin) {
         this.plugin = plugin;

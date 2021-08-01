@@ -37,11 +37,21 @@ public class GuardianUtils {
      * @param chatMessage message from the chat.
      */
     public void sendMessage(Player player,String message,Player chatPlayer,String chatMessage) {
-        message = ChatColor.translateAlternateColorCodes('&',replaceVariables(message,chatPlayer));
-        if(chatPlayer.hasPermission("grftb.chat.color")) {
-            sendMessage(player, message.replace("%message%", ChatColor.translateAlternateColorCodes('&',chatMessage)));
+        PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
+        if(!manager.isDisableChat()) {
+            message = ChatColor.translateAlternateColorCodes('&', replaceVariables(message, chatPlayer));
+            if (chatPlayer.hasPermission("grftb.chat.color")) {
+                sendMessage(player, message.replace("%message%", ChatColor.translateAlternateColorCodes('&', chatMessage)));
+            } else {
+                sendMessage(player, message.replace("%message%", ChatColor.stripColor(chatMessage)));
+            }
         } else {
-            sendMessage(player, message.replace("%message%", ChatColor.stripColor(chatMessage)));
+            message = ChatColor.translateAlternateColorCodes('&', replaceVariables(message, chatPlayer));
+            if (chatPlayer.hasPermission("grftb.chat.color")) {
+                utils.sendActionbar(player, message.replace("%message%", ChatColor.translateAlternateColorCodes('&', chatMessage)));
+            } else {
+                utils.sendActionbar(player, message.replace("%message%", ChatColor.stripColor(chatMessage)));
+            }
         }
     }
 
@@ -49,6 +59,10 @@ public class GuardianUtils {
         String dateFormat = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS).getString("settings.dateFormat","dd/MM/yyyy");
         return "" + (new SimpleDateFormat(dateFormat).format(Calendar.getInstance().getTime()));
 
+    }
+
+    public Utils getUtils() {
+        return utils;
     }
 
     public String replaceVariables(String text, Player player) {
@@ -76,23 +90,28 @@ public class GuardianUtils {
             text = text.replace("%rank%",manager.getRank().getName())
                     .replace("%rank_prefix%",manager.getRank().getPrefix())
                     .replace("%player_rank%",manager.getRank().getName())
+                    .replace("%rank_prefix2%",manager.getRank().getSecondPrefix())
                     .replace("%rank_required%",manager.getRank().getName());
         } else {
             text = text.replace("%rank%","Loading")
                     .replace("%rank_prefix%","")
                     .replace("%player_rank%","Loading")
+                    .replace("%rank_prefix2%",ChatColor.translateAlternateColorCodes('&',"&7Loading"))
                     .replace("%rank_required%","0");
         }
         if(manager.getNextRank() != null) {
+            int need = manager.getNextRank().getRequiredExp() - manager.getRank().getRequiredExp();
             text = text.replace("%next_rank%",manager.getNextRank().getName())
                     .replace("%next_rank_prefix%",manager.getNextRank().getPrefix())
                     .replace("%player_next_rank%",manager.getNextRank().getName())
                     .replace("%next_rank_exp%",manager.getNextRank().getRequiredExp() + "")
+                    .replace("%next_rank_need%",need + "")
                     .replace("%next_rank_required%",manager.getNextRank().getRequiredExp() + "");
         } else {
             text = text.replace("%next_rank%","MAX")
                     .replace("%next_rank_prefix%","")
                     .replace("%player_next_rank%","MAX")
+                    .replace("%next_rank_need%","0")
                     .replace("%next_rank_exp%","0")
                     .replace("%next_rank_required%","0");
         }

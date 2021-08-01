@@ -16,15 +16,19 @@ import org.bukkit.plugin.PluginManager;
 public class ListenerControllerBuilder implements ListenerController {
     private final GuardianKitPvP plugin;
 
-    private ChatListener chatListener;
+    private final ChatListener chatListener;
+
+    private final DamageListener damageListener;
 
     private Location location;
+
     private GuardianMenu shopMenu;
 
     public ListenerControllerBuilder(GuardianKitPvP plugin) {
         this.plugin = plugin;
         location = GuardianLIB.getControl().getUtils().getLocationFromString("notSet");
         chatListener = new ChatListener(plugin);
+        damageListener = new DamageListener(plugin);
         loadListeners();
 
         loadMenus();
@@ -53,7 +57,10 @@ public class ListenerControllerBuilder implements ListenerController {
         PluginManager manager = plugin.getServer().getPluginManager();
         manager.registerEvents(new JoinListener(plugin),plugin);
         manager.registerEvents(chatListener,plugin);
+        manager.registerEvents(damageListener,plugin);
+        manager.registerEvents(new DeathListener(plugin),plugin);
         manager.registerEvents(new InteractListener(plugin),plugin);
+        manager.registerEvents(new ExtrasListener(),plugin);
         manager.registerEvents(new QuitListener(plugin),plugin);
     }
 
@@ -61,6 +68,7 @@ public class ListenerControllerBuilder implements ListenerController {
     public void reloadListeners() {
         shopMenu.updateItems();
         chatListener.update();
+        damageListener.update();
         /*
          * SOMETHING WILL BE ADDED HERE IN THE NEXT SUMMER
          */

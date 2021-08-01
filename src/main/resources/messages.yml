@@ -10,6 +10,7 @@
 #
 messsages:
   prefix: '&3&lG&b&lKPVP &8|&7 '
+  rotate: '&b&lROTATION! &7The map has been rotated to another spawn!'
   no-permission: 'You don''t have permission to do this!'
   only-users: 'Only players may use this command!'
   Command-Disabled: 'This command has been disabled!'

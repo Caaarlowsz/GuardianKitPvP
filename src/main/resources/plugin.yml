@@ -5,3 +5,8 @@ api-version: 1.16
 depend: [ GuardianLIB ]
 authors: [ MrUniverse44 ]
 description: Simple KitPvP Plugin
+commands:
+  gkp:
+    description: Main command of the plugin
+  kp:
+    description: Main command of the plugin

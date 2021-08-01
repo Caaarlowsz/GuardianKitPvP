@@ -30,15 +30,11 @@ public class DataStorageBuilder implements DataStorage {
         if (!sync) {
             (new BukkitRunnable() {
                 public void run() {
-                    /*
-                     *
                     if (plugin.getKitPvP().isUsingMySQL()) {
                         getMySQL().saveStats(p);
                     } else {
                         getSQL().saveStats(p);
                     }
-                    *
-                    */
                 }
             }).runTaskAsynchronously(plugin);
         } else if (this.plugin.getKitPvP().isUsingMySQL()) {
