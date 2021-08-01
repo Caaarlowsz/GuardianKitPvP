@@ -168,11 +168,16 @@ messsages:
       map-rotation: '&eMap is changing in &c%current_time% &e%current_time_letter%'
       start: '&eThe grace period ends in &c%current_time% &e%current_time_letter%!'
     deathMessages:
-      pvp: '&7%victim% was killed by %attacker%'
-      void: '&7%victim% was searching a diamond.'
-      lava: '&7%victim% was on fire!'
-      bow: '&7%attacker% is the best with the bow vs %victim%'
-      otherCause: '&7%victim% died'
+      pvp-death: '&7%victim% was killed by %attacker%'
+      void-death: '&7%victim% was searching a diamond.'
+      lava-death: '&7%victim% was on fire!'
+      bow-death: '&7%attacker% is the best with the bow vs %victim%'
+      otherCause-death: '&7%victim% died'
+      pvp-kill: '&7%victim% was killed by %attacker%'
+      void-kill: '&7%victim% was searching a diamond.'
+      lava-kill: '&7%victim% was on fire!'
+      bow-kill: '&7%attacker% is the best with the bow vs %victim%'
+      otherCause-kill: '&7%victim% died'
     others:
       winCoins: '&6+%winCoins% coins (Win)!'
 

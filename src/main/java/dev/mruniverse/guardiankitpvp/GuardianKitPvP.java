@@ -110,7 +110,7 @@ public class GuardianKitPvP extends JavaPlugin {
         if (getKitPvP().getFileStorage().getControl(GuardianFiles.SCOREBOARD).getBoolean("scoreboards.animatedTitle.toggle")) {
             titleRunnableBuilder.runTaskTimer(instance,0L, getKitPvP().getFileStorage().getControl(GuardianFiles.SCOREBOARD).getLong("scoreboards.animatedTitle.repeatTime"));
         }
-        playerRunnableBuilder.runTaskTimer(instance,0L,20L);
+        playerRunnableBuilder.runTaskTimer(instance,0L,17L);
 
         rotingRunnable.runTaskTimer(instance,0L,20L);
 

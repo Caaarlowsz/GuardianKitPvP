@@ -83,6 +83,7 @@ public class GuardianUtils {
                 .replace("%deaths%", manager.getDeaths() + "")
                 .replace("%selected_kit%",manager.getSelectedKit())
                 .replace("%map%","Normal")
+                .replace("%map_rotation%",plugin.getRotingRunnable().getTimer())
                 .replace("%exp%",manager.getXP() + "")
                 .replace("%online%",plugin.getServer().getOnlinePlayers().size() + "")
                 .replace("%timeFormat%",getDateFormat());

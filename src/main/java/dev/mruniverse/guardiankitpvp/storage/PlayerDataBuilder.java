@@ -34,11 +34,10 @@ public class PlayerDataBuilder implements PlayerData {
                 manager.setPlugin(kitPvP)
                         .setPlayer(player)
                         .finish();
+                players.put(player.getUniqueId(),manager);
             } catch (Throwable throwable){
                 throwable.printStackTrace();
-                return;
             }
-            players.put(player.getUniqueId(),manager);
         }
     }
 

@@ -32,6 +32,8 @@ public class RotingRunnable extends BukkitRunnable {
                 minutes--;
                 seconds = 59;
             }
+        } else if (seconds != 0){
+            seconds--;
         } else {
             checkTimer();
         }

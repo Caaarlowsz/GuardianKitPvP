@@ -2,7 +2,7 @@ package dev.mruniverse.guardiankitpvp.listeners;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
-import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
@@ -12,17 +12,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.potion.PotionEffect;
 
 public class DamageListener implements Listener {
     private final GuardianKitPvP plugin;
-    //messages:
-    //  normal:
-    //    deathMessages:
-    //      pvp: '&7%victim% was killed by %attacker%'
-    //      void: '&7%victim% was searching a diamond.'
-    //      lava: '&7%victim% was on fire!'
-    //      bow: '&7%attacker% is the best with the bow vs %victim%'
-    //      otherCause: '&7%victim% died'
 
     private String byLavaDeath;
     private String byVoidDeath;
@@ -72,7 +65,21 @@ public class DamageListener implements Listener {
                 player.teleport(MAP_LOCATION);
             }
             player.setHealth(20);
+            for(PotionEffect effect:player.getActivePotionEffects()){
+                player.removePotionEffect(effect.getType());
+            }
             player.setFoodLevel(20);
+            player.getInventory().setBoots(null);
+            player.getInventory().setHelmet(null);
+            player.getInventory().setChestplate(null);
+            player.getInventory().setLeggings(null);
+            player.getInventory().clear();
+            String deathMessage;
+            deathMessage = getDeathMessage(player, event.getCause());
+            plugin.getUtils().getUtils().sendMessage(player, deathMessage);
+            if(plugin.getKitPvP().getPlayers() == null) plugin.getLogs().info("Players system = null");
+            if(plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()) == null) plugin.getLogs().info("Player User = null");
+            plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()).addDeaths();
         }
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
             event.setCancelled(true);
@@ -80,6 +87,13 @@ public class DamageListener implements Listener {
         }
         if ((player.getHealth() - event.getFinalDamage()) <= 0 && event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
             event.setCancelled(true);
+            Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getMapLocation();
+            if(MAP_LOCATION != null) {
+                player.teleport(MAP_LOCATION);
+            }
+            for(PotionEffect effect:player.getActivePotionEffects()){
+                player.removePotionEffect(effect.getType());
+            }
             player.getInventory().clear();
             player.setHealth(20);
             player.setFoodLevel(20);
@@ -123,7 +137,15 @@ public class DamageListener implements Listener {
                 if ((victim.getHealth() - event.getFinalDamage()) <= 0) {
                     event.setCancelled(true);
                     victim.getInventory().clear();
+                    Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getMapLocation();
+                    if(MAP_LOCATION != null) {
+                        victim.teleport(MAP_LOCATION);
+                    }
+
                     victim.setHealth(20);
+                    for(PotionEffect effect:player.getActivePotionEffects()){
+                        player.removePotionEffect(effect.getType());
+                    }
                     victim.setFoodLevel(20);
                     victim.getInventory().setBoots(null);
                     victim.getInventory().setHelmet(null);
@@ -134,13 +156,46 @@ public class DamageListener implements Listener {
                     plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()).addKills();
                     plugin.getKitPvP().getPlayers().getUser(victim.getUniqueId()).addDeaths();
                 } else {
-                    Bukkit.broadcastMessage("Player: " + victim.getName() + "  --->");
-                    Bukkit.broadcastMessage("Health: " + victim.getHealth());
-                    Bukkit.broadcastMessage("Health Scale: " + victim.getHealthScale());
-                    Bukkit.broadcastMessage("Food: " + victim.getFoodLevel());
+                    int health = (int)victim.getHealth() / 2;
+                    String healthBar = "&7" + victim.getName() + " " + getHealth(health);
+                    plugin.getUtils().getUtils().sendActionbar(player, ChatColor.translateAlternateColorCodes('&',healthBar));
                 }
             }
         }
+    }
+
+    public String getHealth(int health) {
+        if(health >= 10) {
+            return "&4❤❤❤❤❤❤❤❤❤❤";
+        }
+        if(health >= 9) {
+            return "&4❤❤❤❤❤❤❤❤❤&c❤";
+        }
+        if(health >= 8) {
+            return "&4❤❤❤❤❤❤❤❤&c❤❤";
+        }
+        if(health >= 7) {
+            return "&4❤❤❤❤❤❤❤&c❤❤&0❤";
+        }
+        if(health >= 6) {
+            return "&4❤❤❤❤❤❤&c❤❤&0❤❤";
+        }
+        if(health >= 5) {
+            return "&4❤❤❤❤❤&c❤❤&0❤❤❤";
+        }
+        if(health >= 4) {
+            return "&4❤❤❤❤&c❤❤&0❤❤❤❤";
+        }
+        if(health >= 3) {
+            return "&4❤❤❤&c❤❤&0❤❤❤❤❤";
+        }
+        if(health >= 2) {
+            return "&4❤❤&c❤❤&0❤❤❤❤❤❤";
+        }
+        if(health >= 1) {
+            return "&4❤&c❤❤&0❤❤❤❤❤❤❤";
+        }
+        return "&c❤❤&0❤❤❤❤❤❤❤❤";
     }
 
 
