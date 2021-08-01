@@ -15,7 +15,7 @@ shop:
   items:
     kits:
       name: '&3&lKits &7(Right Click)'
-      slot: 11
+      slot: 10
       lore:
         - '&8GuardianKitPvP'
         - '&aClick to open kits menu'
@@ -35,5 +35,5 @@ shop:
       lore:
         - '&8GuardianRFTB'
         - '&aClick to open coin menu'
-      item: DOUBLE_PLANT
+      item: DOUBLE_PLANT:0
       toggle: true
