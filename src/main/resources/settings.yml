@@ -18,7 +18,7 @@ settings:
     # Toggle this option
     toggle: true
     # Format (Support PlaceholderAPI)
-    format: '%rank%&7%player% &8» &7%message%.'
+    format: '%rank_prefix%&7%player% &8» &7%message%.'
   # Leave Cancel Time (In Seconds)
   leaveCancelTime: 3
   # Toggle Update Check

@@ -56,7 +56,7 @@ scoreboards:
       - '&fRank: &b%rank%'
       - '&fExp: &a%exp%&b/%next_rank_exp%'
       - ' '
-      - '&fMap: &f%map%'
+      - '&fMap: &8%map%'
       - '&fKit: &b%selected_kit%'
       - ' '
       - '&eplay.servername.net'

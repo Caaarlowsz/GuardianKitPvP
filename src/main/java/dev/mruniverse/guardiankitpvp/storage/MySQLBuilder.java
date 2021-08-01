@@ -149,7 +149,8 @@ public class MySQLBuilder implements MySQL {
                     } else {
                         manager.resetPlayer();
                     }
-                }catch(Throwable ignored) {
+                }catch(Throwable throwable) {
+                    throwable.printStackTrace();
                     if(plugin.getKitPvP() != null) {
                         if(plugin.getKitPvP().getPlayers() != null) {
                             if(plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()) != null) {

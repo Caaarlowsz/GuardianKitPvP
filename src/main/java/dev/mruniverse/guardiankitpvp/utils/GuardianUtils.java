@@ -74,20 +74,24 @@ public class GuardianUtils {
                 .replace("%timeFormat%",getDateFormat());
         if(manager.getRank() != null) {
             text = text.replace("%rank%",manager.getRank().getName())
+                    .replace("%rank_prefix%",manager.getRank().getPrefix())
                     .replace("%player_rank%",manager.getRank().getName())
                     .replace("%rank_required%",manager.getRank().getName());
         } else {
             text = text.replace("%rank%","Loading")
+                    .replace("%rank_prefix%","")
                     .replace("%player_rank%","Loading")
                     .replace("%rank_required%","0");
         }
         if(manager.getNextRank() != null) {
             text = text.replace("%next_rank%",manager.getNextRank().getName())
+                    .replace("%next_rank_prefix%",manager.getNextRank().getPrefix())
                     .replace("%player_next_rank%",manager.getNextRank().getName())
                     .replace("%next_rank_exp%",manager.getNextRank().getRequiredExp() + "")
                     .replace("%next_rank_required%",manager.getNextRank().getRequiredExp() + "");
         } else {
             text = text.replace("%next_rank%","MAX")
+                    .replace("%next_rank_prefix%","")
                     .replace("%player_next_rank%","MAX")
                     .replace("%next_rank_exp%","0")
                     .replace("%next_rank_required%","0");
