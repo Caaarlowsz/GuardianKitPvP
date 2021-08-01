@@ -59,6 +59,16 @@ public class MySQLBuilder implements MySQL {
             url = url.replace("[host]",host)
                     .replace("[port]",port + "")
                     .replace("[db]",db);
+            plugin.getLogs().info("");
+            plugin.getLogs().info("--------------------");
+            plugin.getLogs().info("Trying to connect to database with jdbc:");
+            plugin.getLogs().info(url);
+            plugin.getLogs().info("User:");
+            plugin.getLogs().info(user);
+            plugin.getLogs().info("Password length:");
+            plugin.getLogs().info(password.length() + "");
+            plugin.getLogs().info("--------------------");
+            plugin.getLogs().info("");
             con = DriverManager.getConnection(url,user,password);
             plugin.getLogs().info("Connected with MySQL! creating tables");
         } catch (SQLException e) {
