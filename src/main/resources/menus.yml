@@ -11,29 +11,29 @@
 #
 shop:
   title: "&8Shop Menu"
-  rows: 6
+  rows: 3
   items:
     kits:
-      name: '&aKits'
-      slot: 21
+      name: '&3&lKits &7(Right Click)'
+      slot: 11
       lore:
         - '&8GuardianKitPvP'
-        - '&eClick to open kits menu'
+        - '&aClick to open kits menu'
       item: MAP
       toggle: true
     boosters:
-      name: '&aGame Booster'
-      slot: 31
+      name: '&b&lBooster &7(Right Click)'
+      slot: 13
       lore:
         - '&8GuardianRFTB'
-        - '&eClick to open boost menu'
-      item: EXPERIENCE_BOTTLE
+        - '&aClick to open boost menu'
+      item: BLAZE_POWDER
       toggle: true
     coins:
-      name: '&aCoin Charger'
-      slot: 34
+      name: '&e&lCoin Charger &7(Right Click)'
+      slot: 16
       lore:
         - '&8GuardianRFTB'
-        - '&eClick to open coin menu'
-      item: EXPERIENCE_BOTTLE
+        - '&aClick to open coin menu'
+      item: DOUBLE_PLANT
       toggle: true

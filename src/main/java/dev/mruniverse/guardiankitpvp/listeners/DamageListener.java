@@ -32,26 +32,26 @@ public class DamageListener implements Listener {
     public DamageListener(GuardianKitPvP plugin) {
         this.plugin = plugin;
         FileConfiguration messages = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.MESSAGES);
-        byLavaDeath = messages.getString("messages.game.deathMessages.lava-death");
+        byLavaDeath = messages.getString("messages.normal.deathMessages.lava-death");
         if (byLavaDeath == null) byLavaDeath = "&7%victim% was on fire!";
-        byVoidDeath = messages.getString("messages.game.deathMessages.void-death");
+        byVoidDeath = messages.getString("messages.normal.deathMessages.void-death");
         if (byVoidDeath == null) byVoidDeath = "&7%victim% was searching a diamond.";
-        byDefaultDeath = messages.getString("messages.game.deathMessages.otherCause-death");
+        byDefaultDeath = messages.getString("messages.normal.deathMessages.otherCause-death");
         if (byDefaultDeath == null) byDefaultDeath = "&7%victim% died";
-        byPvPDeath = messages.getString("messages.game.deathMessages.pvp-death");
+        byPvPDeath = messages.getString("messages.normal.deathMessages.pvp-death");
         if (byPvPDeath == null) byDefaultDeath = "&7%victim% was killed by %attacker%";
-        byBowDeath = messages.getString("messages.game.deathMessages.bow-death");
+        byBowDeath = messages.getString("messages.normal.deathMessages.bow-death");
         if (byBowDeath == null) byBowDeath = "&7%victim% was shot by %attacker%";
 
-        byLavaKill = messages.getString("messages.game.deathMessages.lava-kill");
+        byLavaKill = messages.getString("messages.normal.deathMessages.lava-kill");
         if (byLavaKill == null) byLavaKill = "&7%victim% was on fire!";
-        byVoidKill = messages.getString("messages.game.deathMessages.void-kill");
+        byVoidKill = messages.getString("messages.normal.deathMessages.void-kill");
         if (byVoidKill == null) byVoidKill = "&7%victim% was searching a diamond.";
-        byDefaultKill = messages.getString("messages.game.deathMessages.otherCause-kill");
+        byDefaultKill = messages.getString("messages.normal.deathMessages.otherCause-kill");
         if (byDefaultKill == null) byDefaultKill = "&7%victim% died";
-        byPvPKill = messages.getString("messages.game.deathMessages.pvp-kill");
+        byPvPKill = messages.getString("messages.normal.deathMessages.pvp-kill");
         if (byPvPKill == null) byDefaultKill = "&7%victim% was killed by %attacker%";
-        byBowKill = messages.getString("messages.game.deathMessages.bow-kill");
+        byBowKill = messages.getString("messages.normal.deathMessages.bow-kill");
         if (byBowKill == null) byBowKill = "&7%victim% was shot by %attacker%";
     }
 
@@ -201,26 +201,26 @@ public class DamageListener implements Listener {
 
     public void update() {
         FileConfiguration messages = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.MESSAGES);
-        byLavaDeath = messages.getString("messages.game.deathMessages.lava-death");
+        byLavaDeath = messages.getString("messages.normal.deathMessages.lava-death");
         if (byLavaDeath == null) byLavaDeath = "&7%victim% was on fire!";
-        byVoidDeath = messages.getString("messages.game.deathMessages.void-death");
+        byVoidDeath = messages.getString("messages.normal.deathMessages.void-death");
         if (byVoidDeath == null) byVoidDeath = "&7%victim% was searching a diamond.";
-        byDefaultDeath = messages.getString("messages.game.deathMessages.otherCause-death");
+        byDefaultDeath = messages.getString("messages.normal.deathMessages.otherCause-death");
         if (byDefaultDeath == null) byDefaultDeath = "&7%victim% died";
-        byPvPDeath = messages.getString("messages.game.deathMessages.pvp-death");
+        byPvPDeath = messages.getString("messages.normal.deathMessages.pvp-death");
         if (byPvPDeath == null) byDefaultDeath = "&7%victim% was killed by %attacker%";
-        byBowDeath = messages.getString("messages.game.deathMessages.bow-death");
+        byBowDeath = messages.getString("messages.normal.deathMessages.bow-death");
         if (byBowDeath == null) byBowDeath = "&7%victim% was shot by %attacker%";
 
-        byLavaKill = messages.getString("messages.game.deathMessages.lava-kill");
+        byLavaKill = messages.getString("messages.normal.deathMessages.lava-kill");
         if (byLavaKill == null) byLavaKill = "&7%victim% was on fire!";
-        byVoidKill = messages.getString("messages.game.deathMessages.void-kill");
+        byVoidKill = messages.getString("messages.normal.deathMessages.void-kill");
         if (byVoidKill == null) byVoidKill = "&7%victim% was searching a diamond.";
-        byDefaultKill = messages.getString("messages.game.deathMessages.otherCause-kill");
+        byDefaultKill = messages.getString("messages.normal.deathMessages.otherCause-kill");
         if (byDefaultKill == null) byDefaultKill = "&7%victim% died";
-        byPvPKill = messages.getString("messages.game.deathMessages.pvp-kill");
+        byPvPKill = messages.getString("messages.normal.deathMessages.pvp-kill");
         if (byPvPKill == null) byDefaultKill = "&7%victim% was killed by %attacker%";
-        byBowKill = messages.getString("messages.game.deathMessages.bow-kill");
+        byBowKill = messages.getString("messages.normal.deathMessages.bow-kill");
         if (byBowKill == null) byBowKill = "&7%victim% was shot by %attacker%";
     }
 
