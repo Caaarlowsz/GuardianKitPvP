@@ -60,6 +60,8 @@ public interface KitPvP {
 
     void disableMySQL();
 
+    void enableMySQL();
+
     void reportIssue(String errorMessage);
 
     void resetDefault(GuardianClass guardianClass);

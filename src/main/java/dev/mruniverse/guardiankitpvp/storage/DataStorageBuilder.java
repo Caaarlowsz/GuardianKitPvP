@@ -162,6 +162,7 @@ public class DataStorageBuilder implements DataStorage {
         FileConfiguration settings = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS);
         if (settings.getBoolean("settings.mysql.toggle")) {
             plugin.getLogs().info("Loading MySQL services..");
+            plugin.getKitPvP().enableMySQL();
             mySQLImpl.connect(settings.getString("settings.mysql.host"),settings.getString("settings.mysql.database"),settings.getString("settings.mysql.username"),settings.getString("settings.mysql.password"));
             plugin.getLogs().info("MySQL services now are loaded!");
         } else {

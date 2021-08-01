@@ -70,7 +70,7 @@ public class MySQLBuilder implements MySQL {
             plugin.getLogs().info("--------------------");
             plugin.getLogs().info("");
             con = DriverManager.getConnection(url,user,password);
-            plugin.getLogs().info("Connected with MySQL! creating tables");
+            plugin.getLogs().info("Connected with MySQL!");
         } catch (SQLException e) {
             plugin.getLogs().error("Plugin can't connect to MySQL or cant initialize tables.");
             plugin.getLogs().error(e);

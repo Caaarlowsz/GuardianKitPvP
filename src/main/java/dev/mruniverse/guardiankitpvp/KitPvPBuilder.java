@@ -40,6 +40,8 @@ public class KitPvPBuilder implements KitPvP {
 
     private boolean alwaysFalse = false;
 
+    private boolean alwaysEnable = false;
+
     @Override
     public KitPvP setMain(GuardianKitPvP plugin) {
         this.plugin = plugin;
@@ -178,8 +180,16 @@ public class KitPvPBuilder implements KitPvP {
         plugin.getLogs().info(errorMessage);
     }
 
+    @Override
     public void disableMySQL() {
          alwaysFalse = true;
+         alwaysEnable = false;
+    }
+
+    @Override
+    public void enableMySQL() {
+        alwaysEnable = true;
+        alwaysFalse = false;
     }
 
     @Override
@@ -220,6 +230,7 @@ public class KitPvPBuilder implements KitPvP {
 
     @Override
     public boolean isUsingMySQL() {
+        if(alwaysEnable) return alwaysEnable;
         if(!alwaysFalse) return fileStorage.getControl(GuardianFiles.SETTINGS).getBoolean("settings.game.mysql.toggle");
         return false;
     }
