@@ -1,6 +1,7 @@
 package dev.mruniverse.guardiankitpvp.listeners;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
+import dev.mruniverse.guardiankitpvp.enums.BoostersMain;
 import dev.mruniverse.guardiankitpvp.enums.GMenus;
 import dev.mruniverse.guardiankitpvp.enums.NormalItems;
 import dev.mruniverse.guardiankitpvp.enums.ShopMenu;
@@ -31,7 +32,26 @@ public class InteractListener implements Listener {
         GuardianItems currentItem = event.getIdentifier();
         if(menu == GMenus.SHOP) {
             if(currentItem == ShopMenu.BOOSTERS){
-                Bukkit.broadcastMessage("I'm a god");
+                GuardianMenu boostMenu = plugin.getKitPvP().getListenerController().getMenu(GMenus.BOOSTERS);
+                Inventory inventory = boostMenu.getInventory();
+                boostMenu.pasteInventoryItems();
+                event.getPlayer().openInventory(inventory);
+            }
+            return;
+        }
+        if(menu == GMenus.BOOSTERS) {
+            if(currentItem == BoostersMain.FIRST) {
+                GuardianMenu boostMenu = plugin.getKitPvP().getListenerController().getMenu(GMenus.BOOSTERS_GLOBAL);
+                Inventory inventory = boostMenu.getInventory();
+                boostMenu.pasteInventoryItems();
+                event.getPlayer().openInventory(inventory);
+                return;
+            }
+            if(currentItem == BoostersMain.SECOND) {
+                GuardianMenu boostMenu = plugin.getKitPvP().getListenerController().getMenu(GMenus.BOOSTERS_PERSONAL);
+                Inventory inventory = boostMenu.getInventory();
+                boostMenu.pasteInventoryItems();
+                event.getPlayer().openInventory(inventory);
             }
         }
     }
@@ -67,7 +87,7 @@ public class InteractListener implements Listener {
         if(inventoryID.equalsIgnoreCase("normal-inventory")) {
             if(currentItem == NormalItems.SHOP) {
                 if(plugin.getKitPvP() != null && plugin.getKitPvP().getListenerController() != null) {
-                    GuardianMenu shopMenu = plugin.getKitPvP().getListenerController().getShopMenu();
+                    GuardianMenu shopMenu = plugin.getKitPvP().getListenerController().getMenu(GMenus.SHOP);
                     Inventory inventory = shopMenu.getInventory();
                     shopMenu.pasteInventoryItems();
                     event.getPlayer().openInventory(inventory);

@@ -1,6 +1,7 @@
 package dev.mruniverse.guardiankitpvp.interfaces.listeners;
 
 import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianMenu;
+import dev.mruniverse.guardianlib.core.menus.interfaces.Menus;
 import org.bukkit.Location;
 
 public interface ListenerController {
@@ -11,7 +12,7 @@ public interface ListenerController {
 
     void setMapLocation(Location location);
 
-    GuardianMenu getShopMenu();
+    GuardianMenu getMenu(Menus Menu);
 
     Location getMapLocation();
 }

@@ -37,3 +37,81 @@ shop:
         - '&aClick to open coin menu'
       item: DOUBLE_PLANT:0
       toggle: true
+
+boosters-main:
+  title: "&8Boosters"
+  rows: 3
+  items:
+    first:
+      name: '&3&lGlobal &7(Right Click)'
+      slot: 11
+      lore:
+        - '&8Global'
+        - '&aClick to open kits menu'
+      item: DOUBLE_PLANT:0
+      toggle: true
+    second:
+      name: '&3&lPersonal &7(Right Click)'
+      slot: 15
+      lore:
+        - '&8Global'
+        - '&aClick to open boost menu'
+      item: DOUBLE_PLANT:0
+      toggle: true
+
+boosters-global:
+  title: "&8Global Boosters"
+  rows: 3
+  items:
+    first:
+      name: '&3&lx2 &7(Right Click)'
+      slot: 10
+      lore:
+        - '&8Global'
+        - '&aClick to open kits menu'
+      item: DOUBLE_PLANT:0
+      toggle: true
+    second:
+      name: '&3&lx3 &7(Right Click)'
+      slot: 13
+      lore:
+        - '&8Global'
+        - '&aClick to open boost menu'
+      item: DOUBLE_PLANT:0
+      toggle: true
+    three:
+      name: '&3&lx4 &7(Right Click)'
+      slot: 16
+      lore:
+        - '&8Global'
+        - '&aClick to open coin menu'
+      item: DOUBLE_PLANT:0
+      toggle: true
+boosters-personal:
+  title: "&8Personal Boosters"
+  rows: 3
+  items:
+    first:
+      name: '&3&lx2 &7(Right Click)'
+      slot: 10
+      lore:
+        - '&8Personal'
+        - '&aClick to open kits menu'
+      item: DOUBLE_PLANT:0
+      toggle: true
+    second:
+      name: '&3&lx3 &7(Right Click)'
+      slot: 13
+      lore:
+        - '&8Personal'
+        - '&aClick to open boost menu'
+      item: DOUBLE_PLANT:0
+      toggle: true
+    three:
+      name: '&3&lx4 &7(Right Click)'
+      slot: 16
+      lore:
+        - '&8Personal'
+        - '&aClick to open coin menu'
+      item: DOUBLE_PLANT:0
+      toggle: true

@@ -13,7 +13,19 @@ public enum GMenus implements Menus {
     BOOSTERS{
         @Override
         public String getName() {
-            return "Boosters";
+            return "Boosters Main";
+        }
+    },
+    BOOSTERS_GLOBAL{
+        @Override
+        public String getName() {
+            return "Boosters Global";
+        }
+    },
+    BOOSTERS_PERSONAL{
+        @Override
+        public String getName() {
+            return "Boosters Personal";
         }
     },
     COINS{
