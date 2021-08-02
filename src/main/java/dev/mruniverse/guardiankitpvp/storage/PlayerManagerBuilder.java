@@ -10,13 +10,20 @@ import dev.mruniverse.guardiankitpvp.interfaces.rank.Rank;
 import dev.mruniverse.guardiankitpvp.interfaces.rank.RankManager;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings({"FieldCanBeLocal","unused"})
 public class PlayerManagerBuilder implements PlayerManager {
+
+    private final HashMap<String,Long> abilityCountdown = new HashMap<>();
+
+    private BukkitRunnable abilityCountdownPB = null;
 
     private int leaveDelay = 0;
 
@@ -67,6 +74,8 @@ public class PlayerManagerBuilder implements PlayerManager {
     private String selectedKit = "";
 
     private String kits = "";
+
+    private String lastAbilityKey = "";
 
 
     @Override
@@ -202,6 +211,72 @@ public class PlayerManagerBuilder implements PlayerManager {
     }
 
     @Override
+    public void clearCountdowns() {
+        abilityCountdown.clear();
+        if(abilityCountdownPB != null) {
+            abilityCountdownPB.cancel();
+            abilityCountdownPB = null;
+        }
+
+    }
+
+    @Override
+    public String getProgressBar(int paramInt) {
+        int checkInt = (int)(paramInt * 0.20);
+        if (paramInt >= 100)
+            return ChatColor.translateAlternateColorCodes('&', plugin.getColorComplete() + plugin.getProgressBar());
+        if (paramInt < 1)
+            return ChatColor.translateAlternateColorCodes('&', plugin.getColorPending() + plugin.getProgressBar());
+        return getBar(plugin.getColorComplete() + plugin.getProgressBar().substring(0, paramInt) + plugin.getColorPending() + plugin.getProgressBar().substring(paramInt));
+    }
+
+    @Override
+    public boolean isCountdown(final String countdownName) {
+        long l = this.abilityCountdown.containsKey(countdownName) ? (this.abilityCountdown.get(countdownName) - System.currentTimeMillis()) : 0L;
+        if (l > 0L) {
+            plugin.getUtils().getUtils().sendTitle(player,20,20,20,null,"&8⚫⚫⚫⚫⚫⚫⚫⚫⚫");
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void setCountdown(final String countdownName,final int seconds,final boolean progressBar) {
+        int math = seconds * 1000;
+        abilityCountdown.put(countdownName,System.currentTimeMillis() + math);
+        lastAbilityKey = countdownName;
+        if(abilityCountdownPB != null) {
+            abilityCountdownPB.cancel();
+        }
+        if(progressBar) {
+            abilityCountdownPB = new BukkitRunnable() {
+                private final int max = seconds;
+                private final String ability =countdownName;
+                private int count = 0;
+                @Override
+                public void run() {
+                    count++;
+                    int remaining = max - count;
+                    double percentage = (double)remaining / max;
+                    int value = (int)percentage * 100;
+                    plugin.getUtils().getUtils().sendActionbar(player,getProgressBar(value));
+                    if(count == max) {
+                        cancel();
+                        abilityCountdown.remove(ability);
+                        abilityCountdownPB = null;
+                    }
+                }
+            };
+        }
+
+    }
+
+    @Override
+    public String getBar(String bar) {
+        return ChatColor.translateAlternateColorCodes('&',plugin.getLeftPB() + bar + plugin.getRightPB());
+    }
+
+    @Override
     public KitMenu getKitMenu(KitType kitType) {
         return null;
     }
@@ -332,34 +407,4 @@ public class PlayerManagerBuilder implements PlayerManager {
         setDeaths(getDeaths() + 1);
     }
 
-    public void create() {
-        /*
-        FileConfiguration settings = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS);
-        String table = settings.getString("settings.game.mysql.table");
-        String defaultKit = settings.getString("settings.game.default-kits.default");
-        if (!plugin.getKitPvP().getDataStorage().isRegistered(table, "Player", getID())) {
-            List<String> values = new ArrayList<>();
-            values.add("Player-" + getID());
-            values.add("Coins-0");
-            if(settings.getBoolean("settings.game.default-kits.toggle")) {
-
-                values.add("Kits-" + defaultKit);
-            } else{
-                values.add("Kits-NONE");
-            }
-            values.add("SelectedKit-NONE");
-            plugin.getKitPvP().getDataStorage().register(table, values);
-            return;
-        }
-        if(settings.getBoolean("settings.game.default-kits.toggle")) {
-            kits = "Kits-" + defaultKit;
-        } else {
-            kits = "Kits-NONE";
-        }
-        selectedKit = "NONE";
-        coins = 0;
-        * plugin.getKitPvP().getDataStorage().getData().addPlayer(player.getUniqueId());
-        */
-
-    }
 }

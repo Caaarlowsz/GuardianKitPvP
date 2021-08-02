@@ -34,6 +34,7 @@ public class PlayerDataBuilder implements PlayerData {
                 manager.setPlugin(kitPvP)
                         .setPlayer(player)
                         .finish();
+                kitPvP.getLogs().debug(manager.getPlayer().getName() + "!");
                 players.put(player.getUniqueId(),manager);
             } catch (Throwable throwable){
                 throwable.printStackTrace();

@@ -15,6 +15,13 @@ settings:
   perWorldTab: false
   # Map Locations:
   map-locations: []
+  # Progress Bar Custom
+  progressBar:
+    left: '&8&l► '
+    unicode: '▌'
+    right: ' &8&l◀'
+    color-complete: '&a'
+    color-pending: '&7'
   # Chat System
   chat:
     # Toggle this option

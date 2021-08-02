@@ -74,11 +74,21 @@ public interface PlayerManager {
 
     void updateRank();
 
+    void setCountdown(final String countdownName,final int seconds,final boolean progressBar);
+
+    void clearCountdowns();
+
+    boolean isCountdown(final String countdownName);
+
+    String getProgressBar(int paramInt);
+
     String getKitsString();
 
     String getStatsString();
 
     String getSelectedKit();
+
+    String getBar(String bar);
 
     Rank getRank();
 
@@ -104,6 +114,4 @@ public interface PlayerManager {
     String getID();
 
     void addDeaths();
-
-    void create();
 }

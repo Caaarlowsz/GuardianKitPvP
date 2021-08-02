@@ -16,7 +16,9 @@ import dev.mruniverse.guardiankitpvp.storage.PlayerManagerBuilder;
 import dev.mruniverse.guardiankitpvp.utils.GuardianUtils;
 import dev.mruniverse.guardiankitpvp.utils.command.MainCommand;
 import dev.mruniverse.guardianlib.core.utils.ExternalLogger;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,6 +29,16 @@ public class GuardianKitPvP extends JavaPlugin {
 
     @SuppressWarnings("unused")
     public static GuardianKitPvP getInstance() { return instance; }
+
+    private StringBuilder progressBar = new StringBuilder();
+
+    private String leftPB;
+
+    private String rightPB;
+
+    private String colorComplete;
+
+    private String colorPending;
 
     private KitPvP kitPvP;
 
@@ -100,10 +112,54 @@ public class GuardianKitPvP extends JavaPlugin {
 
                 runRunnable();
 
+                //GENERAL
+
+                FileConfiguration settings = getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS);
+                String character = StringEscapeUtils.unescapeJava(
+                        settings.getString("settings.progressBar.unicode","|")
+                );
+
+                leftPB = StringEscapeUtils.unescapeJava(
+                        settings.getString("settings.progressBar.left","&8[ ")
+                );
+
+                rightPB = StringEscapeUtils.unescapeJava(
+                        settings.getString("settings.progressBar.right"," &8]")
+                );
+
+                colorComplete = settings.getString("settings.progressBar.color-complete","&a");
+
+                colorPending = settings.getString("settings.progressBar.color-pending","&7");
+
+                for (byte b = 0; b < 20; ) {
+                    progressBar.append(character);
+                    b++;
+                }
+
             }
         };
         runnable.runTaskLater(this, 1L);
 
+    }
+
+    public String getColorComplete() {
+        return colorComplete;
+    }
+
+    public String getColorPending() {
+        return colorPending;
+    }
+
+    public String getProgressBar() {
+        return progressBar.toString();
+    }
+
+    public String getLeftPB() {
+        return leftPB;
+    }
+
+    public String getRightPB() {
+        return rightPB;
     }
 
     public void runRunnable() {
