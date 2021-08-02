@@ -167,7 +167,8 @@ public class MySQLBuilder implements MySQL {
     @Override
     public void saveStats(Player paramPlayer) {
         String kits = "NO_KITS";
-        PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(paramPlayer.getUniqueId());
+        PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(paramPlayer);
+        if(plugin.getKitPvP().getPlayers().getUser(paramPlayer) == null) plugin.getLogs().error("Null players");
         if(!manager.getKitsString().equalsIgnoreCase("")) kits = manager.getKitsString();
         String call = isUUID ? paramPlayer.getUniqueId().toString() : paramPlayer.getName();
         String stats = manager.getStatsString();

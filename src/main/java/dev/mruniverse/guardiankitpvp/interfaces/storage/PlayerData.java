@@ -19,5 +19,7 @@ public interface PlayerData {
 
     HashMap<UUID, PlayerManager> getPlayers();
 
-    PlayerManager getUser(UUID uuid);
+    PlayerManager getUser(final UUID uuid);
+
+    PlayerManager getUser(final Player player);
 }

@@ -62,7 +62,7 @@ public class PlayerDataBuilder implements PlayerData {
     }
 
     @Override
-    public PlayerManager getUser(UUID uuid) {
+    public PlayerManager getUser(final UUID uuid) {
         if(players.get(uuid) == null) {
             Player player = Bukkit.getPlayer(uuid);
             if(player != null) {
@@ -70,5 +70,13 @@ public class PlayerDataBuilder implements PlayerData {
             }
         }
         return players.get(uuid);
+    }
+
+    @Override
+    public PlayerManager getUser(final Player player) {
+        if(players.get(player.getUniqueId()) == null) {
+            addPlayer(player);
+        }
+        return players.get(player.getUniqueId());
     }
 }
