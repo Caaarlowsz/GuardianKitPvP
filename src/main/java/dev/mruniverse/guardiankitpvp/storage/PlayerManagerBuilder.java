@@ -61,9 +61,9 @@ public class PlayerManagerBuilder implements PlayerManager {
 
     private Rank nextRank = null;
 
-    private GuardianKitPvP plugin;
+    private final GuardianKitPvP plugin;
 
-    private Player player;
+    private final Player player;
 
     private PlayerStatus playerStatus = PlayerStatus.IN_LOBBY;
 
@@ -96,7 +96,6 @@ public class PlayerManagerBuilder implements PlayerManager {
 
     @Override
     public void setStatsFromString(String paramString) {
-        plugin.getLogs().debug(paramString);
         String[] arrayString = paramString.split(":");
         this.kills = Integer.parseInt(arrayString[0]);
         this.deaths = Integer.parseInt(arrayString[1]);
@@ -109,6 +108,7 @@ public class PlayerManagerBuilder implements PlayerManager {
         this.abilities_used = Integer.parseInt(arrayString[8]);
         this.soups_eaten = Integer.parseInt(arrayString[9]);
         this.killstreaks_earned = Integer.parseInt(arrayString[10]);
+        plugin.getLogs().debug("(" + player.getName() + ") [k/d/exp] [" + kills + "/" + deaths + "/" + dataExp + "]");
         updateRank();
     }
 

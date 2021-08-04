@@ -143,6 +143,7 @@ public class MySQLBuilder implements MySQL {
                     if(plugin.getKitPvP() != null) {
                         if(plugin.getKitPvP().getPlayers() != null) {
                             if(plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()) != null) {
+                                plugin.getLogs().error("Can't found statics for user " + player.getName() + "! (staticIssue:Code:320)");
                                 plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()).resetPlayer();
                             }
                         }

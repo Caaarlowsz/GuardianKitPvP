@@ -29,7 +29,7 @@ public class PlayerDataBuilder implements PlayerData {
         final PlayerManagerBuilder pm = new PlayerManagerBuilder(kitPvP,player);
         pm.finish();
         players.put(player.getUniqueId(),pm);
-        kitPvP.getLogs().debug("Stats of " + player.getName() + " loaded (" + pm.getStatsString() + ")");
+        kitPvP.getLogs().debug("Stats of " + player.getName() + " loaded.");
     }
 
     public void reportNull() {
