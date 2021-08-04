@@ -10,7 +10,6 @@ import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.ScoreInfo;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.FileStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerData;
-import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 
 @SuppressWarnings("UnusedReturnValue")
 public interface KitPvP {
@@ -34,8 +33,6 @@ public interface KitPvP {
 
     KitPvP setScoreInfo(ScoreInfo scoreInfo);
 
-    KitPvP setDefaultPlayerManager(PlayerManager playerManager);
-
     ItemsInfo getItemsInfo();
 
     FileStorage getFileStorage();
@@ -45,8 +42,6 @@ public interface KitPvP {
     RankManager getRankManager();
 
     DataStorage getDataStorage();
-
-    PlayerManager getPlayerManager();
 
     PlayerData getPlayers();
 

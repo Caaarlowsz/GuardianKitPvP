@@ -78,16 +78,9 @@ public class PlayerManagerBuilder implements PlayerManager {
     private String lastAbilityKey = "";
 
 
-    @Override
-    public PlayerManager setPlayer(Player player) {
-        this.player = player;
-        return this;
-    }
-
-    @Override
-    public PlayerManager setPlugin(GuardianKitPvP plugin) {
+    public PlayerManagerBuilder(GuardianKitPvP plugin,Player player) {
         this.plugin = plugin;
-        return this;
+        this.player = player;
     }
 
     @Override

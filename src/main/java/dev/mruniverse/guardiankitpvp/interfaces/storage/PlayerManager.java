@@ -7,16 +7,11 @@ import dev.mruniverse.guardiankitpvp.enums.PlayerStatus;
 import dev.mruniverse.guardiankitpvp.interfaces.Game;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitMenu;
 import dev.mruniverse.guardiankitpvp.interfaces.rank.Rank;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 public interface PlayerManager {
-
-    PlayerManager setPlayer(Player player);
-
-    PlayerManager setPlugin(GuardianKitPvP plugin);
 
     boolean hasSelectedKit();
 

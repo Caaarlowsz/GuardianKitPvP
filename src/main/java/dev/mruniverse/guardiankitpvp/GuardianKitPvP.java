@@ -12,7 +12,6 @@ import dev.mruniverse.guardiankitpvp.scoreboard.ScoreInfoBuilder;
 import dev.mruniverse.guardiankitpvp.storage.DataStorageBuilder;
 import dev.mruniverse.guardiankitpvp.storage.FileStorageBuilder;
 import dev.mruniverse.guardiankitpvp.storage.PlayerDataBuilder;
-import dev.mruniverse.guardiankitpvp.storage.PlayerManagerBuilder;
 import dev.mruniverse.guardiankitpvp.utils.GuardianUtils;
 import dev.mruniverse.guardiankitpvp.utils.command.MainCommand;
 import dev.mruniverse.guardianlib.core.utils.ExternalLogger;
@@ -30,7 +29,7 @@ public class GuardianKitPvP extends JavaPlugin {
     @SuppressWarnings("unused")
     public static GuardianKitPvP getInstance() { return instance; }
 
-    private StringBuilder progressBar = new StringBuilder();
+    private final StringBuilder progressBar = new StringBuilder();
 
     private String leftPB;
 
@@ -79,7 +78,6 @@ public class GuardianKitPvP extends JavaPlugin {
                 hasPAPI = getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
 
                 setKitPvP(new KitPvPBuilder().setMain(instance)
-                        .setDefaultPlayerManager(new PlayerManagerBuilder().setPlugin(instance))
                         .setFileStorage(new FileStorageBuilder(instance))
                         .setPlayerData(new PlayerDataBuilder())
                         .setBoardController(new BoardControllerBuilder(instance))

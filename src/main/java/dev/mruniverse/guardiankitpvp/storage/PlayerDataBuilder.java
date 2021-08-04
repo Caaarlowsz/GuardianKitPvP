@@ -3,7 +3,6 @@ package dev.mruniverse.guardiankitpvp.storage;
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerData;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -25,21 +24,12 @@ public class PlayerDataBuilder implements PlayerData {
     }
 
     @Override
-    public void addPlayer(Player player) {
-        if(!existPlayer(player.getUniqueId())) {
-            if(kitPvP.getKitPvP() == null) reportNull();
-            PlayerManager manager = kitPvP.getKitPvP().getPlayerManager();
-            try {
-                manager = manager.getClass().newInstance();
-                manager.setPlugin(kitPvP)
-                        .setPlayer(player)
-                        .finish();
-                kitPvP.getLogs().debug(manager.getPlayer().getName() + "!");
-                players.put(player.getUniqueId(),manager);
-            } catch (Throwable throwable){
-                throwable.printStackTrace();
-            }
-        }
+    public void addPlayer(final Player player) {
+        if(kitPvP.getKitPvP() == null) reportNull();
+        final PlayerManagerBuilder pm = new PlayerManagerBuilder(kitPvP,player);
+        pm.finish();
+        players.put(player.getUniqueId(),pm);
+        kitPvP.getLogs().debug("Stats of " + player.getName() + " loaded (" + pm.getStatsString() + ")");
     }
 
     public void reportNull() {
@@ -63,12 +53,6 @@ public class PlayerDataBuilder implements PlayerData {
 
     @Override
     public PlayerManager getUser(final UUID uuid) {
-        if(players.get(uuid) == null) {
-            Player player = Bukkit.getPlayer(uuid);
-            if(player != null) {
-                addPlayer(player);
-            }
-        }
         return players.get(uuid);
     }
 

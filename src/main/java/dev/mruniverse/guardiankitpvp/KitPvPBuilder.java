@@ -11,7 +11,6 @@ import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.ScoreInfo;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.FileStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerData;
-import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import dev.mruniverse.guardiankitpvp.storage.FileStorageBuilder;
 
 public class KitPvPBuilder implements KitPvP {
@@ -27,8 +26,6 @@ public class KitPvPBuilder implements KitPvP {
     private KitLoader kitLoader;
 
     private DataStorage dataStorage;
-
-    private PlayerManager playerManager;
 
     private PlayerData playerData;
 
@@ -102,11 +99,6 @@ public class KitPvPBuilder implements KitPvP {
         return this;
     }
 
-    @Override
-    public KitPvP setDefaultPlayerManager(PlayerManager playerManager) {
-        this.playerManager = playerManager;
-        return this;
-    }
 
     @Override
     public ItemsInfo getItemsInfo() {
@@ -134,10 +126,6 @@ public class KitPvPBuilder implements KitPvP {
         return dataStorage;
     }
 
-    @Override
-    public PlayerManager getPlayerManager() {
-        return playerManager;
-    }
 
     @Override
     public RankManager getRankManager() { return rankManager; }
@@ -168,8 +156,7 @@ public class KitPvPBuilder implements KitPvP {
         if(fileStorage == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 2");
         if(kitLoader == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 3");
         if(dataStorage == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 4");
-        if(playerManager == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 5");
-        if(rankManager == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 6");
+        if(rankManager == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 5");
         plugin.getLogs().info("The KitPvP internal management was loaded correctly using default settings.");
     }
 
@@ -208,9 +195,6 @@ public class KitPvPBuilder implements KitPvP {
                 case FILE_STORAGE:
                     if(fileStorage != null) fileStorage = fileStorage.getClass().newInstance();
                     break;
-                case PLAYER_MANAGER:
-                    if(playerManager != null) playerManager = playerManager.getClass().newInstance();
-                    break;
                 case RANK_MANAGER:
                     if(rankManager != null) rankManager = rankManager.getClass().newInstance();
                     break;
@@ -219,7 +203,6 @@ public class KitPvPBuilder implements KitPvP {
                     kitLoader = kitLoader.getClass().newInstance();
                     dataStorage = dataStorage.getClass().newInstance();
                     fileStorage = fileStorage.getClass().newInstance();
-                    playerManager = playerManager.getClass().newInstance();
                     rankManager = rankManager.getClass().newInstance();
                     break;
             }
@@ -230,7 +213,7 @@ public class KitPvPBuilder implements KitPvP {
 
     @Override
     public boolean isUsingMySQL() {
-        if(alwaysEnable) return alwaysEnable;
+        if(alwaysEnable) return true;
         if(!alwaysFalse) return fileStorage.getControl(GuardianFiles.SETTINGS).getBoolean("settings.game.mysql.toggle");
         return false;
     }

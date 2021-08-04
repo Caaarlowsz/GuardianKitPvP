@@ -68,8 +68,33 @@ public class GuardianUtils {
     public String replaceVariables(String text, Player player) {
         PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
         if(manager == null) {
-            plugin.getKitPvP().getPlayers().addPlayer(player);
-            manager = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
+            text = text.replace("%player_name%",player.getName())
+                    .replace("%player%",player.getName())
+                    .replace("%ks%","0")
+                    .replace("%player_display_name%",player.getDisplayName())
+                    .replace("[new line]","\n")
+                    .replace("%coins%", "0")
+                    .replace("%wins%","0")
+                    .replace("%kits%", "0")
+                    .replace("%kills%", "0")
+                    .replace("%deaths%", "0")
+                    .replace("%selected_kit%","Loading")
+                    .replace("%map%","Normal")
+                    .replace("%map_rotation%",plugin.getRotingRunnable().getTimer())
+                    .replace("%exp%","250")
+                    .replace("%online%",plugin.getServer().getOnlinePlayers().size() + "")
+                    .replace("%timeFormat%",getDateFormat())
+                    .replace("%rank_prefix%","")
+                    .replace("%player_rank%","Loading")
+                    .replace("%rank_prefix2%",ChatColor.translateAlternateColorCodes('&',"&7Loading"))
+                    .replace("%rank_required%","0")
+                    .replace("%next_rank_prefix%","")
+                    .replace("%player_next_rank%","MAX")
+                    .replace("%next_rank_need%","0")
+                    .replace("%next_rank_exp%","0")
+                    .replace("%next_rank_required%","0");
+            if(plugin.hasPAPI()) { text = PlaceholderAPI.setPlaceholders(player,text); }
+            return text;
         }
         text = text.replace("%player_name%",player.getName())
                 .replace("%player%",player.getName())

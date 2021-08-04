@@ -14,17 +14,6 @@ public class MySQLBuilder implements MySQL {
     private GuardianKitPvP plugin;
 
 
-    //settings:
-    //    //  mysql:
-    //    //    toggle: false
-    //    //    jdbc-url: 'jdbc:mysql://[host]:[port]/[db]?autoReconnect=true'
-    //    //    table-prefix: 'guardiankitpvp_'
-    //    //    host: 'localhost'
-    //    //    port: '3306'
-    //    //    database: 'database'
-    //    //    username: 'root'
-    //    //    password: 'root'
-
     private String MYSQL_PORT_RECEIVER = "player_name";
     private String TABLE_PREFIX = "";
 
@@ -167,8 +156,8 @@ public class MySQLBuilder implements MySQL {
     @Override
     public void saveStats(Player paramPlayer) {
         String kits = "NO_KITS";
-        PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(paramPlayer);
-        if(plugin.getKitPvP().getPlayers().getUser(paramPlayer) == null) plugin.getLogs().error("Null players");
+        PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(paramPlayer.getUniqueId());
+        if(plugin.getKitPvP().getPlayers().getUser(paramPlayer.getUniqueId()) == null) plugin.getLogs().error("Null players");
         if(!manager.getKitsString().equalsIgnoreCase("")) kits = manager.getKitsString();
         String call = isUUID ? paramPlayer.getUniqueId().toString() : paramPlayer.getName();
         String stats = manager.getStatsString();
