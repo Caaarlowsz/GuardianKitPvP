@@ -189,6 +189,9 @@ public class MySQLBuilder implements MySQL {
     }
 
     public void reconnect() throws SQLException {
+        try {
+            if(con != null) con.close();
+        }catch (Throwable ignored) { }
         FileConfiguration settings = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS);
         String url= settings.getString("settings.mysql.jdbc-url");
         boolean porterReceiver = settings.getBoolean("settings.game.user-uuid-on-data",false);
