@@ -4,6 +4,7 @@ import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.MySQL;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -16,6 +17,11 @@ public class MySQLBuilder implements MySQL {
 
     private String MYSQL_PORT_RECEIVER = "player_name";
     private String TABLE_PREFIX = "";
+
+    private String host;
+    private String db;
+    private String user;
+    private String password;
 
     private boolean isUUID = false;
 
@@ -33,6 +39,10 @@ public class MySQLBuilder implements MySQL {
     @Override
     public void connect(String host, String db, String user, String password) {
         try {
+            this.host = host;
+            this.db = db;
+            this.user = user;
+            this.password = password;
             FileConfiguration settings = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS);
             String url= settings.getString("settings.mysql.jdbc-url");
             boolean porterReceiver = settings.getBoolean("settings.game.user-uuid-on-data",false);
@@ -138,19 +148,74 @@ public class MySQLBuilder implements MySQL {
                     } else {
                         manager.resetPlayer();
                     }
-                }catch(Throwable throwable) {
-                    throwable.printStackTrace();
+                }catch(Throwable ignored) {
                     if(plugin.getKitPvP() != null) {
                         if(plugin.getKitPvP().getPlayers() != null) {
                             if(plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()) != null) {
                                 plugin.getLogs().error("Can't found statics for user " + player.getName() + "! (staticIssue:Code:320)");
-                                plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()).resetPlayer();
+                                plugin.getLogs().error("Trying to reconnect to database to load statics again.");
+                                try {
+                                    reconnect();
+                                    reloadStats(player);
+                                }catch (Throwable shutdownCause) {
+                                    plugin.getLogs().error("Can't reconnect to database or can't found user information, turning off the server!");
+                                    plugin.getLogs().error(shutdownCause);
+                                    Bukkit.getServer().shutdown();
+                                }
                             }
                         }
                     }
                 }
             }
         }).runTaskLaterAsynchronously(plugin, 2L);
+    }
+
+    public void reloadStats(final Player player) throws SQLException {
+        plugin.getLogs().debug("loading stats of " + player.getName());
+        final String playerName =  isUUID ? player.getUniqueId().toString() : player.getName();
+        PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
+
+        Statement statement = con.createStatement();
+        if (statement.executeQuery("SELECT * FROM " + TABLE_PREFIX + " WHERE " + MYSQL_PORT_RECEIVER + " = '" + playerName + "';").next()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_PREFIX + " WHERE " + MYSQL_PORT_RECEIVER + " = '" + playerName + "';");
+            resultSet.next();
+            manager.setKits(resultSet.getString("Kits"));
+            manager.setStatsFromString(resultSet.getString("Statistics"));
+            statement.close();
+            resultSet.close();
+        } else {
+            manager.resetPlayer();
+        }
+    }
+
+    public void reconnect() throws SQLException {
+        FileConfiguration settings = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS);
+        String url= settings.getString("settings.mysql.jdbc-url");
+        boolean porterReceiver = settings.getBoolean("settings.game.user-uuid-on-data",false);
+        if(porterReceiver) {
+            MYSQL_PORT_RECEIVER = "player_uuid";
+            isUUID = true;
+        }
+
+        this.TABLE_PREFIX = settings.getString("settings.mysql.table-prefix","guardiankitpvp_");
+
+        int port = settings.getInt("settings.mysql.port",3306);
+        if(url == null) url = "jdbc:mysql://" + host + ":" + settings.getInt("settings.mysql.port") + "/" + db + "?autoReconnect=true";
+        url = url.replace("[host]",host)
+                .replace("[port]",port + "")
+                .replace("[db]",db);
+        plugin.getLogs().info("");
+        plugin.getLogs().info("--------------------");
+        plugin.getLogs().info("Trying to connect to database with jdbc:");
+        plugin.getLogs().info(url);
+        plugin.getLogs().info("User:");
+        plugin.getLogs().info(user);
+        plugin.getLogs().info("Password length:");
+        plugin.getLogs().info(password.length() + "");
+        plugin.getLogs().info("--------------------");
+        plugin.getLogs().info("");
+        con = DriverManager.getConnection(url,user,password);
+        plugin.getLogs().info("Connected with MySQL!");
     }
 
     @SuppressWarnings("UnnecessaryToStringCall")
@@ -170,6 +235,28 @@ public class MySQLBuilder implements MySQL {
                 statement.executeUpdate("INSERT INTO " + TABLE_PREFIX + " (player_uuid, player_name, Kits, Statistics) VALUES ('" + paramPlayer.getUniqueId().toString() + "', '" + paramPlayer.getName() + "', '" + kits + "', '" + stats + "')");
             }
             statement.close();
+        } catch (Throwable throwable) {
+            plugin.getLogs().error("Can't save stats for " + paramPlayer.getName());
+            plugin.getLogs().error(throwable);
+        }
+    }
+
+    @SuppressWarnings("UnnecessaryToStringCall")
+    @Override
+    public void saveStats(Player paramPlayer,PlayerManager manager) {
+        String kits = "NO_KITS";
+        if(!manager.getKitsString().equalsIgnoreCase("")) kits = manager.getKitsString();
+        String call = isUUID ? paramPlayer.getUniqueId().toString() : paramPlayer.getName();
+        String stats = manager.getStatsString();
+        try {
+            Statement statement = con.createStatement();
+            if (statement.executeQuery("SELECT * FROM " + TABLE_PREFIX + " WHERE " + MYSQL_PORT_RECEIVER + " = '" + call + "';").next()) {
+                con.prepareStatement("UPDATE " + TABLE_PREFIX + " SET player_uuid='" + paramPlayer.getUniqueId().toString() + "', player_name='" + paramPlayer.getName() + "', Kits='" + kits + "', Statistics='" + stats + "' WHERE " + MYSQL_PORT_RECEIVER + "='" + call + "';").executeUpdate();
+            } else {
+                statement.executeUpdate("INSERT INTO " + TABLE_PREFIX + " (player_uuid, player_name, Kits, Statistics) VALUES ('" + paramPlayer.getUniqueId().toString() + "', '" + paramPlayer.getName() + "', '" + kits + "', '" + stats + "')");
+            }
+            statement.close();
+            plugin.getLogs().debug("Stats of " + paramPlayer.getName() + " has been updated!");
         } catch (Throwable throwable) {
             plugin.getLogs().error("Can't save stats for " + paramPlayer.getName());
             plugin.getLogs().error(throwable);

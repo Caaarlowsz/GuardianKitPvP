@@ -1,6 +1,5 @@
 package dev.mruniverse.guardiankitpvp.interfaces.storage;
 
-import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianBoard;
 import dev.mruniverse.guardiankitpvp.enums.KitType;
 import dev.mruniverse.guardiankitpvp.enums.PlayerStatus;
@@ -11,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public interface PlayerManager {
 
     boolean hasSelectedKit();
@@ -94,11 +94,23 @@ public interface PlayerManager {
     @SuppressWarnings("unused")
     void addKills();
 
+    void addKills(int kills);
+
     int getDeaths();
 
     int getKs();
 
     int getXP();
+
+    int getBowHits();
+
+    void addXP(int xp);
+
+    void addBH(int bowHit);
+
+    void removeBH(int bowHit);
+
+    void removeXP(int xp);
 
     boolean toggleChat();
 
@@ -106,7 +118,13 @@ public interface PlayerManager {
 
     void setDeaths(int deaths);
 
+    void setXP(int xp);
+
+    void setBowHits(int bowHits);
+
     String getID();
 
     void addDeaths();
+
+    void addDeaths(int deaths);
 }

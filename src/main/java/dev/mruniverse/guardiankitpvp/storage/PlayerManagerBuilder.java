@@ -118,6 +118,31 @@ public class PlayerManagerBuilder implements PlayerManager {
     }
 
     @Override
+    public int getBowHits() {
+        return 0;
+    }
+
+    @Override
+    public void addXP(int xp) {
+        setXP(getXP() + xp);
+    }
+
+    @Override
+    public void addBH(int bowHit) {
+        setBowHits(getBowHits() + bowHit);
+    }
+
+    @Override
+    public void removeBH(int bowHit) {
+        setBowHits(getBowHits() - bowHit);
+    }
+
+    @Override
+    public void removeXP(int xp) {
+        setXP(getXP() - xp);
+    }
+
+    @Override
     public void updateRank() {
         RankManager rankManager = plugin.getKitPvP().getRankManager();
         for (byte b = 0; b < rankManager.getRanks().size(); b++) {
@@ -164,8 +189,9 @@ public class PlayerManagerBuilder implements PlayerManager {
         DataStorage dataStorage = plugin.getKitPvP().getDataStorage();
         if (plugin.getKitPvP().isUsingMySQL()) {
             plugin.getKitPvP().getDataStorage().getMySQL().loadStats(player);
+        } else {
+            plugin.getKitPvP().getDataStorage().getSQL().loadStats(player);
         }
-        plugin.getKitPvP().getDataStorage().getSQL().loadStats(player);
     }
 
     @Override
@@ -384,6 +410,11 @@ public class PlayerManagerBuilder implements PlayerManager {
         setKills(getKills() + 1);
     }
 
+    @Override
+    public void addKills(int kills) {
+        setKills(getKills() + kills);
+    }
+
     public int getDeaths() {
         return deaths;
     }
@@ -392,12 +423,27 @@ public class PlayerManagerBuilder implements PlayerManager {
         this.deaths = deaths;
     }
 
+    @Override
+    public void setXP(int xp) {
+        dataExp = xp;
+    }
+
+    @Override
+    public void setBowHits(int bowHits) {
+        projectiles_hit = bowHits;
+    }
+
     public String getID() {
         return player.getUniqueId().toString().replace("-","");
     }
 
     public void addDeaths() {
         setDeaths(getDeaths() + 1);
+    }
+
+    @Override
+    public void addDeaths(int deaths) {
+        this.deaths = deaths;
     }
 
 }

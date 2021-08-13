@@ -21,5 +21,4 @@ public interface PlayerData {
 
     PlayerManager getUser(final UUID uuid);
 
-    PlayerManager getUser(final Player player);
 }

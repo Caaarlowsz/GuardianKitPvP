@@ -97,4 +97,13 @@ public class SQLBuilder implements SQL {
         plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.DATA).set(str + ".Kits", manager.getKits());
         plugin.getKitPvP().getFileStorage().save(SaveMode.DATA);
     }
+
+    @Override
+    public void saveStats(Player paramPlayer,PlayerManager manager) {
+        String str = "Players." + (isUUID ? paramPlayer.getUniqueId().toString() : paramPlayer.getName());
+        plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.DATA).set(str + ".Name", paramPlayer.getName());
+        plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.DATA).set(str + ".Statistics", manager.getStatsString());
+        plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.DATA).set(str + ".Kits", manager.getKits());
+        plugin.getKitPvP().getFileStorage().save(SaveMode.DATA);
+    }
 }

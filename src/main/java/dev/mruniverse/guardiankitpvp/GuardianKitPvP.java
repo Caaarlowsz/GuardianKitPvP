@@ -2,6 +2,7 @@ package dev.mruniverse.guardiankitpvp;
 
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.interfaces.KitPvP;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import dev.mruniverse.guardiankitpvp.listeners.ListenerControllerBuilder;
 import dev.mruniverse.guardiankitpvp.rank.RankManagerBuilder;
 import dev.mruniverse.guardiankitpvp.runnables.PlayerRunnableBuilder;
@@ -140,6 +141,15 @@ public class GuardianKitPvP extends JavaPlugin {
 
     }
 
+    @Override
+    public void onDisable(){
+        for (Player player : getServer().getOnlinePlayers()) {
+            PlayerManager manager = getKitPvP().getPlayers().getUser(player.getUniqueId());
+            kitPvP.getDataStorage().saveStats(player, true, manager);
+        }
+    }
+
+
     public String getColorComplete() {
         return colorComplete;
     }
@@ -181,12 +191,6 @@ public class GuardianKitPvP extends JavaPlugin {
         PluginCommand cmd = getCommand(command);
         if(cmd == null) return;
         cmd.setExecutor(new MainCommand(this,command));
-    }
-
-    @Override
-    public void onDisable(){
-        for (Player player : getServer().getOnlinePlayers())
-            kitPvP.getDataStorage().saveStats(player,true);
     }
 
 }

@@ -7,11 +7,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CoinsCommand {
+public class ExpCommand {
     private final GuardianKitPvP main;
     private final String command;
 
-    public CoinsCommand(GuardianKitPvP kitPvP, String command) {
+    public ExpCommand(GuardianKitPvP kitPvP, String command) {
         this.command = command;
         main = kitPvP;
     }
@@ -26,8 +26,8 @@ public class CoinsCommand {
                     PlayerManager manager = main.getKitPvP().getPlayers().getUser(player.getUniqueId());
                     if(manager != null) {
                         int number = Integer.parseInt(arguments[2]);
-                        manager.setCoins(number);
-                        utils.sendMessage(sender,"&aCoins of &b" + playerName + "&a now is &b" + number);
+                        manager.setXP(number);
+                        utils.sendMessage(sender,"&aExp of &b" + playerName + "&a now is &b" + number);
                         return;
                     }
                     playerIssue(sender,playerName);
@@ -47,8 +47,8 @@ public class CoinsCommand {
                     PlayerManager manager = main.getKitPvP().getPlayers().getUser(player.getUniqueId());
                     if(manager != null) {
                         int number = Integer.parseInt(arguments[2]);
-                        manager.addCoins(number);
-                        utils.sendMessage(sender,"&aAdded &b" + number + "&a coins to &b" + playerName + "&a.");
+                        manager.addXP(number);
+                        utils.sendMessage(sender,"&aAdded &b" + number + "&a Exp to &b" + playerName + "&a.");
                         return;
                     }
                     playerIssue(sender,playerName);
@@ -68,8 +68,8 @@ public class CoinsCommand {
                     PlayerManager manager = main.getKitPvP().getPlayers().getUser(player.getUniqueId());
                     if(manager != null) {
                         int number = Integer.parseInt(arguments[2]);
-                        manager.removeCoins(number);
-                        utils.sendMessage(sender,"&aRemoved &b" + number + "&a coins to &b" + playerName + "&a.");
+                        manager.removeXP(number);
+                        utils.sendMessage(sender,"&aRemoved &b" + number + "&a Exp to &b" + playerName + "&a.");
                         return;
                     }
                     playerIssue(sender,playerName);
@@ -87,10 +87,10 @@ public class CoinsCommand {
         String cmdPrefix = "&e/" + command;
         sender.sendMessage(" ");
         utils.sendMessage(sender,"&b------------ &aGuardian KP &b------------");
-        utils.sendMessage(sender,"&6Admin - Coins Commands:");
-        utils.sendMessage(sender,cmdPrefix + " admin coins set (player) (coins) &e- &fSet coins of a player");
-        utils.sendMessage(sender,cmdPrefix + " admin coins add (player) (coins) &e- &fAdd coins to a player");
-        utils.sendMessage(sender,cmdPrefix + " admin coins remove (player) (coins) &e- &fRemove coins from a player");
+        utils.sendMessage(sender,"&6Admin - Exp Commands:");
+        utils.sendMessage(sender,cmdPrefix + " admin exp set (player) (exp) &e- &fSet exp of a player");
+        utils.sendMessage(sender,cmdPrefix + " admin exp add (player) (exp) &e- &fAdd exp to a player");
+        utils.sendMessage(sender,cmdPrefix + " admin exp remove (player) (exp) &e- &fRemove exp from a player");
         utils.sendMessage(sender,"&b------------ &aGuardian KP &b------------");
     }
     private void argumentsIssue(CommandSender sender) {
@@ -101,3 +101,4 @@ public class CoinsCommand {
     }
 
 }
+

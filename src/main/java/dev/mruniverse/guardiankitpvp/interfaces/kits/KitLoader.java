@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 
 public interface KitLoader {
-    void setPlugin(GuardianKitPvP guardianKitPvP);
 
     void unload();
 

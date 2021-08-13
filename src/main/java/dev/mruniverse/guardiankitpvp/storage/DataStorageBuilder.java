@@ -45,6 +45,25 @@ public class DataStorageBuilder implements DataStorage {
     }
 
     @Override
+    public void saveStats(final Player p, boolean sync, PlayerManager manager) {
+        if (!sync) {
+            (new BukkitRunnable() {
+                public void run() {
+                    if (plugin.getKitPvP().isUsingMySQL()) {
+                        getMySQL().saveStats(p,manager);
+                    } else {
+                        getSQL().saveStats(p,manager);
+                    }
+                }
+            }).runTaskAsynchronously(plugin);
+        } else if (this.plugin.getKitPvP().isUsingMySQL()) {
+            getMySQL().saveStats(p,manager);
+        } else {
+            getSQL().saveStats(p,manager);
+        }
+    }
+
+    @Override
     public DataStorage setTable(String table) {
         this.table = table;
         return this;

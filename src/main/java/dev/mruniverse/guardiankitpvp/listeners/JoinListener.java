@@ -74,13 +74,13 @@ public class JoinListener implements Listener {
 
     @EventHandler
     public void extras(PlayerJoinEvent event) {
-        plugin.getKitPvP().getPlayers().addPlayer(event.getPlayer());
         Player player = event.getPlayer();
         event.setJoinMessage(null);
         player.setHealth(20.0D);
         player.setFoodLevel(20);
         player.setLevel(0);
         player.setExp(0.0F);
+        if(!plugin.getKitPvP().getPlayers().existPlayer(player.getUniqueId())) plugin.getKitPvP().getPlayers().addPlayer(player);
     }
 
 }

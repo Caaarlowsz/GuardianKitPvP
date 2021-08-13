@@ -12,4 +12,6 @@ public interface SQL {
 
     void saveStats(Player paramPlayer);
 
+    void saveStats(Player paramPlayer,PlayerManager manager);
+
 }

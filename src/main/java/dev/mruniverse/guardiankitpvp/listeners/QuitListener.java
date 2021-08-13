@@ -1,7 +1,9 @@
 package dev.mruniverse.guardiankitpvp.listeners;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import dev.mruniverse.guardianlib.core.GuardianLIB;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -16,7 +18,9 @@ public class QuitListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
-        plugin.getKitPvP().getDataStorage().saveStats(event.getPlayer(),false);
+        Player player = event.getPlayer();
+        PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
+        plugin.getKitPvP().getDataStorage().saveStats(event.getPlayer(),false,manager);
 
         plugin.getKitPvP().getBoardController().removeScore(event.getPlayer());
         plugin.getKitPvP().getPlayers().removePlayer(event.getPlayer().getUniqueId());

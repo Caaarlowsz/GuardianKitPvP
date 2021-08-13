@@ -17,6 +17,8 @@ public interface DataStorage {
 
     void saveStats(final Player p, boolean sync);
 
+    void saveStats(final Player p, boolean sync, PlayerManager manager);
+
     void createMultiTable(String tableName, List<String> intLists, List<String> sLists);
 
     void setInt(String tableName, String column, String where, String what, int integer);

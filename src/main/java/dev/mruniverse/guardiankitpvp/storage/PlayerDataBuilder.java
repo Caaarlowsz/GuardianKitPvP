@@ -56,11 +56,4 @@ public class PlayerDataBuilder implements PlayerData {
         return players.get(uuid);
     }
 
-    @Override
-    public PlayerManager getUser(final Player player) {
-        if(players.get(player.getUniqueId()) == null) {
-            addPlayer(player);
-        }
-        return players.get(player.getUniqueId());
-    }
 }
