@@ -10,6 +10,7 @@ import dev.mruniverse.guardiankitpvp.interfaces.rank.Rank;
 import dev.mruniverse.guardiankitpvp.interfaces.rank.RankManager;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
+import dev.mruniverse.guardiankitpvp.kits.KitMenuBuilder;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,6 +23,8 @@ import java.util.List;
 public class PlayerManagerBuilder implements PlayerManager {
 
     private final HashMap<String,Long> abilityCountdown = new HashMap<>();
+
+    private final HashMap<KitType,KitMenu> menus = new HashMap<>();
 
     private BukkitRunnable abilityCountdownPB = null;
 
@@ -81,6 +84,9 @@ public class PlayerManagerBuilder implements PlayerManager {
     public PlayerManagerBuilder(GuardianKitPvP plugin,Player player) {
         this.plugin = plugin;
         this.player = player;
+        for(KitType type : KitType.values()) {
+            menus.put(type,new KitMenuBuilder(plugin,type,player));
+        }
     }
 
     @Override
@@ -297,7 +303,7 @@ public class PlayerManagerBuilder implements PlayerManager {
 
     @Override
     public KitMenu getKitMenu(KitType kitType) {
-        return null;
+        return menus.get(kitType);
     }
 
     @Override

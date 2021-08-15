@@ -75,6 +75,8 @@ public class GuardianKitPvP extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
+        utils = new GuardianUtils(instance);
+
         setLogs(new ExternalLogger(this,"GuardianKitPvP","dev.mruniverse.guardiankitpvp."));
 
         BukkitRunnable runnable = new BukkitRunnable() {
@@ -115,8 +117,6 @@ public class GuardianKitPvP extends JavaPlugin {
                 titleRunnableBuilder = new TitleRunnableBuilder(instance);
 
                 rotingRunnable = new RotingRunnable(instance);
-
-                utils = new GuardianUtils(instance);
 
                 loadCommand("gkp");
 
