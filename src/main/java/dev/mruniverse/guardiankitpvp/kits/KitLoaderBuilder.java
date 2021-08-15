@@ -6,6 +6,7 @@ import dev.mruniverse.guardiankitpvp.enums.KitType;
 import dev.mruniverse.guardiankitpvp.enums.PathType;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitInfo;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitLoader;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -27,8 +28,6 @@ public class KitLoaderBuilder implements KitLoader {
 
     public KitLoaderBuilder(GuardianKitPvP plugin) {
         this.plugin = plugin;
-
-        updateKits();
     }
 
     @Override
@@ -50,7 +49,47 @@ public class KitLoaderBuilder implements KitLoader {
 
     @Override
     public void getToSelect(KitType kitType, Player player, String kitName) {
-
+        PlayerManager data = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
+        KitInfo info = getKits(kitType).get(kitName);
+        if(info == null) return;
+        String id = info.getID();
+        if(data.getKits().contains(id)) {
+            data.setSelectedKit(id);
+            String select = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.MESSAGES).getString("messages.kits.select","&aNow you selected kit &b%kit_name%");
+            select = select.replace("%name%",info.getName())
+                    .replace("%price%",info.getPrice() + "")
+                    .replace("%kit_price%",info.getPrice() + "")
+                    .replace("%kit_name%",info.getName());
+            plugin.getUtils().getUtils().sendMessage(player,select);
+            if(player.getInventory() == data.getKitMenu(kitType).getInventory()) player.closeInventory();
+            return;
+        }
+        if(data.getCoins() >= info.getPrice()) {
+            data.removeCoins(info.getPrice());
+            data.addKit(id);
+            data.setSelectedKit(id);
+            String select = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.MESSAGES).getString("messages.kits.select","&aNow you selected kit &b%kit_name%");
+            select = select.replace("%name%",info.getName())
+                    .replace("%price%",info.getPrice() + "")
+                    .replace("%kit_price%",info.getPrice() + "")
+                    .replace("%kit_name%",info.getName());
+            String buy = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.MESSAGES).getString("messages.kits.purchase","&aNow you have the kit &b%kit_name% &a(&3-%price%&a)");
+            buy = buy.replace("%name%",info.getName())
+                    .replace("%price%",info.getPrice() + "")
+                    .replace("%kit_price%",info.getPrice() + "")
+                    .replace("%kit_name%",info.getName());
+            plugin.getUtils().getUtils().sendMessage(player,buy);
+            plugin.getUtils().getUtils().sendMessage(player,select);
+            if(player.getInventory() == data.getKitMenu(kitType).getInventory()) player.closeInventory();
+            return;
+        }
+        String enought = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.MESSAGES).getString("messages.kits.enought","&eYou need &6%need% &eto buy this.");
+        enought = enought.replace("%name%",info.getName())
+                .replace("%need%",info.getPrice() - data.getCoins() + "")
+                .replace("%price%",info.getPrice() + "")
+                .replace("%kit_price%",info.getPrice() + "")
+                .replace("%kit_name%",info.getName());
+        plugin.getUtils().getUtils().sendMessage(player,enought);
     }
 
     @Override

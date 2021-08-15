@@ -45,6 +45,10 @@ public interface PlayerManager {
 
     void setKs(int killStreak);
 
+    void addKit(String id);
+
+    void removeKit(String id);
+
     void addWins();
 
     void addCoins(int coins);

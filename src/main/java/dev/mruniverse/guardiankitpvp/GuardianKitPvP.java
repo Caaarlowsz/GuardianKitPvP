@@ -5,6 +5,7 @@ import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.interfaces.KitPvP;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import dev.mruniverse.guardiankitpvp.kits.ItemAbilitiesBuilder;
+import dev.mruniverse.guardiankitpvp.kits.KitLoaderBuilder;
 import dev.mruniverse.guardiankitpvp.listeners.ListenerControllerBuilder;
 import dev.mruniverse.guardiankitpvp.rank.RankManagerBuilder;
 import dev.mruniverse.guardiankitpvp.runnables.PlayerRunnableBuilder;
@@ -87,6 +88,7 @@ public class GuardianKitPvP extends JavaPlugin {
                         .setBoardController(new BoardControllerBuilder(instance))
                         .setScoreInfo(new ScoreInfoBuilder(instance))
                         .setRankManager(new RankManagerBuilder(instance))
+                        .setKitLoader(new KitLoaderBuilder(instance))
                 );
 
 
@@ -100,6 +102,8 @@ public class GuardianKitPvP extends JavaPlugin {
 
                 getKitPvP().getItemAbilities().registerAbility(new Ghost())
                         .finishRegister();
+
+                getKitPvP().getKitLoader().updateKits();
 
                 getKitPvP().create();
 

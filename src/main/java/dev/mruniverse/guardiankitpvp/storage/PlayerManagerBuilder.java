@@ -351,6 +351,25 @@ public class PlayerManagerBuilder implements PlayerManager {
     }
 
     @Override
+    public void addKit(String id) {
+        if(!kits.equalsIgnoreCase("")) {
+            kits = kits + "," + id;
+            return;
+        }
+        kits = id;
+
+    }
+
+    @Override
+    public void removeKit(String id) {
+        kits = kits.replace("," + id,"").replace(id + ",","");
+        if(kits.equalsIgnoreCase(id)) {
+            kits = "";
+        }
+
+    }
+
+    @Override
     public void addWins() {
         setWins(getWins() + 1);
     }

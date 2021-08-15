@@ -8,7 +8,7 @@
 # Created by: MrUniverse44
 # SpigotMC Link: N/A
 #
-messsages:
+messages:
   prefix: '&3&lG&b&lKPVP &8|&7 '
   rotate: '&b&lROTATION! &7The map has been rotated to another spawn!'
   no-permission: 'You don''t have permission to do this!'
@@ -180,4 +180,9 @@ messsages:
       otherCause-kill: '&7%victim% died'
     others:
       winCoins: '&6+%winCoins% coins (Win)!'
+  kits:
+    enought: '&eYou need &6%need% &eto buy this.'
+    purchase: '&aNow you have the kit &b%kit_name% &a(&3-%price%&a)'
+    select: '&aNow you selected kit &b%kit_name%'
+    reset: '&aNow you don''t have kits selected.'
 
