@@ -46,7 +46,7 @@ public class ItemAbilitiesBuilder implements ItemAbilities, Listener {
     @Override
     public ItemAbilities registerAbility(Ability ability) {
         abilities.add(ability);
-        plugin.getLogs().info("Ability " + ability.getName() + " registered!");
+        plugin.getLogs().info("&aABILITY-BUILDER | &fAbility " + ability.getName() + " registered!");
         abilitiesUsingName.put(ability.getName(),ability);
         return this;
     }
@@ -54,12 +54,12 @@ public class ItemAbilitiesBuilder implements ItemAbilities, Listener {
     @Override
     public void finishRegister() {
         if(abilities.size() == 1) {
-            plugin.getLogs().info("Now the plugin has" + abilities.size() + " ability loaded");
+            plugin.getLogs().info("&aABILITY-BUILDER | &fNow the plugin has" + abilities.size() + " ability loaded");
             return;
         }
-        plugin.getLogs().info("Now the plugin has" + abilities.size() + " abilities loaded");
+        plugin.getLogs().info("&aABILITY-BUILDER | &fNow the plugin has" + abilities.size() + " abilities loaded");
         delay = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.ABILITIES).getInt("abilities.delay");
-        plugin.getLogs().info("The delay for abilities is " + delay + " second(s).");
+        plugin.getLogs().info("&aABILITY-BUILDER | &fThe delay for abilities is " + delay + " second(s).");
     }
 
     @Override
@@ -74,12 +74,12 @@ public class ItemAbilitiesBuilder implements ItemAbilities, Listener {
 
     @Override
     public void update() {
-        plugin.getLogs().info("Abilities now has been refresh.");
+        plugin.getLogs().info("&aABILITY-BUILDER | &fAbilities now has been refresh.");
         delay = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.ABILITIES).getInt("abilities.delay");
-        plugin.getLogs().info("The delay for abilities is " + delay + " second(s).");
+        plugin.getLogs().info("&aABILITY-BUILDER | &fThe delay for abilities is " + delay + " second(s).");
     }
 
-    @EventHandler(priority = EventPriority.HIGH,ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onAbilityUsage(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getItem() != null) {
@@ -96,6 +96,7 @@ public class ItemAbilitiesBuilder implements ItemAbilities, Listener {
                         entry.getValue().execute(player,manager);
                     }
                 }
+
             }
         }
 

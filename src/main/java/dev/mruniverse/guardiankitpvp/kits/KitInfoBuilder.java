@@ -2,7 +2,6 @@ package dev.mruniverse.guardiankitpvp.kits;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.*;
-import dev.mruniverse.guardiankitpvp.interfaces.abilities.Ability;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitInfo;
 import dev.mruniverse.guardianlib.core.utils.Utils;
 import dev.mruniverse.guardianlib.core.utils.xseries.XMaterial;
@@ -92,15 +91,16 @@ public class KitInfoBuilder implements KitInfo {
                         if (items.get(path + item + ".abilities") != null) {
                             List<String> abilities = items.getStringList(path + item + ".abilities");
                             plugin.getKitPvP().getItemAbilities().add(itemStack,abilities);
+                            plugin.getLogs().info("&bKIT-BUILDER | &fItem-id [" + item + "] was registered with Abilities "+ abilities);
                         }
                         this.items.put(itemStack, slot);
                     }
                 } else {
-                    plugin.getLogs().error("Item: " + material + " doesn't exists.");
+                    plugin.getLogs().error("&bKIT-BUILDER | &fItem: " + material + " doesn't exists.");
                 }
             }
         }catch (Throwable throwable) {
-            plugin.getLogs().error("Can't load inventory items of kit: " + name);
+            plugin.getLogs().error("&bKIT-BUILDER | &fCan't load inventory items of kit: " + name);
             plugin.getLogs().error(throwable);
         }
     }

@@ -105,9 +105,9 @@ public class KitLoaderBuilder implements KitLoader {
         loadKits(KitType.NORMAL);
         loadKits(KitType.TOURNAMENT);
 
-        plugin.getLogs().info(kits.keySet().size() + " normal kit(s) has been loaded.");
-        plugin.getLogs().info(eventKits.keySet().size() + " event kit(s) has been loaded.");
-        plugin.getLogs().info(tournamentKits.keySet().size() + " tournament kit(s) has been loaded.");
+        plugin.getLogs().info("&eKIT-LOADER | &f" + kits.keySet().size() + " normal kit(s) has been loaded.");
+        plugin.getLogs().info("&eKIT-LOADER | &f" + eventKits.keySet().size() + " event kit(s) has been loaded.");
+        plugin.getLogs().info("&eKIT-LOADER | &f" + tournamentKits.keySet().size() + " tournament kit(s) has been loaded.");
     }
 
     @Override

@@ -164,15 +164,15 @@ public class KitPvPBuilder implements KitPvP {
 
     @Override
     public void create() {
-        if(playerData == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 0");
+        if(playerData == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 0");
         playerData.setPlugin(plugin);
-        if(itemsInfo == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 1");
-        if(fileStorage == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 2");
-        if(kitLoader == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 3");
-        if(dataStorage == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 4");
-        if(rankManager == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 5");
-        if(itemAbilities == null) reportIssue("The plugin was loaded with issues, please contact developer! Error Code: 6");
-        plugin.getLogs().info("The KitPvP internal management was loaded correctly using default settings.");
+        if(itemsInfo == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 1");
+        if(fileStorage == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 2");
+        if(kitLoader == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 3");
+        if(dataStorage == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 4");
+        if(rankManager == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 5");
+        if(itemAbilities == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 6");
+        plugin.getLogs().info("&9PLUGIN-BUILDER | &fThe KitPvP internal management was loaded correctly using default settings.");
     }
 
     @Override

@@ -58,26 +58,26 @@ public class MySQLBuilder implements MySQL {
             url = url.replace("[host]",host)
                     .replace("[port]",port + "")
                     .replace("[db]",db);
-            plugin.getLogs().info("");
-            plugin.getLogs().info("--------------------");
-            plugin.getLogs().info("Trying to connect to database with jdbc:");
-            plugin.getLogs().info(url);
-            plugin.getLogs().info("User:");
-            plugin.getLogs().info(user);
-            plugin.getLogs().info("Password length:");
-            plugin.getLogs().info(password.length() + "");
-            plugin.getLogs().info("--------------------");
-            plugin.getLogs().info("");
+            plugin.getLogs().info("&dDATA-BUILDER | &f");
+            plugin.getLogs().info("&dDATA-BUILDER | &f--------------------");
+            plugin.getLogs().info("&dDATA-BUILDER | &fTrying to connect to database with jdbc:");
+            plugin.getLogs().info("&dDATA-BUILDER | &f" + url);
+            plugin.getLogs().info("&dDATA-BUILDER | &fUser:");
+            plugin.getLogs().info("&dDATA-BUILDER | &f" + user);
+            plugin.getLogs().info("&dDATA-BUILDER | &fPassword length:");
+            plugin.getLogs().info("&dDATA-BUILDER | &f" + password.length());
+            plugin.getLogs().info("&dDATA-BUILDER | &f--------------------");
+            plugin.getLogs().info("&dDATA-BUILDER | &f");
             con = DriverManager.getConnection(url,user,password);
-            plugin.getLogs().info("Connected with MySQL!");
+            plugin.getLogs().info("&dDATA-BUILDER | &fConnected with MySQL!");
         } catch (SQLException e) {
-            plugin.getLogs().error("Plugin can't connect to MySQL or cant initialize tables.");
+            plugin.getLogs().error("&dDATA-BUILDER | &fPlugin can't connect to MySQL or cant initialize tables.");
             plugin.getLogs().error(e);
-            plugin.getLogs().error("-------------------------");
-            plugin.getLogs().info(" ");
-            plugin.getLogs().info("-------------------------");
-            plugin.getLogs().info("Using SQL instead MySQL.");
-            plugin.getLogs().info("-------------------------");
+            plugin.getLogs().error("&dDATA-BUILDER | &f-------------------------");
+            plugin.getLogs().info("&dDATA-BUILDER | &f ");
+            plugin.getLogs().info("&dDATA-BUILDER | &f-------------------------");
+            plugin.getLogs().info("&dDATA-BUILDER | &fUsing SQL instead MySQL.");
+            plugin.getLogs().info("&dDATA-BUILDER | &f-------------------------");
             plugin.getKitPvP().disableMySQL();
         }
     }
@@ -97,7 +97,7 @@ public class MySQLBuilder implements MySQL {
                     String updateQuery = "UPDATE " + TABLE_PREFIX + " SET Kits='" + kits + "' WHERE " + MYSQL_PORT_RECEIVER + "='" + paramPlayer + "';";
                     con.prepareStatement(updateQuery).executeUpdate();
                 } catch (Throwable throwable) {
-                    plugin.getLogs().error("Can't add kit '" + kit + "' to player '" + paramPlayer + "'");
+                    plugin.getLogs().error("&3DATA-LIB | &fCan't add kit '" + kit + "' to player '" + paramPlayer + "'");
                     plugin.getLogs().error(throwable);
                 }
             }
@@ -119,7 +119,7 @@ public class MySQLBuilder implements MySQL {
                     String updateQuery = "UPDATE " + TABLE_PREFIX + " SET Kits='" + kits + "' WHERE " + MYSQL_PORT_RECEIVER + "='" + paramPlayer + "';";
                     con.prepareStatement(updateQuery).executeUpdate();
                 } catch (Throwable throwable) {
-                    plugin.getLogs().error("Can't remove kit '" + kit + "' from player '" + paramPlayer + "'");
+                    plugin.getLogs().error("&3DATA-LIB | &fCan't remove kit '" + kit + "' from player '" + paramPlayer + "'");
                     plugin.getLogs().error(throwable);
                 }
             }
@@ -130,7 +130,7 @@ public class MySQLBuilder implements MySQL {
 
     @Override
     public void loadStats(final Player player) {
-        plugin.getLogs().debug("loading stats of " + player.getName());
+        plugin.getLogs().debug("&3DATA-LIB | &fLoading stats of " + player.getName());
         final String playerName =  isUUID ? player.getUniqueId().toString() : player.getName();
         (new BukkitRunnable() {
             public void run() {
@@ -152,13 +152,13 @@ public class MySQLBuilder implements MySQL {
                     if(plugin.getKitPvP() != null) {
                         if(plugin.getKitPvP().getPlayers() != null) {
                             if(plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()) != null) {
-                                plugin.getLogs().error("Can't found statics for user " + player.getName() + "! (staticIssue:Code:320)");
-                                plugin.getLogs().error("Trying to reconnect to database to load statics again.");
+                                plugin.getLogs().error("&3DATA-LIB | &fCan't found statics for user " + player.getName() + "! (staticIssue:Code:320)");
+                                plugin.getLogs().error("&3DATA-LIB | &fTrying to reconnect to database to load statics again.");
                                 try {
                                     reconnect();
                                     reloadStats(player);
                                 }catch (Throwable shutdownCause) {
-                                    plugin.getLogs().error("Can't reconnect to database or can't found user information, turning off the server!");
+                                    plugin.getLogs().error("&3DATA-LIB | &fCan't reconnect to database or can't found user information, turning off the server!");
                                     plugin.getLogs().error(shutdownCause);
                                     Bukkit.getServer().shutdown();
                                 }
@@ -207,18 +207,18 @@ public class MySQLBuilder implements MySQL {
         url = url.replace("[host]",host)
                 .replace("[port]",port + "")
                 .replace("[db]",db);
-        plugin.getLogs().info("");
-        plugin.getLogs().info("--------------------");
-        plugin.getLogs().info("Trying to connect to database with jdbc:");
-        plugin.getLogs().info(url);
-        plugin.getLogs().info("User:");
-        plugin.getLogs().info(user);
-        plugin.getLogs().info("Password length:");
-        plugin.getLogs().info(password.length() + "");
-        plugin.getLogs().info("--------------------");
-        plugin.getLogs().info("");
+        plugin.getLogs().info("&dDATA-BUILDER | &f");
+        plugin.getLogs().info("&dDATA-BUILDER | &f--------------------");
+        plugin.getLogs().info("&dDATA-BUILDER | &fTrying to connect to database with jdbc:");
+        plugin.getLogs().info("&dDATA-BUILDER | &f" + url);
+        plugin.getLogs().info("&dDATA-BUILDER | &fUser:");
+        plugin.getLogs().info("&dDATA-BUILDER | &f" + user);
+        plugin.getLogs().info("&dDATA-BUILDER | &fPassword length:");
+        plugin.getLogs().info("&dDATA-BUILDER | &f" + password.length());
+        plugin.getLogs().info("&dDATA-BUILDER | &f--------------------");
+        plugin.getLogs().info("&dDATA-BUILDER | &f");
         con = DriverManager.getConnection(url,user,password);
-        plugin.getLogs().info("Connected with MySQL!");
+        plugin.getLogs().info("&dDATA-BUILDER | &fConnected with MySQL!");
     }
 
     @SuppressWarnings("UnnecessaryToStringCall")
@@ -239,7 +239,7 @@ public class MySQLBuilder implements MySQL {
             }
             statement.close();
         } catch (Throwable throwable) {
-            plugin.getLogs().error("Can't save stats for " + paramPlayer.getName());
+            plugin.getLogs().error("&3DATA-LIB | &fCan't save stats for " + paramPlayer.getName());
             plugin.getLogs().error(throwable);
         }
     }
@@ -259,9 +259,9 @@ public class MySQLBuilder implements MySQL {
                 statement.executeUpdate("INSERT INTO " + TABLE_PREFIX + " (player_uuid, player_name, Kits, Statistics) VALUES ('" + paramPlayer.getUniqueId().toString() + "', '" + paramPlayer.getName() + "', '" + kits + "', '" + stats + "')");
             }
             statement.close();
-            plugin.getLogs().debug("Stats of " + paramPlayer.getName() + " has been updated!");
+            plugin.getLogs().debug("&3DATA-LIB | &fStats of " + paramPlayer.getName() + " has been updated!");
         } catch (Throwable throwable) {
-            plugin.getLogs().error("Can't save stats for " + paramPlayer.getName());
+            plugin.getLogs().error("&3DATA-LIB | &fCan't save stats for " + paramPlayer.getName());
             plugin.getLogs().error(throwable);
         }
     }
@@ -293,7 +293,7 @@ public class MySQLBuilder implements MySQL {
             statement.executeUpdate();
             statement.close();
         }catch (Throwable throwable) {
-            plugin.getLogs().error("Can't update query(s)!");
+            plugin.getLogs().error("&3DATA-LIB | &fCan't update query(s)!");
             plugin.getLogs().error(throwable);
         }
     }
@@ -310,7 +310,7 @@ public class MySQLBuilder implements MySQL {
             Statement stmt = con.createStatement();
             stmt.executeUpdate(qry);
         } catch (SQLException e) {
-            plugin.getLogs().error("Can't update query(s)!");
+            plugin.getLogs().error("&3DATA-LIB | &fCan't update query(s)!");
             plugin.getLogs().error(e);
         }
     }
@@ -324,7 +324,7 @@ public class MySQLBuilder implements MySQL {
             rs = statement.executeQuery();
             statement.close();
         }catch (Throwable throwable) {
-            plugin.getLogs().error("Can't execute query(s)!");
+            plugin.getLogs().error("&3DATA-LIB | &fCan't execute query(s)!");
             plugin.getLogs().error(throwable);
         }
         return rs;
@@ -338,7 +338,7 @@ public class MySQLBuilder implements MySQL {
             Statement stmt = con.createStatement();
             rs = stmt.executeQuery(qry);
         } catch (SQLException e) {
-            plugin.getLogs().error("Can't execute query(s)!");
+            plugin.getLogs().error("&3DATA-LIB | &fCan't execute query(s)!");
             plugin.getLogs().error(e);
         }
         return rs;
