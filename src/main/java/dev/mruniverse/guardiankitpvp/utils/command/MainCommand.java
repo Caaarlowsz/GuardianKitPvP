@@ -2,6 +2,7 @@ package dev.mruniverse.guardiankitpvp.utils.command;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
+import dev.mruniverse.guardiankitpvp.enums.KitType;
 import dev.mruniverse.guardiankitpvp.enums.SaveMode;
 import dev.mruniverse.guardiankitpvp.utils.command.sub.*;
 import dev.mruniverse.guardianlib.core.utils.Utils;
@@ -59,6 +60,16 @@ public class MainCommand implements CommandExecutor {
             Utils utils = plugin.getUtils().getUtils();
             if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
                 utils.sendMessage(sender,"&bCreated by &fMrUniverse44 &bwith love &d❤");
+                return true;
+            }
+            if (args[0].equalsIgnoreCase("give-kit")) {
+                if(sender instanceof Player) {
+                    Player player = (Player)sender;
+                    plugin.giveKit(KitType.NORMAL,player);
+                    utils.sendMessage(sender,"&aThe kit was been pasted in your inventory.");
+                    return true;
+                }
+                utils.sendMessage(sender,"&6Only players can use this command.");
                 return true;
             }
             if (args[0].equalsIgnoreCase("admin")) {

@@ -62,7 +62,7 @@ public class KitInfoBuilder implements KitInfo {
         try {
             items.clear();
 
-            String path = type.getPath(PathType.ITEMS);
+            String path = type.getPath(PathType.ITEMS,name);
 
             FileConfiguration items = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.KITS);
             ConfigurationSection section = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.KITS).getConfigurationSection(path);
