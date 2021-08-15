@@ -28,4 +28,19 @@ public enum KitType {
                 return "kits.events." + key + type.getID();
         }
     }
+
+    public String getName(boolean lowerCase) {
+        switch (this) {
+            default:
+            case NORMAL:
+                if(lowerCase) return "normal";
+                return "Normal";
+            case TOURNAMENT:
+                if(lowerCase) return "tournament";
+                return "Tournament";
+            case EVENTS:
+                if(lowerCase) return "events";
+                return "Events";
+        }
+    }
 }

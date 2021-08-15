@@ -1,23 +1,22 @@
 package dev.mruniverse.guardiankitpvp.listeners;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
-import dev.mruniverse.guardiankitpvp.enums.BoostersMain;
-import dev.mruniverse.guardiankitpvp.enums.GMenus;
-import dev.mruniverse.guardiankitpvp.enums.NormalItems;
-import dev.mruniverse.guardiankitpvp.enums.ShopMenu;
+import dev.mruniverse.guardiankitpvp.enums.*;
+import dev.mruniverse.guardiankitpvp.interfaces.kits.KitMenu;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import dev.mruniverse.guardianlib.core.events.GuardianInventoryClickEvent;
 import dev.mruniverse.guardianlib.core.events.GuardianMenuClickEvent;
 import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianItems;
 import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianMenu;
 import dev.mruniverse.guardianlib.core.menus.interfaces.Menus;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
 
 public class InteractListener implements Listener {
     private final GuardianKitPvP plugin;
@@ -57,28 +56,21 @@ public class InteractListener implements Listener {
     }
 
     @EventHandler
-    public void inventoryFix(InventoryClickEvent event){
-        if(event.isCancelled()) {
-            Player player = (Player)event.getWhoClicked();
-            player.updateInventory();
+    public void onKitMenuClick(InventoryClickEvent event) {
+        Player player = (Player)event.getWhoClicked();
+        PlayerManager data = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
+        if(event.getCurrentItem() == null) return;
+        for(KitType type : KitType.values()) {
+            if(event.getInventory() == data.getKitMenu(type).getInventory()) {
+                HashMap<ItemStack,String> hash = data.getKitMenu(type).getItems();
+                event.setCancelled(true);
+                ItemStack item = event.getCurrentItem();
+                if(hash.containsKey(item)) plugin.getKitPvP().getKitLoader().getToSelect(type,player,hash.get(item));
+                return;
+            }
         }
     }
 
-    @EventHandler
-    public void placeFix(BlockPlaceEvent event){
-        if(event.isCancelled()) {
-            Player player = event.getPlayer();
-            player.updateInventory();
-        }
-    }
-
-    @EventHandler
-    public void breakFix(BlockBreakEvent event){
-        if(event.isCancelled()) {
-            Player player = event.getPlayer();
-            player.updateInventory();
-        }
-    }
 
     @EventHandler
     public void onInventoryInteract(GuardianInventoryClickEvent event) {
@@ -92,8 +84,14 @@ public class InteractListener implements Listener {
                     shopMenu.pasteInventoryItems();
                     event.getPlayer().openInventory(inventory);
                 }
+                return;
+            }
+            if(currentItem == NormalItems.KITS) {
+                Player player = event.getPlayer();
+                PlayerManager info = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
+                KitMenu kitMenu = info.getKitMenu(KitType.NORMAL);
+                player.openInventory(kitMenu.getInventory());
             }
         }
-
     }
 }

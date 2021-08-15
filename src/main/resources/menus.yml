@@ -9,6 +9,10 @@
 # Created by: MrUniverse44
 # SpigotMC Link: N/A
 #
+kits:
+  title: "&8Kits: %type%"
+  rows: 5
+
 shop:
   title: "&8Shop Menu"
   rows: 3

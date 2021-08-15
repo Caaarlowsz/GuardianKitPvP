@@ -8,6 +8,7 @@ import dev.mruniverse.guardiankitpvp.utils.ExtraUtils;
 import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianInventory;
 import dev.mruniverse.guardianlib.core.menus.inventory.GuardianInventoryBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -52,6 +53,7 @@ public class JoinListener implements Listener {
         if(plugin.getKitPvP().getListenerController().getMapLocation() != null) {
             try {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> event.getPlayer().teleport(plugin.getKitPvP().getListenerController().getMapLocation()), 4L);
+                event.getPlayer().setGameMode(GameMode.ADVENTURE);
             } catch (Throwable throwable) {
                 plugin.getLogs().error("Can't teleport " + event.getPlayer().getName() + " to the lobby!");
                 plugin.getLogs().error(throwable);
@@ -76,6 +78,7 @@ public class JoinListener implements Listener {
     public void extras(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         event.setJoinMessage(null);
+        player.setGameMode(GameMode.ADVENTURE);
         player.setHealth(20.0D);
         player.setFoodLevel(20);
         player.setLevel(0);
