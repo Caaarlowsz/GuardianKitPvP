@@ -2,6 +2,7 @@ package dev.mruniverse.guardiankitpvp.interfaces;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianClass;
+import dev.mruniverse.guardiankitpvp.interfaces.kits.ItemAbilities;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitLoader;
 import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
 import dev.mruniverse.guardiankitpvp.interfaces.rank.RankManager;
@@ -16,6 +17,8 @@ public interface KitPvP {
     KitPvP setMain(GuardianKitPvP plugin);
 
     KitPvP setItemsInfo(ItemsInfo itemsInfo);
+
+    KitPvP setItemAbilities(ItemAbilities itemAbilities);
 
     KitPvP setFileStorage(FileStorage fileStorage);
 
@@ -50,6 +53,8 @@ public interface KitPvP {
     ScoreInfo getScoreInfo();
 
     ListenerController getListenerController();
+
+    ItemAbilities getItemAbilities();
 
     void create();
 

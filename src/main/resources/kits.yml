@@ -15,7 +15,8 @@
 #   item: DIAMOND_SWORD
 #   name: '&b&lSTARTER SWORD'
 #   slot: 0
-#   abilities: 'GHOST'
+#   abilities:
+#     - ghost
 #   lore:
 #     - '&7Here your lore'
 #     - '&eplay.servername.net'
@@ -26,53 +27,185 @@
 # - GHOST, PRISONER
 #
 kits:
-  default:
-    KitInfo:
-      item: BEACON
-      name: '&b&lSTARTER'
-      kitID: '0'
-      slot: 0
-      price: 0
-      lore:
-        - '&7Kit Starter Default'
-        - '&aClick to select'
-    Armor:
-      Helmet:
-        item: IRON_HELMET
-        name: '&bStarter'
-        lore:
-          - '&7Here your lore'
-          - '&eplay.servername.net'
-      Chestplate:
-        item: IRON_CHESTPLATE
-        name: '&bStarter'
-        lore:
-          - '&7Here your lore'
-          - '&eplay.servername.net'
-      Leggings:
-        item: IRON_LEGGINGS
-        name: '&bStarter'
-        lore:
-          - '&7Here your lore'
-          - '&eplay.servername.net'
-      Boots:
-        item: IRON_BOOTS
-        name: '&bStarter'
-        lore:
-          - '&7Here your lore'
-          - '&eplay.servername.net'
-    Inventory:
-      sword:
-        item: DIAMOND_SWORD
-        name: '&b&lSTARTER SWORD'
-        slot: 0
-        lore:
-          - '&7Here your lore'
-          - '&eplay.servername.net'
-      soup:
-        item: MUSHROOM_STEW
-        amount: 36
-        slot: 1
-        lore:
-          - '&7Here your lore'
-          - '&eplay.servername.net'
+  normal:
+    Pvp:
+      kit-options:
+        enabled: true
+        price: 0
+        slot: 4
+        id: "default"
+        unlocked-item:
+          item: IRON_SWORD
+          name: "&b&lSTARTER &7(Right Click)"
+          lore:
+            - "&7Kit Starter Default"
+            - "&aClick to select"
+        locked-item:
+          item: "STAINED_GLASS_PANE:14"
+          name: "&b&lSTARTER"
+          lore:
+            - "&7Kit Starter Default"
+            - "&aClick to buy"
+      armor:
+        helmet:
+          item: IRON_HELMET
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        chestplate:
+          item: IRON_CHESTPLATE
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        leggings:
+          item: IRON_LEGGINGS
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        boots:
+          item: IRON_BOOTS
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+      items:
+        sword:
+          item: DIAMOND_SWORD
+          name: "&b&lSTARTER SWORD"
+          slot: 0
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        soup:
+          item: MUSHROOM_STEW
+          name: "&b&lSOUP"
+          amount: 36
+          slot: 1
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+  tournament:
+    Pvp:
+      kit-options:
+        enabled: true
+        price: 0
+        slot: 4
+        id: "default"
+        unlocked-item:
+          item: IRON_SWORD
+          name: "&b&lSTARTER &7(Right Click)"
+          lore:
+            - "&7Kit Starter Default"
+            - "&aClick to select"
+        locked-item:
+          item: "STAINED_GLASS_PANE:14"
+          name: "&b&lSTARTER"
+          lore:
+            - "&7Kit Starter Default"
+            - "&aClick to buy"
+      armor:
+        helmet:
+          item: IRON_HELMET
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        chestplate:
+          item: IRON_CHESTPLATE
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        leggings:
+          item: IRON_LEGGINGS
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        boots:
+          item: IRON_BOOTS
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+      items:
+        sword:
+          item: DIAMOND_SWORD
+          name: "&b&lSTARTER SWORD"
+          slot: 0
+          abilities:
+            - ghost
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        soup:
+          item: MUSHROOM_STEW
+          name: "&b&lSOUP"
+          amount: 36
+          slot: 1
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+  events:
+    Pvp:
+      kit-options:
+        enabled: true
+        price: 0
+        slot: 4
+        id: "default"
+        unlocked-item:
+          item: IRON_SWORD
+          name: "&b&lSTARTER &7(Right Click)"
+          lore:
+            - "&7Kit Starter Default"
+            - "&aClick to select"
+        locked-item:
+          item: "STAINED_GLASS_PANE:14"
+          name: "&b&lSTARTER"
+          lore:
+            - "&7Kit Starter Default"
+            - "&aClick to buy"
+      armor:
+        helmet:
+          item: IRON_HELMET
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        chestplate:
+          item: IRON_CHESTPLATE
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        leggings:
+          item: IRON_LEGGINGS
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        boots:
+          item: IRON_BOOTS
+          name: "&bStarter"
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+      items:
+        sword:
+          item: DIAMOND_SWORD
+          name: "&b&lSTARTER SWORD"
+          slot: 0
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"
+        soup:
+          item: MUSHROOM_STEW
+          name: "&b&lSOUP"
+          amount: 36
+          slot: 1
+          lore:
+            - "&7Here your lore"
+            - "&eplay.servername.net"

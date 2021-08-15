@@ -1,6 +1,7 @@
 package dev.mruniverse.guardiankitpvp.interfaces.kits;
 
 import dev.mruniverse.guardiankitpvp.enums.GuardianArmor;
+import dev.mruniverse.guardiankitpvp.enums.KitItem;
 import dev.mruniverse.guardiankitpvp.enums.KitType;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,15 +16,13 @@ public interface KitInfo {
 
     ItemStack loadPart(GuardianArmor armorPart);
 
-    String getPath();
-
     int getKitMenuSlot();
 
     HashMap<ItemStack, Integer> getInventoryItems();
 
     ItemStack getArmor(GuardianArmor armorPart);
 
-    ItemStack getKitItem();
+    ItemStack getItem(KitItem kitItem);
 
     String getName();
 

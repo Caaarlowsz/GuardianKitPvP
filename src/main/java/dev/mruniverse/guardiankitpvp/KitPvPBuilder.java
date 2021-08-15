@@ -3,6 +3,7 @@ package dev.mruniverse.guardiankitpvp;
 import dev.mruniverse.guardiankitpvp.enums.GuardianClass;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.interfaces.*;
+import dev.mruniverse.guardiankitpvp.interfaces.kits.ItemAbilities;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitLoader;
 import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
 import dev.mruniverse.guardiankitpvp.interfaces.rank.RankManager;
@@ -16,6 +17,8 @@ import dev.mruniverse.guardiankitpvp.storage.FileStorageBuilder;
 public class KitPvPBuilder implements KitPvP {
 
     private GuardianKitPvP plugin;
+
+    private ItemAbilities itemAbilities;
 
     private ItemsInfo itemsInfo;
 
@@ -38,6 +41,12 @@ public class KitPvPBuilder implements KitPvP {
     private boolean alwaysFalse = false;
 
     private boolean alwaysEnable = false;
+
+    @Override
+    public KitPvP setItemAbilities(ItemAbilities abilities) {
+        this.itemAbilities = abilities;
+        return this;
+    }
 
     @Override
     public KitPvP setMain(GuardianKitPvP plugin) {
@@ -108,6 +117,11 @@ public class KitPvPBuilder implements KitPvP {
     private GuardianKitPvP getMain() {
         if(plugin != null) return plugin;
         return GuardianKitPvP.getInstance();
+    }
+
+    @Override
+    public ItemAbilities getItemAbilities() {
+        return itemAbilities;
     }
 
     @Override
