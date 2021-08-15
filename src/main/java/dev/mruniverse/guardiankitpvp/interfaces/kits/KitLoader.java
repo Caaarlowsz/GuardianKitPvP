@@ -1,6 +1,5 @@
 package dev.mruniverse.guardiankitpvp.interfaces.kits;
 
-import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.KitType;
 import org.bukkit.entity.Player;
 

@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -104,6 +105,8 @@ public class GuardianKitPvP extends JavaPlugin {
                         .finishRegister();
 
                 getKitPvP().getKitLoader().updateKits();
+
+                getServer().getPluginManager().registerEvents(getKitPvP().getItemAbilities(),instance);
 
                 getKitPvP().create();
 

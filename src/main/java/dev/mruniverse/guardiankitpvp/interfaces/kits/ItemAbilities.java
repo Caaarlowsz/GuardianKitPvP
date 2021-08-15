@@ -1,12 +1,13 @@
 package dev.mruniverse.guardiankitpvp.interfaces.kits;
 
 import dev.mruniverse.guardiankitpvp.interfaces.abilities.Ability;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
 
-public interface ItemAbilities {
+public interface ItemAbilities extends Listener {
 
     List<Ability> getAbilities();
 
