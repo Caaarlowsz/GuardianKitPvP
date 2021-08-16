@@ -254,23 +254,21 @@ public class PlayerManagerBuilder implements PlayerManager {
         if (paramInt < 1) {
             return getBar(plugin.getColorComplete() + plugin.getProgressBar(),remaining);
         }
-        int parameter;
-        if(paramInt != 1 ) {
-            parameter = paramInt - (paramInt - 1);
-        } else {
-            parameter = 1;
+        if (paramInt < 2) {
+            return getBar(plugin.getColorComplete() + plugin.getProgressBar() + plugin.getColorPending() + plugin.getBarCharacter(),remaining);
         }
-        String complete;
-        String pending;
 
-        complete = plugin.getColorComplete() + plugin.getProgressBar().substring(0, parameter);
+        int parameter = 20 - (paramInt - 1);
 
-        if(parameter != 15 && parameter != 16) {
-            pending = plugin.getColorPending() + plugin.getProgressBar().substring((parameter + 1), paramInt);
-        } else {
-            pending = "";
+        String complete = plugin.getColorComplete() + plugin.getProgressBar().substring(0, parameter);
+        StringBuilder pending = new StringBuilder(plugin.getColorPending());
+        String barCharacter = plugin.getBarCharacter();
+
+        for (int i = paramInt; i != 0; i--) {
+            pending.append(barCharacter);
         }
-        return getBar(complete + pending + plugin.getColorPending() + plugin.getProgressBar().substring(paramInt),remaining);
+
+        return getBar(complete + pending,remaining);
     }
 
     @Override

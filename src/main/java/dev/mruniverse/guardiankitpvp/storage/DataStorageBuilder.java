@@ -176,12 +176,12 @@ public class DataStorageBuilder implements DataStorage {
     public void loadDatabase() {
         FileConfiguration settings = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS);
         if (settings.getBoolean("settings.mysql.toggle")) {
-            plugin.getLogs().info("Loading MySQL services..");
+            plugin.getLogs().info("&dDATA-BUILDER | &fLoading MySQL services..");
             plugin.getKitPvP().enableMySQL();
             mySQLImpl.connect(settings.getString("settings.mysql.host"),settings.getString("settings.mysql.database"),settings.getString("settings.mysql.username"),settings.getString("settings.mysql.password"));
-            plugin.getLogs().info("MySQL services now are loaded!");
+            plugin.getLogs().info("&dDATA-BUILDER | &fMySQL services now are loaded!");
         } else {
-            plugin.getLogs().info("MySQL is disabled, using data.yml");
+            plugin.getLogs().info("&dDATA-BUILDER | &fMySQL is disabled, using data.yml");
         }
     }
 

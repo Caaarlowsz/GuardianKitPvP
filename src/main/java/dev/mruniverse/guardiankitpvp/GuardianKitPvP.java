@@ -49,6 +49,8 @@ public class GuardianKitPvP extends JavaPlugin {
 
     private String colorPending;
 
+    private String barCharacter;
+
     private KitPvP kitPvP;
 
     private ExternalLogger logger;
@@ -148,6 +150,8 @@ public class GuardianKitPvP extends JavaPlugin {
 
                 colorPending = settings.getString("settings.progressBar.color-pending","&7");
 
+                barCharacter = character;
+
                 for (byte b = 0; b < 20; ) {
                     progressBar.append(character);
                     b++;
@@ -196,6 +200,7 @@ public class GuardianKitPvP extends JavaPlugin {
 
     }
 
+    public String getBarCharacter() { return barCharacter; }
 
     public String getColorComplete() {
         return colorComplete;
