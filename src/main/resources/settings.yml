@@ -19,7 +19,7 @@ settings:
   progressBar:
     left: '&8&l► '
     unicode: '▌'
-    right: ' &8&l◀'
+    right: ' &8&l◀ &9%remaining%'
     color-complete: '&a'
     color-pending: '&7'
   # Chat System

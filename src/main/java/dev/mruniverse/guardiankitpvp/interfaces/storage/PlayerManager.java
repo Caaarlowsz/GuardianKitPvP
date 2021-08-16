@@ -79,7 +79,7 @@ public interface PlayerManager {
 
     boolean isCountdown(final String countdownName);
 
-    String getProgressBar(int paramInt);
+    String getProgressBar(int paramInt,double remaining);
 
     String getKitsString();
 
@@ -87,7 +87,7 @@ public interface PlayerManager {
 
     String getSelectedKit();
 
-    String getBar(String bar);
+    String getBar(String bar,double remaining);
 
     Rank getRank();
 

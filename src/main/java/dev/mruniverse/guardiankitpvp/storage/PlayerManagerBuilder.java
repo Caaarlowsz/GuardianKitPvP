@@ -11,6 +11,7 @@ import dev.mruniverse.guardiankitpvp.interfaces.rank.RankManager;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import dev.mruniverse.guardiankitpvp.kits.KitMenuBuilder;
+import dev.mruniverse.guardiankitpvp.runnables.AbilityRunnable;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -246,13 +247,30 @@ public class PlayerManagerBuilder implements PlayerManager {
     }
 
     @Override
-    public String getProgressBar(int paramInt) {
-        int checkInt = (int)(paramInt * 0.20);
-        if (paramInt >= 100)
-            return ChatColor.translateAlternateColorCodes('&', plugin.getColorComplete() + plugin.getProgressBar());
-        if (paramInt < 1)
-            return ChatColor.translateAlternateColorCodes('&', plugin.getColorPending() + plugin.getProgressBar());
-        return getBar(plugin.getColorComplete() + plugin.getProgressBar().substring(0, paramInt) + plugin.getColorPending() + plugin.getProgressBar().substring(paramInt));
+    public String getProgressBar(int paramInt,double remaining) {
+        if (paramInt >= 20) {
+            return getBar(plugin.getColorPending() + plugin.getProgressBar(),remaining);
+        }
+        if (paramInt < 1) {
+            return getBar(plugin.getColorComplete() + plugin.getProgressBar(),remaining);
+        }
+        int parameter;
+        if(paramInt != 1 ) {
+            parameter = paramInt - (paramInt - 1);
+        } else {
+            parameter = 1;
+        }
+        String complete;
+        String pending;
+
+        complete = plugin.getColorComplete() + plugin.getProgressBar().substring(0, parameter);
+
+        if(parameter != 15 && parameter != 16) {
+            pending = plugin.getColorPending() + plugin.getProgressBar().substring((parameter + 1), paramInt);
+        } else {
+            pending = "";
+        }
+        return getBar(complete + pending + plugin.getColorPending() + plugin.getProgressBar().substring(paramInt),remaining);
     }
 
     @Override
@@ -274,31 +292,17 @@ public class PlayerManagerBuilder implements PlayerManager {
             abilityCountdownPB.cancel();
         }
         if(progressBar) {
-            abilityCountdownPB = new BukkitRunnable() {
-                private final int max = seconds;
-                private final String ability =countdownName;
-                private int count = 0;
-                @Override
-                public void run() {
-                    count++;
-                    int remaining = max - count;
-                    double percentage = (double)remaining / max;
-                    int value = (int)percentage * 100;
-                    plugin.getUtils().getUtils().sendActionbar(player,getProgressBar(value));
-                    if(count == max) {
-                        cancel();
-                        abilityCountdown.remove(ability);
-                        abilityCountdownPB = null;
-                    }
-                }
-            };
+            abilityCountdownPB = new AbilityRunnable(plugin,this,player,countdownName,seconds);
+            abilityCountdownPB.runTaskTimerAsynchronously(plugin,0L,20L);
         }
 
     }
 
     @Override
-    public String getBar(String bar) {
-        return ChatColor.translateAlternateColorCodes('&',plugin.getLeftPB() + bar + plugin.getRightPB());
+    public String getBar(String bar,double remaining) {
+        String text = plugin.getLeftPB() + bar + plugin.getRightPB();
+        text = text.replace("%time_left%",remaining + "s").replace("%left%",remaining + "s").replace("%remaining%",remaining + "s");
+        return ChatColor.translateAlternateColorCodes('&',text);
     }
 
     @Override
