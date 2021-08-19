@@ -6,6 +6,8 @@ import dev.mruniverse.guardiankitpvp.enums.KitType;
 import dev.mruniverse.guardiankitpvp.enums.SaveMode;
 import dev.mruniverse.guardiankitpvp.utils.command.sub.*;
 import dev.mruniverse.guardianlib.core.utils.Utils;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -131,6 +133,7 @@ public class MainCommand implements CommandExecutor {
                         utils.sendMessage(sender,cmdPrefix + " admin reload &e- &fReload the plugin");
                         utils.sendMessage(sender,cmdPrefix + " admin setlobby &e- &fSet Main Lobby");
                         utils.sendMessage(sender,cmdPrefix + " admin modes &e- &fView all modes of the plugin");
+                        utils.sendMessage(sender,cmdPrefix + " admin tp [world] &e- &fTeleport to a world");
                         utils.sendMessage(sender,"&b------------ &a(Page 2&l/4&a) &b------------");
                     }
                     return true;
@@ -184,7 +187,19 @@ public class MainCommand implements CommandExecutor {
                     }
                     return true;
                 }
-
+                if(args[1].equalsIgnoreCase("tp") && args.length >= 5) {
+                    World world = Bukkit.getWorld(args[2]);
+                    if(world == null) {
+                        utils.sendMessage(sender,"&bThis world doesn't exists!");
+                        return true;
+                    }
+                    if(sender instanceof Player) {
+                        ((Player)sender).teleport(world.getSpawnLocation());
+                        utils.sendMessage(sender, "&aYou has been teleported to " + world.getName());
+                        return true;
+                    }
+                    return true;
+                }
                 if(args[1].equalsIgnoreCase("deaths") && args.length >= 4) {
                     if(hasPermission(sender,"gkb.admin.deaths",true)) {
                         deathsCommand.usage(sender,getArguments(args));
