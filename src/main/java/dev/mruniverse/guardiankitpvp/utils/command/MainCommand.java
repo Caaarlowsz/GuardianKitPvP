@@ -87,6 +87,10 @@ public class MainCommand implements CommandExecutor {
                         utils.sendMessage(sender,cmdPrefix + " admin addRotationLocation &e- &fAdd Map Rotation Location");
                         utils.sendMessage(sender,cmdPrefix + " admin rotate &e- &fRotate Map Location");
                         utils.sendMessage(sender,cmdPrefix + " admin reload &e- &fAdd Map Rotation Location");
+                        utils.sendMessage(sender,cmdPrefix + " admin c1 &e- &fCuboID pos1");
+                        utils.sendMessage(sender,cmdPrefix + " admin c2 &e- &fCuboID pos2");
+                        utils.sendMessage(sender,cmdPrefix + " admin Cuboid [name] &e- &fCreate CuboID");
+                        utils.sendMessage(sender,cmdPrefix + " admin editMode &e- &fToggle EditMode");
                         utils.sendMessage(sender,"&b------------ &a(Page 1&l/4&a) &b------------");
                     }
                     return true;
@@ -189,6 +193,17 @@ public class MainCommand implements CommandExecutor {
                         coinsCommand.usage(sender,getArguments(args));
 
                     }
+                    return true;
+                }
+                if(args[1].equalsIgnoreCase("editMode")) {
+                    if(sender instanceof Player) {
+                        Player player = (Player)sender;
+                        PlayerManager manager = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
+                        manager.toggleEditMode();
+                        utils.sendMessage(sender,"&aEdit mode now is &b" + manager.isInEditMode());
+                        return true;
+                    }
+                    utils.sendMessage(sender,"&cThis command is only for players.");
                     return true;
                 }
                 if(args[1].equalsIgnoreCase("c1")) {

@@ -88,6 +88,8 @@ public class PlayerManagerBuilder implements PlayerManager {
 
     private Location pos2 = null;
 
+    private boolean editMode = false;
+
 
     public PlayerManagerBuilder(GuardianKitPvP plugin,Player player) {
         this.plugin = plugin;
@@ -184,6 +186,11 @@ public class PlayerManagerBuilder implements PlayerManager {
     }
 
     @Override
+    public void toggleEditMode() {
+        editMode = !editMode;
+    }
+
+    @Override
     public Rank getRank() {
         return currentRank;
     }
@@ -225,6 +232,11 @@ public class PlayerManagerBuilder implements PlayerManager {
 
     @Override
     public boolean getAutoPlayStatus() { return autoPlay; }
+
+    @Override
+    public boolean isInEditMode() {
+        return editMode;
+    }
 
     @Override
     public boolean toggleAutoplay() {

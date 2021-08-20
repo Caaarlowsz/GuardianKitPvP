@@ -109,6 +109,19 @@ public class InteractListener implements Listener {
             Material material = XMaterial.MUSHROOM_STEW.parseMaterial();
             if(event.getItem().getType() == material) {
                 if(player.getInventory().equals(player.getInventory())) {
+                    double maxHealth = player.getMaxHealth();
+                    double health = player.getHealth();
+                    double hos = 6;
+                    double newHealth = health + hos;
+                    double mh7 = maxHealth - hos;
+                    if (player.getHealth() > mh7) {
+                        if (health == maxHealth) {
+                            return;
+                        }
+                        player.setHealth(maxHealth);
+                    } else {
+                        player.setHealth(newHealth);
+                    }
                     plugin.getUtils().consumeItem(player,1,material);
                 }
             }
