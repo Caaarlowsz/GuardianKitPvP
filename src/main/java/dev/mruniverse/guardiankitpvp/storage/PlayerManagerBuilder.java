@@ -13,6 +13,7 @@ import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import dev.mruniverse.guardiankitpvp.kits.KitMenuBuilder;
 import dev.mruniverse.guardiankitpvp.runnables.AbilityRunnable;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -80,6 +81,12 @@ public class PlayerManagerBuilder implements PlayerManager {
     private String kits = "";
 
     private String lastAbilityKey = "";
+
+    private String locationID = "";
+
+    private Location pos1 = null;
+
+    private Location pos2 = null;
 
 
     public PlayerManagerBuilder(GuardianKitPvP plugin,Player player) {
@@ -232,6 +239,16 @@ public class PlayerManagerBuilder implements PlayerManager {
     }
 
     @Override
+    public void setLocationID(String id) {
+        this.locationID = id;
+    }
+
+    @Override
+    public String getLocationID() {
+        return locationID;
+    }
+
+    @Override
     public boolean isDisableChat() {
         return disableChat;
     }
@@ -279,6 +296,32 @@ public class PlayerManagerBuilder implements PlayerManager {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void setFirstPosition(Location position) {
+        pos1 = position;
+    }
+
+    @Override
+    public void setSecondPosition(Location location) {
+        pos2 = location;
+    }
+
+    @Override
+    public void clearPositions() {
+        pos1 = null;
+        pos2 = null;
+    }
+
+    @Override
+    public Location getFirstPosition() {
+        return pos1;
+    }
+
+    @Override
+    public Location getSecondPosition() {
+        return pos2;
     }
 
     @Override

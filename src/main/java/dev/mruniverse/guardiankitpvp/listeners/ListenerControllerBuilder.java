@@ -102,7 +102,7 @@ public class ListenerControllerBuilder implements ListenerController {
         manager.registerEvents(damageListener,plugin);
         manager.registerEvents(new DeathListener(plugin),plugin);
         manager.registerEvents(new InteractListener(plugin),plugin);
-        manager.registerEvents(new ExtrasListener(),plugin);
+        manager.registerEvents(new ExtrasListener(plugin),plugin);
         manager.registerEvents(new QuitListener(plugin),plugin);
     }
 

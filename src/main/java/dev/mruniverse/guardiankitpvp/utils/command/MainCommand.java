@@ -241,6 +241,7 @@ public class MainCommand implements CommandExecutor {
                             plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set("lobby.cuboid-list." + area + ".pos1",text1);
                             plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set("lobby.cuboid-list." + area + ".pos2",text2);
                             plugin.getKitPvP().getFileStorage().save(SaveMode.GAMES_FILES);
+                            info.clearPositions();
                             return true;
                         }
                         if(pos1 == null) {
