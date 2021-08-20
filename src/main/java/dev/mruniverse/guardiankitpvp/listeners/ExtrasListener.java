@@ -8,6 +8,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -37,6 +40,30 @@ public class ExtrasListener implements Listener {
                     plugin.giveKit(KitType.NORMAL,player);
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void damage(EntityDamageEvent event) {
+        if(event.getEntityType() == EntityType.PLAYER) {
+            Player victim = (Player) event.getEntity();
+            if(plugin.getKitPvP().getCuboidStorage().getCurrentSpawn().isIn(victim)) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBreak(BlockBreakEvent event) {
+        if(!plugin.getKitPvP().getPlayers().getUser(event.getPlayer().getUniqueId()).isInEditMode()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlace(BlockPlaceEvent event) {
+        if(!plugin.getKitPvP().getPlayers().getUser(event.getPlayer().getUniqueId()).isInEditMode()) {
+            event.setCancelled(true);
         }
     }
 }

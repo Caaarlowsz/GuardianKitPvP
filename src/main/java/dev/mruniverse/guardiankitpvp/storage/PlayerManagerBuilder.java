@@ -82,7 +82,7 @@ public class PlayerManagerBuilder implements PlayerManager {
 
     private String lastAbilityKey = "";
 
-    private String locationID = "";
+    private String locationID = "spawn";
 
     private Location pos1 = null;
 

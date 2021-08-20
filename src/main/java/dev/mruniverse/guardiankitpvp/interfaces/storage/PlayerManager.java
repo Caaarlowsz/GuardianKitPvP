@@ -18,6 +18,8 @@ public interface PlayerManager {
 
     boolean getAutoPlayStatus();
 
+    boolean isInEditMode();
+
     boolean toggleAutoplay();
 
     KitMenu getKitMenu(KitType kitType);
@@ -34,6 +36,8 @@ public interface PlayerManager {
     int getWins();
 
     void resetPlayer();
+
+    void toggleEditMode();
 
     void setLocationID(String id);
 

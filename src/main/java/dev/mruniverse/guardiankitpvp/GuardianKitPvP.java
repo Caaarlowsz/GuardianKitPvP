@@ -113,6 +113,8 @@ public class GuardianKitPvP extends JavaPlugin {
 
                 getKitPvP().getDataStorage().loadDatabase();
 
+                getKitPvP().getCuboidStorage().setCurrentSpawn("spawn");
+
                 getKitPvP().getItemAbilities().registerAbility(new Ghost(utils.getUtils()))
                         .finishRegister();
 
