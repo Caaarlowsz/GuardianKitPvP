@@ -9,12 +9,15 @@ import dev.mruniverse.guardianlib.core.events.GuardianMenuClickEvent;
 import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianItems;
 import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianMenu;
 import dev.mruniverse.guardianlib.core.menus.interfaces.Menus;
+import dev.mruniverse.guardianlib.core.utils.xseries.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -77,7 +80,7 @@ public class InteractListener implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         Player player = (Player)event.getWhoClicked();
-        if(event.getInventory() != player.getInventory()) {
+        if(!event.getInventory().equals(player.getInventory())) {
             event.setCancelled(true);
         }
     }
@@ -96,6 +99,22 @@ public class InteractListener implements Listener {
     public void onPickup(PlayerPickupItemEvent event) {
         event.setCancelled(true);
     }
+
+    @EventHandler
+    public void onSoup(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getItem() != null) {
+            if (event.getItem() == null) return;
+            if (event.getItem().getItemMeta() == null) return;
+            Material material = XMaterial.MUSHROOM_STEW.parseMaterial();
+            if(event.getItem().getType() == material) {
+                if(player.getInventory().equals(player.getInventory())) {
+                    plugin.getUtils().consumeItem(player,1,material);
+                }
+            }
+        }
+    }
+
 
     @EventHandler
     public void onInventoryInteract(GuardianInventoryClickEvent event) {
