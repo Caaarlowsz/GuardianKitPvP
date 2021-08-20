@@ -75,7 +75,6 @@ public class DamageListener implements Listener {
             player.getInventory().setHelmet(null);
             player.getInventory().setChestplate(null);
             player.getInventory().setLeggings(null);
-            player.getInventory().clear();
             String deathMessage;
             deathMessage = getDeathMessage(player, event.getCause());
             plugin.getUtils().getUtils().sendMessage(player, deathMessage);
@@ -138,7 +137,6 @@ public class DamageListener implements Listener {
                 Player player = (Player) event.getDamager();
                 if ((victim.getHealth() - event.getFinalDamage()) <= 0) {
                     event.setCancelled(true);
-                    victim.getInventory().clear();
                     Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getMapLocation();
                     if(MAP_LOCATION != null) {
                         victim.teleport(MAP_LOCATION);
@@ -148,6 +146,7 @@ public class DamageListener implements Listener {
                     for(PotionEffect effect:player.getActivePotionEffects()){
                         player.removePotionEffect(effect.getType());
                     }
+                    plugin.getKitPvP().getListenerController().getNormalInventory().giveInventory(player,true);
                     victim.setFoodLevel(20);
                     victim.getInventory().setBoots(null);
                     victim.getInventory().setHelmet(null);

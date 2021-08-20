@@ -31,6 +31,7 @@ public class DeathListener implements Listener {
             Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getMapLocation();
             if(MAP_LOCATION != null) {
                 player.teleport(MAP_LOCATION);
+                plugin.getKitPvP().getListenerController().getNormalInventory().giveInventory(player,true);
             }
         }
     }
