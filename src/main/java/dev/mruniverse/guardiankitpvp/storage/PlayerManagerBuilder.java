@@ -483,7 +483,7 @@ public class PlayerManagerBuilder implements PlayerManager {
     }
 
     public List<String> getKits() {
-        String[] kitShortList = kits.split(",");
+        String[] kitShortList = kits.replace(" ","").split(",");
         return Arrays.asList(kitShortList);
     }
 

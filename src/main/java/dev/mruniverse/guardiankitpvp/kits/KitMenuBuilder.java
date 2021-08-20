@@ -64,7 +64,7 @@ public class KitMenuBuilder implements KitMenu {
         PlayerManager info = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
         for(Map.Entry<String, KitInfo> kitData : plugin.getKitPvP().getKitLoader().getKits(mode).entrySet()) {
             if(slot != maxSlot) {
-                if(info.getKits().contains(kitData.getValue().getID())) {
+                if(info.getKits().contains(kitData.getValue().getID()) || kitData.getValue().getPrice() == 0) {
                     ItemStack kitItem = kitData.getValue().getItem(KitItem.UNLOCKED_ITEM);
                     chestInventory.setItem(kitData.getValue().getKitMenuSlot(), kitItem);
                 } else {
@@ -105,7 +105,7 @@ public class KitMenuBuilder implements KitMenu {
         HashMap<ItemStack, String> kits = new HashMap<>();
         PlayerManager info = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
         for(Map.Entry<String, KitInfo> kitData : plugin.getKitPvP().getKitLoader().getKits(mode).entrySet()) {
-            if(info.getKits().contains(kitData.getValue().getID())) {
+            if(info.getKits().contains(kitData.getValue().getID()) || kitData.getValue().getPrice() == 0) {
                 ItemStack kitItem = kitData.getValue().getItem(KitItem.UNLOCKED_ITEM);
                 kits.put(kitItem,kitData.getKey());
             } else {

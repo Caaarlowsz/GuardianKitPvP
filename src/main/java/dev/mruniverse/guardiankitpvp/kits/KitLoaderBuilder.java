@@ -54,7 +54,7 @@ public class KitLoaderBuilder implements KitLoader {
         KitInfo info = getKits(kitType).get(kitName);
         if(info == null) return;
         String id = info.getID();
-        if(data.getKits().contains(id)) {
+        if(data.getKits().contains(id) || info.getPrice() == 0) {
             data.setSelectedKit(id);
             String select = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.MESSAGES).getString("messages.kits.select","&aNow you selected kit &b%kit_name%");
             select = select.replace("%name%",info.getName())
