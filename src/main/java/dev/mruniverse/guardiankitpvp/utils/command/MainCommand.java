@@ -223,7 +223,7 @@ public class MainCommand implements CommandExecutor {
                     utils.sendMessage(sender,"&cThis command is only for players.");
                     return true;
                 }
-                if(args[1].equalsIgnoreCase("Cuboid") && args.length >= 5) {
+                if(args[1].equalsIgnoreCase("Cuboid") && args.length >= 4) {
                     if(sender instanceof Player) {
                         String area = args[2];
                         Player player = (Player)sender;
