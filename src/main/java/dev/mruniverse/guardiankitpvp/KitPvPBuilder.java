@@ -9,6 +9,7 @@ import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
 import dev.mruniverse.guardiankitpvp.interfaces.rank.RankManager;
 import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.BoardController;
 import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.ScoreInfo;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.CuboidStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.FileStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerData;
@@ -17,6 +18,8 @@ import dev.mruniverse.guardiankitpvp.storage.FileStorageBuilder;
 public class KitPvPBuilder implements KitPvP {
 
     private GuardianKitPvP plugin;
+
+    private CuboidStorage cuboidStorage;
 
     private ItemAbilities itemAbilities;
 
@@ -58,6 +61,16 @@ public class KitPvPBuilder implements KitPvP {
     public KitPvP setPlayerData(PlayerData playerData) {
         this.playerData = playerData;
         return this;
+    }
+
+    @Override
+    public KitPvP setCuboidStorage(CuboidStorage cuboidStorage) {
+        this.cuboidStorage = cuboidStorage;
+        return this;
+    }
+
+    public CuboidStorage getCuboidStorage() {
+        return cuboidStorage;
     }
 
     @Override
@@ -172,6 +185,7 @@ public class KitPvPBuilder implements KitPvP {
         if(dataStorage == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 4");
         if(rankManager == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 5");
         if(itemAbilities == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 6");
+        if(cuboidStorage == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 7");
         plugin.getLogs().info("&9PLUGIN-BUILDER | &fThe KitPvP internal management was loaded correctly using default settings.");
     }
 

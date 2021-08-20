@@ -86,4 +86,8 @@ public class JoinListener implements Listener {
         if(!plugin.getKitPvP().getPlayers().existPlayer(player.getUniqueId())) plugin.getKitPvP().getPlayers().addPlayer(player);
     }
 
+    public GuardianInventory getInventory(){
+        return inventory;
+    }
+
 }

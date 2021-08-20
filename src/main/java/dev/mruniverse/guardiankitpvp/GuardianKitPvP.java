@@ -16,6 +16,7 @@ import dev.mruniverse.guardiankitpvp.runnables.RotingRunnable;
 import dev.mruniverse.guardiankitpvp.runnables.TitleRunnableBuilder;
 import dev.mruniverse.guardiankitpvp.scoreboard.BoardControllerBuilder;
 import dev.mruniverse.guardiankitpvp.scoreboard.ScoreInfoBuilder;
+import dev.mruniverse.guardiankitpvp.storage.CuboidStorageBuilder;
 import dev.mruniverse.guardiankitpvp.storage.DataStorageBuilder;
 import dev.mruniverse.guardiankitpvp.storage.FileStorageBuilder;
 import dev.mruniverse.guardiankitpvp.storage.PlayerDataBuilder;
@@ -102,11 +103,13 @@ public class GuardianKitPvP extends JavaPlugin {
                 );
 
 
-                setKitPvP(getKitPvP().setDataStorage(new DataStorageBuilder(instance)));
+                setKitPvP(getKitPvP().setDataStorage(new DataStorageBuilder(instance)).setCuboidStorage(new CuboidStorageBuilder(instance)));
 
                 setKitPvP(getKitPvP().setListenerController(new ListenerControllerBuilder(instance)));
 
                 getKitPvP().getRankManager().loadRanks();
+
+                getKitPvP().getCuboidStorage().init();
 
                 getKitPvP().getDataStorage().loadDatabase();
 

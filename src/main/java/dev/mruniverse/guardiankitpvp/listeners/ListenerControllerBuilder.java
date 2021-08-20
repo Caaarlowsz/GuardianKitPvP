@@ -2,6 +2,7 @@ package dev.mruniverse.guardiankitpvp.listeners;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.*;
+import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianInventory;
 import dev.mruniverse.guardianlib.core.menus.interfaces.GuardianMenu;
 import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
 import dev.mruniverse.guardiankitpvp.utils.ExtraUtils;
@@ -19,6 +20,8 @@ public class ListenerControllerBuilder implements ListenerController {
 
     private final DamageListener damageListener;
 
+    private final JoinListener joinListener;
+
     private Location location;
 
     private GuardianMenu shopMenu;
@@ -34,6 +37,7 @@ public class ListenerControllerBuilder implements ListenerController {
         location = GuardianLIB.getControl().getUtils().getLocationFromString("notSet");
         chatListener = new ChatListener(plugin);
         damageListener = new DamageListener(plugin);
+        joinListener = new JoinListener(plugin);
         loadListeners();
 
         loadMenus();
@@ -93,7 +97,7 @@ public class ListenerControllerBuilder implements ListenerController {
     @Override
     public void loadListeners() {
         PluginManager manager = plugin.getServer().getPluginManager();
-        manager.registerEvents(new JoinListener(plugin),plugin);
+        manager.registerEvents(joinListener,plugin);
         manager.registerEvents(chatListener,plugin);
         manager.registerEvents(damageListener,plugin);
         manager.registerEvents(new DeathListener(plugin),plugin);
@@ -110,6 +114,11 @@ public class ListenerControllerBuilder implements ListenerController {
         /*
          * SOMETHING WILL BE ADDED HERE IN THE NEXT SUMMER
          */
+    }
+
+    @Override
+    public GuardianInventory getNormalInventory() {
+        return joinListener.getInventory();
     }
 
     @Override

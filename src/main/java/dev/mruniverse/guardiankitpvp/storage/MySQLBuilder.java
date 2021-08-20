@@ -142,6 +142,7 @@ public class MySQLBuilder implements MySQL {
                         ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_PREFIX + " WHERE " + MYSQL_PORT_RECEIVER + " = '" + playerName + "';");
                         resultSet.next();
                         manager.setKits(resultSet.getString("Kits"));
+                        plugin.getLogs().debug("Kits: " + resultSet.getString("Kits"));
                         manager.setStatsFromString(resultSet.getString("Statistics"));
                         statement.close();
                         resultSet.close();

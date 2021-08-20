@@ -8,6 +8,7 @@ import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
 import dev.mruniverse.guardiankitpvp.interfaces.rank.RankManager;
 import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.BoardController;
 import dev.mruniverse.guardiankitpvp.interfaces.scoreboard.ScoreInfo;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.CuboidStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.FileStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerData;
@@ -28,6 +29,8 @@ public interface KitPvP {
 
     KitPvP setRankManager(RankManager rankManager);
 
+    KitPvP setCuboidStorage(CuboidStorage cuboidStorage);
+
     KitPvP setDataStorage(DataStorage dataStorage);
 
     KitPvP setPlayerData(PlayerData playerData);
@@ -37,6 +40,8 @@ public interface KitPvP {
     KitPvP setScoreInfo(ScoreInfo scoreInfo);
 
     ItemsInfo getItemsInfo();
+
+    CuboidStorage getCuboidStorage();
 
     FileStorage getFileStorage();
 

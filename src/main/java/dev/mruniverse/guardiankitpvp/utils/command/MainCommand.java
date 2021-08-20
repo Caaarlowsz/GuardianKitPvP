@@ -4,10 +4,14 @@ import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.enums.KitType;
 import dev.mruniverse.guardiankitpvp.enums.SaveMode;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import dev.mruniverse.guardiankitpvp.utils.command.sub.*;
 import dev.mruniverse.guardianlib.core.utils.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -187,6 +191,72 @@ public class MainCommand implements CommandExecutor {
                     }
                     return true;
                 }
+                if(args[1].equalsIgnoreCase("c1")) {
+                    if(sender instanceof Player) {
+                        Player player = (Player)sender;
+                        Block block = player.getTargetBlock(null,8);
+                        if(block.getType() == Material.AIR) {
+                            utils.sendMessage(sender,"&aPlease look a block to put the Cuboid-Pos1");
+                            return true;
+                        }
+                        Location l = block.getLocation();
+                        utils.sendMessage(sender,"&aThe Cuboid-Pos1 now is Block: " + block.getType().name() +  " X: " + l.getX() + "&a Y: " + l.getY() + "&a Z: " + l.getZ());
+                        plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()).setFirstPosition(l);
+                        return true;
+                    }
+                    utils.sendMessage(sender,"&cThis command is only for players.");
+                    return true;
+                }
+                if(args[1].equalsIgnoreCase("c2")) {
+                    if(sender instanceof Player) {
+                        Player player = (Player)sender;
+                        Block block = player.getTargetBlock(null,8);
+                        if(block.getType() == Material.AIR) {
+                            utils.sendMessage(sender,"&aPlease look a block to put the Cuboid-Pos2");
+                            return true;
+                        }
+                        Location l = block.getLocation();
+                        utils.sendMessage(sender,"&aThe Cuboid-Pos2 now is Block: " + block.getType().name() +  " X: " + l.getX() + "&a Y: " + l.getY() + "&a Z: " + l.getZ());
+                        plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()).setSecondPosition(l);
+                        return true;
+                    }
+                    utils.sendMessage(sender,"&cThis command is only for players.");
+                    return true;
+                }
+                if(args[1].equalsIgnoreCase("Cuboid") && args.length >= 5) {
+                    if(sender instanceof Player) {
+                        String area = args[2];
+                        Player player = (Player)sender;
+                        PlayerManager info = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
+                        Location pos1,pos2;
+
+                        pos1 = info.getFirstPosition();
+
+                        pos2 = info.getSecondPosition();
+
+                        if(pos1 != null && pos2 != null && !plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).contains("lobby.cuboid-list." + area + ".name")) {
+                            plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set("lobby.cuboid-list." + area + ".name",area);
+                            String text1 = utils.getStringFromLocation(pos1);
+                            String text2 = utils.getStringFromLocation(pos2);
+                            plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set("lobby.cuboid-list." + area + ".pos1",text1);
+                            plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set("lobby.cuboid-list." + area + ".pos2",text2);
+                            plugin.getKitPvP().getFileStorage().save(SaveMode.GAMES_FILES);
+                            return true;
+                        }
+                        if(pos1 == null) {
+                            utils.sendMessage(sender,"&aPosition 1 is not set.");
+                            return true;
+                        }
+                        if(pos2 == null) {
+                            utils.sendMessage(sender,"&aPosition 2 is not set.");
+                            return true;
+                        }
+                        utils.sendMessage(sender,"&aThis Cuboid already exists.");
+                        return true;
+                    }
+                    utils.sendMessage(sender,"&cThis command is only for players.");
+                    return true;
+                }
                 if(args[1].equalsIgnoreCase("tp") && args.length >= 5) {
                     World world = Bukkit.getWorld(args[2]);
                     if(world == null) {
@@ -198,6 +268,7 @@ public class MainCommand implements CommandExecutor {
                         utils.sendMessage(sender, "&aYou has been teleported to " + world.getName());
                         return true;
                     }
+                    utils.sendMessage(sender,"&cThis command is only for players.");
                     return true;
                 }
                 if(args[1].equalsIgnoreCase("deaths") && args.length >= 4) {

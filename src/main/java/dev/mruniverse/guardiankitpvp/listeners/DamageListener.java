@@ -68,7 +68,9 @@ public class DamageListener implements Listener {
             for(PotionEffect effect:player.getActivePotionEffects()){
                 player.removePotionEffect(effect.getType());
             }
+            plugin.getKitPvP().getListenerController().getNormalInventory().giveInventory(player,true);
             player.setFoodLevel(20);
+            plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()).setLocationID("spawn");
             player.getInventory().setBoots(null);
             player.getInventory().setHelmet(null);
             player.getInventory().setChestplate(null);
@@ -77,9 +79,8 @@ public class DamageListener implements Listener {
             String deathMessage;
             deathMessage = getDeathMessage(player, event.getCause());
             plugin.getUtils().getUtils().sendMessage(player, deathMessage);
-            if(plugin.getKitPvP().getPlayers() == null) plugin.getLogs().info("Players system = null");
-            if(plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()) == null) plugin.getLogs().info("Player User = null");
             plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()).addDeaths();
+            return;
         }
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
             event.setCancelled(true);
@@ -94,9 +95,10 @@ public class DamageListener implements Listener {
             for(PotionEffect effect:player.getActivePotionEffects()){
                 player.removePotionEffect(effect.getType());
             }
-            player.getInventory().clear();
+            plugin.getKitPvP().getListenerController().getNormalInventory().giveInventory(player,true);
             player.setHealth(20);
             player.setFoodLevel(20);
+            plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()).setLocationID("spawn");
             player.getInventory().setBoots(null);
             player.getInventory().setHelmet(null);
             player.getInventory().setChestplate(null);
@@ -151,12 +153,22 @@ public class DamageListener implements Listener {
                     victim.getInventory().setHelmet(null);
                     victim.getInventory().setChestplate(null);
                     victim.getInventory().setLeggings(null);
-                    plugin.getUtils().getUtils().sendMessage(victim, byPvPDeath.replace("%victim%",victim.getName()).replace("%attacker%",player.getName()));
-                    plugin.getUtils().getUtils().sendMessage(player, byPvPKill.replace("%victim%",victim.getName()).replace("%attacker%",player.getName()));
+                    String pvp = "&7Has muerto por " + player.getName();
+                    String vt = "&aHas matado a " + victim.getName();
+                    if(byPvPDeath != null) {
+                        pvp = byPvPDeath.replace("%victim%", victim.getName()).replace("%attacker%", player.getName());
+                    }
+                    if(byPvPKill != null) {
+                        vt = byPvPKill.replace("%victim%", victim.getName()).replace("%attacker%", player.getName());
+                    }
+                    plugin.getUtils().getUtils().sendMessage(victim, pvp);
+                    plugin.getUtils().getUtils().sendMessage(player, vt);
+                    plugin.getKitPvP().getPlayers().getUser(victim.getUniqueId()).setLocationID("spawn");
                     plugin.getKitPvP().getPlayers().getUser(player.getUniqueId()).addKills();
                     plugin.getKitPvP().getPlayers().getUser(victim.getUniqueId()).addDeaths();
                 } else {
                     int health = (int)victim.getHealth() / 2;
+                    health = health - (int)event.getFinalDamage();
                     String healthBar = "&7" + victim.getName() + " " + getHealth(health);
                     plugin.getUtils().getUtils().sendActionbar(player, ChatColor.translateAlternateColorCodes('&',healthBar));
                 }

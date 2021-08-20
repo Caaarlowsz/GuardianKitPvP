@@ -6,6 +6,7 @@ import dev.mruniverse.guardiankitpvp.enums.PlayerStatus;
 import dev.mruniverse.guardiankitpvp.interfaces.Game;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitMenu;
 import dev.mruniverse.guardiankitpvp.interfaces.rank.Rank;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public interface PlayerManager {
     GuardianBoard getBoard();
     PlayerStatus getStatus();
     String getName();
+    String getLocationID();
     Game getGame();
     Player getPlayer();
 
@@ -32,6 +34,8 @@ public interface PlayerManager {
     int getWins();
 
     void resetPlayer();
+
+    void setLocationID(String id);
 
     void setLeaveDelay(int delay);
 
@@ -78,6 +82,16 @@ public interface PlayerManager {
     void clearCountdowns();
 
     boolean isCountdown(final String countdownName);
+
+    void setFirstPosition(Location position);
+
+    void setSecondPosition(Location location);
+
+    void clearPositions();
+
+    Location getFirstPosition();
+
+    Location getSecondPosition();
 
     String getProgressBar(int paramInt,double remaining);
 
