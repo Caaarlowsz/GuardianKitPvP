@@ -4,6 +4,7 @@ import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.enums.KitType;
 import dev.mruniverse.guardiankitpvp.enums.PathType;
+import dev.mruniverse.guardiankitpvp.enums.PlayerStatus;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitInfo;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitLoader;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
@@ -61,6 +62,9 @@ public class KitLoaderBuilder implements KitLoader {
                     .replace("%kit_price%",info.getPrice() + "")
                     .replace("%kit_name%",info.getName());
             plugin.getUtils().getUtils().sendMessage(player,select);
+            if(!data.getLocationID().equalsIgnoreCase("spawn") && data.getStatus() == PlayerStatus.IN_LOBBY) {
+                plugin.giveKit(kitType,player);
+            }
             if(player.getInventory() == data.getKitMenu(kitType).getInventory()) player.closeInventory();
             return;
         }
@@ -80,6 +84,9 @@ public class KitLoaderBuilder implements KitLoader {
                     .replace("%kit_name%",info.getName());
             plugin.getUtils().getUtils().sendMessage(player,buy);
             plugin.getUtils().getUtils().sendMessage(player,select);
+            if(!data.getLocationID().equalsIgnoreCase("spawn") && data.getStatus() == PlayerStatus.IN_LOBBY) {
+                plugin.giveKit(kitType,player);
+            }
             if(player.getInventory() == data.getKitMenu(kitType).getInventory()) player.closeInventory();
             return;
         }
