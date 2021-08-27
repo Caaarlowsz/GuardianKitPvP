@@ -13,6 +13,10 @@ settings:
   dateFormat: "dd/MM/yyyy"
   # Toggle perWorldTab option
   perWorldTab: false
+  # This is the spawn location
+  spawn: "notSet"
+  # Destiny Name
+  destinyName: 'Map'
   # Update delay in minutes for holograms.
   update-hologram-delay: 60
   # Map Locations:

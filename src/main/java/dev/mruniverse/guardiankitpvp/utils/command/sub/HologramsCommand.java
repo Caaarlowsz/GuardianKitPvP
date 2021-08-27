@@ -66,6 +66,16 @@ public class HologramsCommand {
                     utils.sendMessage(player,"&aThis location has been added to hologram: &bDeaths");
                     return;
                 }
+                if(arguments[1].equalsIgnoreCase("sp")) {
+                    GuardianHolograms holo = GuardianHolograms.SPAWN_LOCATION;
+                    List<String> locations = main.getKitPvP().getFileStorage().getControl(GuardianFiles.HOLOGRAMS).getStringList(holo.getPath(HoloPath.LOCATIONS));
+                    locations.add(utils.getStringFromLocation(player.getLocation()));
+                    main.getKitPvP().getFileStorage().getControl(GuardianFiles.HOLOGRAMS).set(holo.getPath(HoloPath.LOCATIONS),locations);
+                    main.getKitPvP().getFileStorage().save(SaveMode.HOLOGRAMS);
+                    utils.sendMessage(player,"&aThis location has been added to hologram: &bSpawn Location");
+                    main.getKitPvP().getHoloManager().updateSpawn();
+                    return;
+                }
                 if(arguments[1].equalsIgnoreCase("k")) {
                     GuardianHolograms holo = GuardianHolograms.TOP_KILLS;
                     List<String> locations = main.getKitPvP().getFileStorage().getControl(GuardianFiles.HOLOGRAMS).getStringList(holo.getPath(HoloPath.LOCATIONS));

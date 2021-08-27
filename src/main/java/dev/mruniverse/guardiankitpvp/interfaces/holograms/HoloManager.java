@@ -9,13 +9,7 @@ import java.util.Map;
 public interface HoloManager {
     void loadTops();
 
-    void updateKillsTop();
-
-    void updateDeathsTop();
-
-    void updateCoinsTop();
-
-    void updateWinsTop();
+    void updateSpawn();
 
     void updateStatHologram(Player player);
 

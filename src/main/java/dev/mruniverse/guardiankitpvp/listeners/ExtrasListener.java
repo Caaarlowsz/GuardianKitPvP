@@ -4,6 +4,7 @@ import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.KitType;
 import dev.mruniverse.guardiankitpvp.enums.PlayerStatus;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
+import dev.mruniverse.guardianlib.core.events.HologramInteractEvent;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,9 +39,19 @@ public class ExtrasListener implements Listener {
                 if(!plugin.getKitPvP().getCuboidStorage().getCurrentSpawn().isIn(player)) {
                     info.setLocationID("MapCenter");
                     plugin.giveKit(KitType.NORMAL,player);
+                    return;
+                }
+                if(plugin.getKitPvP().getCuboidStorage().getTeleport().isIn(player)) {
+                    info.setLocationID("MapCenter");
+                    player.teleport(plugin.getKitPvP().getListenerController().getMapLocation());
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onHoloInteract(HologramInteractEvent event) {
+        plugin.getUtils().getUtils().sendMessage(event.getPlayer(),"&a&lProximamente..");
     }
 
     @EventHandler

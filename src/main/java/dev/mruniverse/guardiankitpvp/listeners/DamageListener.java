@@ -60,7 +60,7 @@ public class DamageListener implements Listener {
         if (!event.getEntity().getType().equals(EntityType.PLAYER)) return;
         Player player = (Player) event.getEntity();
         if (event.getCause() == EntityDamageEvent.DamageCause.VOID) {
-            Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getMapLocation();
+            Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getSpawnLocation();
             if(MAP_LOCATION != null) {
                 player.teleport(MAP_LOCATION);
             }
@@ -87,7 +87,7 @@ public class DamageListener implements Listener {
         }
         if ((player.getHealth() - event.getFinalDamage()) <= 0 && event.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
             event.setCancelled(true);
-            Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getMapLocation();
+            Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getSpawnLocation();
             if(MAP_LOCATION != null) {
                 player.teleport(MAP_LOCATION);
             }
@@ -137,7 +137,7 @@ public class DamageListener implements Listener {
                 Player player = (Player) event.getDamager();
                 if ((victim.getHealth() - event.getFinalDamage()) <= 0) {
                     event.setCancelled(true);
-                    Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getMapLocation();
+                    Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getSpawnLocation();
                     if(MAP_LOCATION != null) {
                         victim.teleport(MAP_LOCATION);
                     }

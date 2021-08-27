@@ -21,9 +21,13 @@ public class CuboidStorageBuilder implements CuboidStorage {
 
     private final HashMap<String,Cuboid> zones = new HashMap<>();
 
+    private final HashMap<String,Cuboid> teleports = new HashMap<>();
+
     private final Utils utils;
 
     private Cuboid currentSpawn;
+
+    private Cuboid currentTeleport;
 
     private Cuboid lastKoTh;
 
@@ -105,8 +109,20 @@ public class CuboidStorageBuilder implements CuboidStorage {
     }
 
     @Override
+    public Cuboid getTeleport() {
+        return currentTeleport;
+    }
+
+    @Override
     public void setCurrentSpawn(String spawnID) {
         currentSpawn = spawns.get(spawnID);
+        currentTeleport = teleports.get(spawnID);
+        if(currentTeleport == null) {
+            for(String keys : teleports.keySet()) {
+                currentTeleport = teleports.get(keys);
+                return;
+            }
+        }
     }
 
     @Override
@@ -120,6 +136,21 @@ public class CuboidStorageBuilder implements CuboidStorage {
     @Override
     public void loadSpawn(String spawnID) {
         FileConfiguration config = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES);
+        if(config.contains("teleport.cuboid-list." + spawnID + ".name") && config.contains("teleport.cuboid-list." + spawnID + ".pos1") && config.contains("teleport.cuboid-list." + spawnID + ".pos2")) {
+            Location pos1,pos2;
+
+            pos1 = utils.getLocationFromString(config.getString("teleport.cuboid-list." + spawnID + ".pos1","notSet"));
+            pos2 = utils.getLocationFromString(config.getString("teleport.cuboid-list." + spawnID + ".pos2","notSet"));
+
+            if(pos1 != null && pos2 != null) {
+                teleports.put(spawnID,new CuboidBuilder(pos1,pos2));
+                return;
+            }
+            plugin.getLogs().error("Can't find pos1 or pos2 of cuboid: " + spawnID);
+            return;
+        } else {
+            plugin.getLogs().error("The spawn with id: " + spawnID + " don't have teleport zone, please add one to prevent issues.");
+        }
         if(config.contains("lobby.cuboid-list." + spawnID + ".name") && config.contains("lobby.cuboid-list." + spawnID + ".pos1") && config.contains("lobby.cuboid-list." + spawnID + ".pos2")) {
             Location pos1,pos2;
 

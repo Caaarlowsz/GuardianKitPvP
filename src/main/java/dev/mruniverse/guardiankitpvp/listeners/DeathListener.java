@@ -28,7 +28,7 @@ public class DeathListener implements Listener {
             player.setGameMode(GameMode.ADVENTURE);
             player.setHealth(20);
             player.setFoodLevel(20);
-            Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getMapLocation();
+            Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getSpawnLocation();
             if(MAP_LOCATION != null) {
                 player.teleport(MAP_LOCATION);
                 plugin.getKitPvP().getListenerController().getNormalInventory().giveInventory(player,true);
@@ -38,7 +38,7 @@ public class DeathListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onDeathRespawn(PlayerRespawnEvent event) {
         if(plugin.getKitPvP().getPlayers().getUser(event.getPlayer().getUniqueId()).getGame() == null) {
-            Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getMapLocation();
+            Location MAP_LOCATION = plugin.getKitPvP().getListenerController().getSpawnLocation();
             if (MAP_LOCATION != null) {
                 event.setRespawnLocation(MAP_LOCATION);
             }

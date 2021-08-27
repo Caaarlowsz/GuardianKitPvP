@@ -50,9 +50,9 @@ public class JoinListener implements Listener {
     public void teleport(PlayerJoinEvent event) {
         if(inventory == null) fixInventory();
         inventory.giveInventory(event.getPlayer(),true);
-        if(plugin.getKitPvP().getListenerController().getMapLocation() != null) {
+        if(plugin.getKitPvP().getListenerController().getSpawnLocation() != null) {
             try {
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> event.getPlayer().teleport(plugin.getKitPvP().getListenerController().getMapLocation()), 4L);
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, () -> event.getPlayer().teleport(plugin.getKitPvP().getListenerController().getSpawnLocation()), 4L);
                 event.getPlayer().setGameMode(GameMode.ADVENTURE);
             } catch (Throwable throwable) {
                 plugin.getLogs().error("Can't teleport " + event.getPlayer().getName() + " to the lobby!");

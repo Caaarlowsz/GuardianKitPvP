@@ -39,6 +39,8 @@ public interface CuboidStorage {
 
     Cuboid getCurrentKoTh();
 
+    Cuboid getTeleport();
+
     void setCurrentSpawn(String spawnID);
 
     void setCurrentKoTh(String kothID);

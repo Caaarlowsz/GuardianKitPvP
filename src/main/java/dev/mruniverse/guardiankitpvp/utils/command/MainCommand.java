@@ -97,6 +97,17 @@ public class MainCommand implements CommandExecutor {
                     }
                     return true;
                 }
+                if(args[1].equalsIgnoreCase("setSpawn")) {
+                    if(hasPermission(sender,"gkb.admin.setSpawn",true) && sender instanceof Player) {
+                        Player player = (Player)sender;
+                        String location = plugin.getUtils().getUtils().getStringFromLocation(player.getLocation());
+                        utils.sendMessage(sender, "&aSpawn has been added.");
+                        plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS).set("settings.spawn", location);
+                        plugin.getKitPvP().getFileStorage().save(SaveMode.SETTINGS);
+                        return true;
+                    }
+                    return true;
+                }
                 if(args[1].equalsIgnoreCase("addRotationLocation")) {
                     if(hasPermission(sender,"gkb.admin.addRotationLocation",true) && sender instanceof Player) {
                         Player player = (Player)sender;
@@ -248,9 +259,10 @@ public class MainCommand implements CommandExecutor {
                     utils.sendMessage(sender,"&cThis command is only for players.");
                     return true;
                 }
-                if(args[1].equalsIgnoreCase("Cuboid") && args.length >= 4) {
+                if(args[1].equalsIgnoreCase("Cuboid") && args.length >= 5) {
                     if(sender instanceof Player) {
                         String area = args[2];
+                        boolean teleport = Boolean.parseBoolean(args[3]);
                         Player player = (Player)sender;
                         PlayerManager info = plugin.getKitPvP().getPlayers().getUser(player.getUniqueId());
                         Location pos1,pos2;
@@ -258,16 +270,17 @@ public class MainCommand implements CommandExecutor {
                         pos1 = info.getFirstPosition();
 
                         pos2 = info.getSecondPosition();
-
+                        String path = "lobby.";
                         if(pos1 != null && pos2 != null && !plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).contains("lobby.cuboid-list." + area + ".name")) {
-                            plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set("lobby.cuboid-list." + area + ".name",area);
+                            if(teleport) path = "teleport.";
+                            plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set(path + "cuboid-list." + area + ".name",area);
                             String text1 = utils.getStringFromLocation(pos1);
                             String text2 = utils.getStringFromLocation(pos2);
-                            plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set("lobby.cuboid-list." + area + ".pos1",text1);
-                            plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set("lobby.cuboid-list." + area + ".pos2",text2);
+                            plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set(path + "cuboid-list." + area + ".pos1",text1);
+                            plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set(path + "cuboid-list." + area + ".pos2",text2);
                             plugin.getKitPvP().getFileStorage().save(SaveMode.GAMES_FILES);
                             info.clearPositions();
-                            utils.sendMessage(sender,"&aCuboid &b" + area + "&a has been created");
+                            utils.sendMessage(sender,"&aCuboid &b" + area + "&a has been created, isTeleport: &b" + teleport);
                             return true;
                         }
                         if(pos1 == null) {

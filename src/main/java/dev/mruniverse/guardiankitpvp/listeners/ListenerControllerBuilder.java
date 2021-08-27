@@ -24,6 +24,8 @@ public class ListenerControllerBuilder implements ListenerController {
 
     private Location location;
 
+    private Location spawnLocation;
+
     private GuardianMenu shopMenu;
 
     private GuardianMenu boostersMain;
@@ -39,7 +41,7 @@ public class ListenerControllerBuilder implements ListenerController {
         damageListener = new DamageListener(plugin);
         joinListener = new JoinListener(plugin);
         loadListeners();
-
+        updateSpawnLocation();
         loadMenus();
     }
 
@@ -129,5 +131,15 @@ public class ListenerControllerBuilder implements ListenerController {
     @Override
     public Location getMapLocation() {
         return location;
+    }
+
+    @Override
+    public void updateSpawnLocation() {
+        spawnLocation = plugin.getUtils().getUtils().getLocationFromString(plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS).getString("settings.spawn","notSet"));
+    }
+
+    @Override
+    public Location getSpawnLocation() {
+        return spawnLocation;
     }
 }

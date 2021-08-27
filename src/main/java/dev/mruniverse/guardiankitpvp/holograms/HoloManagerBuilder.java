@@ -25,6 +25,8 @@ public class HoloManagerBuilder implements HoloManager {
 
     private final HologramRunnable hologramRunnable;
 
+    private final List<GlobalHologram> spawnLocation = new ArrayList<>();
+
     private final HashMap<TopHologram, List<GlobalHologram>> holograms;
 
     private final HashMap<TopHologram, List<String>> top;
@@ -35,6 +37,8 @@ public class HoloManagerBuilder implements HoloManager {
 
     private final String none;
 
+    private final int size;
+
     public HoloManagerBuilder(GuardianKitPvP plugin) {
         this.plugin = plugin;
         hologramRunnable = new HologramRunnable(plugin);
@@ -42,9 +46,11 @@ public class HoloManagerBuilder implements HoloManager {
         top = new HashMap<>();
         format = new HashMap<>();
         bottom = new HashMap<>();
+        size = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.HOLOGRAMS).getInt(GuardianHolograms.getSizePath());
         none = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.HOLOGRAMS).getString("holograms.tops.none","NO_PLAYER");
         loadSides();
         startTimer();
+        loadSpawn();
     }
 
     private void loadSides() {
@@ -53,6 +59,24 @@ public class HoloManagerBuilder implements HoloManager {
             top.put(hologram,holograms.getStringList(hologram.getGuardian().getPath(HoloPath.TOP)));
             format.put(hologram,holograms.getString(hologram.getGuardian().getPath(HoloPath.FORMAT)));
             bottom.put(hologram,holograms.getStringList(hologram.getGuardian().getPath(HoloPath.BOT)));
+        }
+    }
+
+    private void loadSpawn() {
+        List<String> lines = new ArrayList<>();
+        String locationName = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS).getString("settings.destinyName","Map");
+        for(String line : plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.HOLOGRAMS).getStringList(GuardianHolograms.SPAWN_LOCATION.getPath(HoloPath.LINES))) {
+            line = ChatColor.translateAlternateColorCodes('&',line.replace("%location-name%",locationName));
+            lines.add(line);
+        }
+        Utils utils = plugin.getUtils().getUtils();
+        for(String locations : plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.HOLOGRAMS).getStringList(GuardianHolograms.SPAWN_LOCATION.getPath(HoloPath.LOCATIONS))) {
+            Location location = utils.getLocationFromString(locations);
+            if(location != null) {
+                GlobalHologram globalHologram = new GlobalHologram(location,lines);
+                globalHologram.spawn();
+                spawnLocation.add(globalHologram);
+            }
         }
     }
 
@@ -96,11 +120,13 @@ public class HoloManagerBuilder implements HoloManager {
             lines.add(line);
         }
         int position = 1;
-        for(Map.Entry<String,Integer> entry : list) {
-            String format = this.format.get(top);
-            format = format.replace(top.getReplace(),entry.getValue() + "").replace("%position%","" + position).replace("%player%",entry.getKey());
-            lines.add(ChatColor.translateAlternateColorCodes('&',format));
-            position++;
+        for(Map.Entry<String,Integer> entry : getFixedEntry(list).entrySet()) {
+            if(position <= size) {
+                String format = this.format.get(top);
+                format = format.replace(top.getReplace(), entry.getValue() + "").replace("%position%", "" + position).replace("%player%", entry.getKey());
+                lines.add(ChatColor.translateAlternateColorCodes('&', format));
+                position++;
+            }
         }
 
         for(String line : this.bottom.get(top)) {
@@ -111,14 +137,24 @@ public class HoloManagerBuilder implements HoloManager {
         hologram.setLines(lines);
         hologram.spawn();
 
+    }
 
+
+    private HashMap<String,Integer> getFixedEntry(List<Map.Entry<String,Integer>> entryList) {
+        HashMap<String,Integer> hash = new HashMap<>();
+        for(int i = 1; i<=size; i++) {
+            hash.put(entryList.get(i).getKey(),entryList.get(i).getValue());
+        }
+        return hash;
     }
 
     private void loadTop(TopHologram top) {
         List<GlobalHologram> list = new ArrayList<>();
         if(holograms.get(top) != null) {
             for(GlobalHologram holo : holograms.get(top)) {
-                holo.remove();
+                try {
+                    holo.remove();
+                }catch (Throwable ignored) {}
             }
         }
         Utils utils = plugin.getUtils().getUtils();
@@ -152,23 +188,15 @@ public class HoloManagerBuilder implements HoloManager {
     }
 
     @Override
-    public void updateKillsTop() {
-
-    }
-
-    @Override
-    public void updateDeathsTop() {
-
-    }
-
-    @Override
-    public void updateCoinsTop() {
-
-    }
-
-    @Override
-    public void updateWinsTop() {
-
+    public void updateSpawn() {
+        if(spawnLocation.size() != 0) {
+            for(GlobalHologram holo : spawnLocation) {
+                try {
+                    holo.remove();
+                }catch (Throwable ignored) {}
+            }
+        }
+        loadSpawn();
     }
 
     @Override

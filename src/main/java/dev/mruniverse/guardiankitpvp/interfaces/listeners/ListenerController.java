@@ -18,4 +18,8 @@ public interface ListenerController {
     GuardianMenu getMenu(Menus Menu);
 
     Location getMapLocation();
+
+    void updateSpawnLocation();
+
+    Location getSpawnLocation();
 }
