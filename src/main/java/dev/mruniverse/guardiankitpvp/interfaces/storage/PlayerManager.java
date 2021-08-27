@@ -37,6 +37,10 @@ public interface PlayerManager {
 
     void resetPlayer();
 
+    void addHologram(Location location,boolean spawn);
+
+    void updateHolograms();
+
     void toggleEditMode();
 
     void setLocationID(String id);

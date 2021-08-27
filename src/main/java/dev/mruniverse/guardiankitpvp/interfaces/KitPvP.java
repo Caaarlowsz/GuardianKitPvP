@@ -2,6 +2,7 @@ package dev.mruniverse.guardiankitpvp.interfaces;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianClass;
+import dev.mruniverse.guardiankitpvp.interfaces.holograms.HoloManager;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.ItemAbilities;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitLoader;
 import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
@@ -16,6 +17,8 @@ import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerData;
 @SuppressWarnings("UnusedReturnValue")
 public interface KitPvP {
     KitPvP setMain(GuardianKitPvP plugin);
+
+    KitPvP setHoloManager(HoloManager holoManager);
 
     KitPvP setItemsInfo(ItemsInfo itemsInfo);
 
@@ -40,6 +43,8 @@ public interface KitPvP {
     KitPvP setScoreInfo(ScoreInfo scoreInfo);
 
     ItemsInfo getItemsInfo();
+
+    HoloManager getHoloManager();
 
     CuboidStorage getCuboidStorage();
 

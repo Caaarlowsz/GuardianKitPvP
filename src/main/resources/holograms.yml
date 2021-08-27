@@ -25,30 +25,78 @@
 # - "&a&lClick to update"
 #
 holograms:
+  spawn-location:
+    locations: []
+    toggle: true
+    lines:
+      - "&b&lSpawn Location"
+      - "&f&o%location-name%"
+  stats:
+    locations: []
+    toggle: true
+    lines:
+      - "&b&lYour Statics"
+      - " "
+      - "&f&oKills: &b&o%kills%"
+      - "&f&oDeaths: &b&o%deaths%"
+      - "&f&oCoins: &b&o%coins%"
+      - "&f&oKit: &b&o%kit%"
+      - " "
+      - "&eplay.servername.net"
   tops:
     # This is the stats size, default: 10 (Only show 10 first players in the top)
     topSize: 10
+    # This appear when the player doesn't exists.
+    none: "NO_PLAYER"
     # Top Wins
     wins:
+      locations: []
       top:
         - "&b&lAll-Time Wins"
         - "&7%currentMode%"
-      format: "&e%position%. &7%player% &7- &e%gkpvp_wins%"
+      format: "&e%position%. &7%player% &7- &e%wins%"
       bot:
         - "&a&lClick to update"
     # Top Deaths
     deaths:
+      locations: []
       top:
         - "&b&lAll-Time Deaths"
         - "&7%currentMode%"
-      format: "&e%position%. &7%player% &7- &e%gkpvp_deaths%"
+      format: "&e%position%. &7%player% &7- &e%deaths%"
+      bot:
+        - "&a&lClick to update"
+    # Top Deaths
+    coins:
+      locations: []
+      top:
+        - "&b&lAll-Time Coins"
+        - "&7%currentMode%"
+      format: "&e%position%. &7%player% &7- &e%coins%"
       bot:
         - "&a&lClick to update"
     # Top Kills
     kills:
+      locations: []
       top:
         - "&b&lAll-Time Kills"
         - "&7%currentMode%"
-      format: "&e%position%. &7%player% &7- &e%gkpvp_kills%"
+      format: "&e%position%. &7%player% &7- &e%kills%"
+      bot:
+        - "&a&lClick to update"
+    kill-streak:
+      locations: [ ]
+      top:
+        - "&b&lAll-Time Kills"
+        - "&7%currentMode%"
+      format: "&e%position%. &7%player% &7- &e%ks%"
+      bot:
+        - "&a&lClick to update"
+    exp:
+      locations: [ ]
+      top:
+        - "&b&lAll-Time Kills"
+        - "&7%currentMode%"
+      format: "&e%position%. &7%player% &7- &e%experience%"
       bot:
         - "&a&lClick to update"

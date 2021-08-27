@@ -3,6 +3,7 @@ package dev.mruniverse.guardiankitpvp.storage;
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.MySQL;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerData;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
+import java.util.HashMap;
 
 public class MySQLBuilder implements MySQL {
     private GuardianKitPvP plugin;
@@ -220,6 +222,62 @@ public class MySQLBuilder implements MySQL {
         plugin.getLogs().info("&dDATA-BUILDER | &f");
         con = DriverManager.getConnection(url,user,password);
         plugin.getLogs().info("&dDATA-BUILDER | &fConnected with MySQL!");
+    }
+
+    @Override
+    public HashMap<String, String> getUsers() {
+        try {
+            HashMap<String, String> hashMap = new HashMap<>();
+            PreparedStatement preparedStatement = con.prepareStatement("select * from " + TABLE_PREFIX);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            PlayerData data = plugin.getKitPvP().getPlayers();
+            while (resultSet.next()) {
+                String nick = resultSet.getString("player_name");
+                Player player = Bukkit.getPlayer(nick);
+                if(player != null) {
+                    hashMap.put(nick, data.existPlayer(player.getUniqueId()) ? data.getUser(player.getUniqueId()).getStatsString() : resultSet.getString("Statistics"));
+                } else {
+                    hashMap.put(nick, resultSet.getString("Statistics"));
+                }
+            }
+            resultSet.close();
+            preparedStatement.close();
+            return hashMap;
+        }catch(Throwable ignored) {
+            if(plugin.getKitPvP() != null) {
+                if(plugin.getKitPvP().getPlayers() != null) {
+                    plugin.getLogs().error("&3DATA-LIB | &fTrying to reconnect to database to load statics again.");
+                    try {
+                        reconnect();
+                        return getReUsers();
+                    }catch (Throwable shutdownCause) {
+                        plugin.getLogs().error("&3DATA-LIB | &fCan't reconnect to database or can't found user information, turning off the server!");
+                        plugin.getLogs().error(shutdownCause);
+                        Bukkit.getServer().shutdown();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public HashMap<String, String>  getReUsers() throws Throwable {
+        HashMap<String, String> hashMap = new HashMap<>();
+        PreparedStatement preparedStatement = con.prepareStatement("select * from " + TABLE_PREFIX);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        PlayerData data = plugin.getKitPvP().getPlayers();
+        while (resultSet.next()) {
+            String nick = resultSet.getString("player_name");
+            Player player = Bukkit.getPlayer(nick);
+            if(player != null) {
+                hashMap.put(nick, data.existPlayer(player.getUniqueId()) ? data.getUser(player.getUniqueId()).getStatsString() : resultSet.getString("Statistics"));
+            } else {
+                hashMap.put(nick, resultSet.getString("Statistics"));
+            }
+        }
+        resultSet.close();
+        preparedStatement.close();
+        return hashMap;
     }
 
     @SuppressWarnings("UnnecessaryToStringCall")

@@ -3,6 +3,7 @@ package dev.mruniverse.guardiankitpvp;
 import dev.mruniverse.guardiankitpvp.enums.GuardianClass;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.interfaces.*;
+import dev.mruniverse.guardiankitpvp.interfaces.holograms.HoloManager;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.ItemAbilities;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitLoader;
 import dev.mruniverse.guardiankitpvp.interfaces.listeners.ListenerController;
@@ -41,6 +42,8 @@ public class KitPvPBuilder implements KitPvP {
 
     private ScoreInfo scoreInfo;
 
+    private HoloManager holoManager;
+
     private boolean alwaysFalse = false;
 
     private boolean alwaysEnable = false;
@@ -54,6 +57,12 @@ public class KitPvPBuilder implements KitPvP {
     @Override
     public KitPvP setMain(GuardianKitPvP plugin) {
         this.plugin = plugin;
+        return this;
+    }
+
+    @Override
+    public KitPvP setHoloManager(HoloManager holoManager) {
+        this.holoManager = holoManager;
         return this;
     }
 
@@ -127,6 +136,11 @@ public class KitPvPBuilder implements KitPvP {
         return itemsInfo;
     }
 
+    @Override
+    public HoloManager getHoloManager() {
+        return holoManager;
+    }
+
     private GuardianKitPvP getMain() {
         if(plugin != null) return plugin;
         return GuardianKitPvP.getInstance();
@@ -186,6 +200,7 @@ public class KitPvPBuilder implements KitPvP {
         if(rankManager == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 5");
         if(itemAbilities == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 6");
         if(cuboidStorage == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 7");
+        if(holoManager == null) reportIssue("&9PLUGIN-BUILDER | &fThe plugin was loaded with issues, please contact developer! Error Code: 8");
         plugin.getLogs().info("&9PLUGIN-BUILDER | &fThe KitPvP internal management was loaded correctly using default settings.");
     }
 

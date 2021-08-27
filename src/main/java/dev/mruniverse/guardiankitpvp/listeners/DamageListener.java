@@ -146,7 +146,7 @@ public class DamageListener implements Listener {
                     for(PotionEffect effect:player.getActivePotionEffects()){
                         player.removePotionEffect(effect.getType());
                     }
-                    plugin.getKitPvP().getListenerController().getNormalInventory().giveInventory(player,true);
+                    plugin.getKitPvP().getListenerController().getNormalInventory().giveInventory(victim,true);
                     victim.setFoodLevel(20);
                     victim.getInventory().setBoots(null);
                     victim.getInventory().setHelmet(null);

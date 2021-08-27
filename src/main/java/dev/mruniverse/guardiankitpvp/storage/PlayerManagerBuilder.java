@@ -1,9 +1,7 @@
 package dev.mruniverse.guardiankitpvp.storage;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
-import dev.mruniverse.guardiankitpvp.enums.GuardianBoard;
-import dev.mruniverse.guardiankitpvp.enums.KitType;
-import dev.mruniverse.guardiankitpvp.enums.PlayerStatus;
+import dev.mruniverse.guardiankitpvp.enums.*;
 import dev.mruniverse.guardiankitpvp.interfaces.Game;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitMenu;
 import dev.mruniverse.guardiankitpvp.interfaces.rank.Rank;
@@ -12,11 +10,15 @@ import dev.mruniverse.guardiankitpvp.interfaces.storage.DataStorage;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import dev.mruniverse.guardiankitpvp.kits.KitMenuBuilder;
 import dev.mruniverse.guardiankitpvp.runnables.AbilityRunnable;
+import dev.mruniverse.guardianlib.core.GuardianLIB;
+import dev.mruniverse.guardianlib.core.holograms.PersonalHologram;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -88,6 +90,8 @@ public class PlayerManagerBuilder implements PlayerManager {
 
     private Location pos2 = null;
 
+    private final List<PersonalHologram> personalHologram = new ArrayList<>();
+
     private boolean editMode = false;
 
 
@@ -125,7 +129,14 @@ public class PlayerManagerBuilder implements PlayerManager {
         this.soups_eaten = Integer.parseInt(arrayString[9]);
         this.killstreaks_earned = Integer.parseInt(arrayString[10]);
         plugin.getLogs().debug("(" + player.getName() + ") [k/d/exp] [" + kills + "/" + deaths + "/" + dataExp + "]");
+        loadHologram();
         updateRank();
+    }
+
+    private void loadHologram() {
+        if(plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.HOLOGRAMS).getBoolean(GuardianHolograms.STATICS.getPath(HoloPath.TOGGLE))) {
+            plugin.getKitPvP().getHoloManager().loadStats(player);
+        }
     }
 
     @Override
@@ -183,6 +194,63 @@ public class PlayerManagerBuilder implements PlayerManager {
         this.soups_eaten = 0;
         this.killstreaks_earned = 0;
         updateRank();
+    }
+
+    @Override
+    public void addHologram(Location location,boolean spawn) {
+        FileConfiguration hologram = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.HOLOGRAMS);
+        if(hologram.getBoolean(GuardianHolograms.STATICS.getPath(HoloPath.TOGGLE))) {
+            List<String> lines = new ArrayList<>();
+            for(String line : hologram.getStringList("holograms.stats.lines")) {
+                line = line.replace("%kills%",kills + "")
+                        .replace("%deaths%",deaths + "")
+                        .replace("%coins%",coins + "")
+                        .replace("%kit%",selectedKit + "")
+                        .replace("%exp%",dataExp + "")
+                        .replace("%experience%",dataExp + "");
+                if(currentRank != null) {
+                    line = line.replace("%rank%", currentRank.getSecondPrefix());
+                } else {
+                    line = line.replace("%rank%","&7Loading");
+                }
+                if(nextRank != null) {
+                    line = line.replace("%nextRank%", nextRank.getSecondPrefix())
+                            .replace("%nextRankXP%", (nextRank.getRequiredExp() - dataExp) + " XP");
+                }else {
+                    line = line.replace("%nextRankXP%","&7Loading").replace("%nextRank%","&7Loading");
+                }
+                lines.add(ChatColor.translateAlternateColorCodes('&',line));
+            }
+            PersonalHologram personal = new PersonalHologram(GuardianLIB.getControl(), player, location, player.getName() + "-" + personalHologram.size(), lines);
+            if(spawn) personal.spawn();
+            personalHologram.add(personal);
+        }
+    }
+
+    @Override
+    public void updateHolograms() {
+        update((PersonalHologram) personalHologram);
+    }
+
+    private void update(PersonalHologram holo) {
+        FileConfiguration hologram = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.HOLOGRAMS);
+        List<String> lines = new ArrayList<>();
+        for(String line : hologram.getStringList("holograms.stats.lines")) {
+            line = line.replace("%kills%",kills + "")
+                    .replace("%deaths%",deaths + "")
+                    .replace("%coins%",coins + "")
+                    .replace("%kit%",selectedKit + "")
+                    .replace("%exp%",dataExp + " XP")
+                    .replace("%experience%",dataExp + "")
+                    .replace("%rank%",currentRank.getSecondPrefix());
+            if(nextRank != null) {
+                line = line.replace("%nextRank%", nextRank.getSecondPrefix())
+                        .replace("%nextRankXP%", (nextRank.getRequiredExp() - dataExp) + " XP");
+            }
+            lines.add(ChatColor.translateAlternateColorCodes('&',line));
+        }
+        holo.setLines(lines);
+        holo.update();
     }
 
     @Override

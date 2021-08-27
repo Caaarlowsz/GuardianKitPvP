@@ -4,6 +4,7 @@ import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
+import java.util.HashMap;
 
 public interface MySQL {
 
@@ -33,6 +34,7 @@ public interface MySQL {
 
     String getReceiverSender();
 
+    HashMap<String, String> getUsers();
 
     @SuppressWarnings("unused")
     ResultSet pQuery(String query);

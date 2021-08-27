@@ -4,6 +4,7 @@ import dev.mruniverse.guardiankitpvp.abilities.Ghost;
 import dev.mruniverse.guardiankitpvp.enums.GuardianArmor;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.enums.KitType;
+import dev.mruniverse.guardiankitpvp.holograms.HoloManagerBuilder;
 import dev.mruniverse.guardiankitpvp.interfaces.KitPvP;
 import dev.mruniverse.guardiankitpvp.interfaces.kits.KitInfo;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
@@ -107,6 +108,8 @@ public class GuardianKitPvP extends JavaPlugin {
 
                 setKitPvP(getKitPvP().setListenerController(new ListenerControllerBuilder(instance)));
 
+                setKitPvP(getKitPvP().setHoloManager(new HoloManagerBuilder(instance)));
+
                 getKitPvP().getRankManager().loadRanks();
 
                 getKitPvP().getCuboidStorage().init();
@@ -121,6 +124,8 @@ public class GuardianKitPvP extends JavaPlugin {
                 getKitPvP().getKitLoader().updateKits();
 
                 getServer().getPluginManager().registerEvents(getKitPvP().getItemAbilities(),instance);
+
+                getKitPvP().getHoloManager().loadTops();
 
                 getKitPvP().create();
 
@@ -204,6 +209,7 @@ public class GuardianKitPvP extends JavaPlugin {
         if(kit.getArmor(GuardianArmor.BOOTS) != null) player.getInventory().setBoots(kit.getArmor(GuardianArmor.BOOTS));
 
     }
+
 
     public String getBarCharacter() { return barCharacter; }
 

@@ -30,6 +30,7 @@ public class MainCommand implements CommandExecutor {
     private final CoinsCommand coinsCommand;
     private final DeathsCommand deathsCommand;
     private final ExpCommand expCommand;
+    private final HologramsCommand hologramsCommand;
     private final KillsCommand killsCommand;
     private final BowHitsCommand bowHitsCommand;
 
@@ -39,6 +40,7 @@ public class MainCommand implements CommandExecutor {
 
         coinsCommand = new CoinsCommand(plugin,command);
         killsCommand = new KillsCommand(plugin,command);
+        hologramsCommand = new HologramsCommand(plugin,command);
         expCommand = new ExpCommand(plugin,command);
         deathsCommand = new DeathsCommand(plugin,command);
         bowHitsCommand = new BowHitsCommand(plugin,command);
@@ -154,6 +156,8 @@ public class MainCommand implements CommandExecutor {
                         utils.sendMessage(sender,cmdPrefix + " admin coins set (player) (coins) &e- &fSet coins of a player");
                         utils.sendMessage(sender,cmdPrefix + " admin coins add (player) (coins) &e- &fAdd coins to a player");
                         utils.sendMessage(sender,cmdPrefix + " admin coins remove (player) (coins) &e- &fRemove coins of a player");
+                        utils.sendMessage(sender,"&6Admin - Holograms Commands:");
+                        utils.sendMessage(sender,cmdPrefix + " admin holograms add (ks-xp-s-d-k-w-c) &e- &fLocations");
                         utils.sendMessage(sender,"&6Admin - Deaths Commands:");
                         utils.sendMessage(sender,cmdPrefix + " admin deaths set (player) (deaths) &e- &fSet deaths of a player");
                         utils.sendMessage(sender,cmdPrefix + " admin deaths add (player) (deaths) &e- &fAdd deaths to a player");
@@ -187,7 +191,13 @@ public class MainCommand implements CommandExecutor {
                         utils.sendMessage(sender, "&3» &aReload completed!");
                     }
                 }
+                if(args[1].equalsIgnoreCase("holograms") && args.length >= 4) {
+                    if(hasPermission(sender,"gkb.admin.holograms",true)) {
+                        hologramsCommand.usage(sender,getArguments(args));
 
+                    }
+                    return true;
+                }
                 if(args[1].equalsIgnoreCase("coins") && args.length >= 4) {
                     if(hasPermission(sender,"gkb.admin.coins",true)) {
                         coinsCommand.usage(sender,getArguments(args));

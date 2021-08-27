@@ -13,6 +13,8 @@ settings:
   dateFormat: "dd/MM/yyyy"
   # Toggle perWorldTab option
   perWorldTab: false
+  # Update delay in minutes for holograms.
+  update-hologram-delay: 60
   # Map Locations:
   map-locations: []
   # Progress Bar Custom

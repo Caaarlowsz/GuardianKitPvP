@@ -3,11 +3,15 @@ package dev.mruniverse.guardiankitpvp.storage;
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
 import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.enums.SaveMode;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.FileStorage;
+import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerData;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.SQL;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
 import java.util.*;
 
 public class SQLBuilder implements SQL {
@@ -105,5 +109,32 @@ public class SQLBuilder implements SQL {
         plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.DATA).set(str + ".Statistics", manager.getStatsString());
         plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.DATA).set(str + ".Kits", manager.getKits());
         plugin.getKitPvP().getFileStorage().save(SaveMode.DATA);
+    }
+
+    @Override
+    public HashMap<String, String> getUsers() {
+        try {
+            HashMap<String, String> hashMap = new HashMap<>();
+            FileStorage storage = plugin.getKitPvP().getFileStorage();
+            PlayerData data = plugin.getKitPvP().getPlayers();
+            for (String string : storage.getContent(GuardianFiles.DATA,"Players",false)) {
+                String username = storage.getControl(GuardianFiles.DATA).getString("Players." + string + ".Name","NoBodyIsTheNick999222");
+                Player player = Bukkit.getPlayer(username);
+                if(player != null) {
+                    hashMap.put(username, data.existPlayer(player.getUniqueId()) ? data.getUser(player.getUniqueId()).getStatsString() : storage.getControl(GuardianFiles.DATA).getString("Players." + string + ".Statistics"));
+                } else {
+                    hashMap.put(username, storage.getControl(GuardianFiles.DATA).getString("Players." + string + ".Statistics"));
+                }
+            }
+            return hashMap;
+        }catch(Throwable throwable) {
+            if(plugin.getKitPvP() != null) {
+                if(plugin.getKitPvP().getPlayers() != null) {
+                    plugin.getLogs().error("&3DATA-LIB | &fCan't load statics");
+                    plugin.getLogs().error(throwable);
+                }
+            }
+        }
+        return null;
     }
 }
