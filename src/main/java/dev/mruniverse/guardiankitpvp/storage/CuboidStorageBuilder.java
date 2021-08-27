@@ -144,8 +144,10 @@ public class CuboidStorageBuilder implements CuboidStorage {
 
             if(pos1 != null && pos2 != null) {
                 teleports.put(spawnID,new CuboidBuilder(pos1,pos2));
+                plugin.getLogs().info("Teleport CuboID (" + spawnID + ") has been loaded");
+            } else {
+                plugin.getLogs().error("Can't find pos1 or pos2 of cuboid-teleport: " + spawnID);
             }
-            plugin.getLogs().error("Can't find pos1 or pos2 of cuboid-teleport: " + spawnID);
         } else {
             plugin.getLogs().error("The spawn with id: " + spawnID + " don't have teleport zone, please add one to prevent issues.");
         }
@@ -157,6 +159,7 @@ public class CuboidStorageBuilder implements CuboidStorage {
 
             if(pos1 != null && pos2 != null) {
                 spawns.put(spawnID,new CuboidBuilder(pos1,pos2));
+                plugin.getLogs().info("Spawn CuboID (" + spawnID + ") has been loaded");
                 return;
             }
             plugin.getLogs().error("Can't find pos1 or pos2 of cuboid: " + spawnID);
@@ -187,6 +190,7 @@ public class CuboidStorageBuilder implements CuboidStorage {
 
             if(pos1 != null && pos2 != null) {
                 koths.put(koThID,new CuboidBuilder(pos1,pos2));
+                plugin.getLogs().info("Koth CuboID (" + koThID + ") has been loaded");
                 return;
             }
             plugin.getLogs().error("Can't find pos1 or pos2 of cuboid: " + koThID);
@@ -217,6 +221,7 @@ public class CuboidStorageBuilder implements CuboidStorage {
 
             if(pos1 != null && pos2 != null) {
                 zones.put(zoneID,new CuboidBuilder(pos1,pos2));
+                plugin.getLogs().info("Zone CuboID (" + zoneID + ") has been loaded");
                 return;
             }
             plugin.getLogs().error("Can't find pos1 or pos2 of cuboid: " + zoneID);
