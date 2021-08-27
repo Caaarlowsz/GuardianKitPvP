@@ -259,7 +259,7 @@ public class MainCommand implements CommandExecutor {
                     utils.sendMessage(sender,"&cThis command is only for players.");
                     return true;
                 }
-                if(args[1].equalsIgnoreCase("Cuboid") && args.length >= 5) {
+                if(args[1].equalsIgnoreCase("Cuboid") && args.length >= 4) {
                     if(sender instanceof Player) {
                         String area = args[2];
                         boolean teleport = Boolean.parseBoolean(args[3]);
@@ -271,8 +271,8 @@ public class MainCommand implements CommandExecutor {
 
                         pos2 = info.getSecondPosition();
                         String path = "lobby.";
-                        if(pos1 != null && pos2 != null && !plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).contains("lobby.cuboid-list." + area + ".name")) {
-                            if(teleport) path = "teleport.";
+                        if(teleport) path = "teleport.";
+                        if(pos1 != null && pos2 != null && !plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).contains(path + "cuboid-list." + area + ".name")) {
                             plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.GAMES).set(path + "cuboid-list." + area + ".name",area);
                             String text1 = utils.getStringFromLocation(pos1);
                             String text2 = utils.getStringFromLocation(pos2);
