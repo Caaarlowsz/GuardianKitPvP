@@ -32,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.List;
 import java.util.Map;
 
 public class GuardianKitPvP extends JavaPlugin {
@@ -116,7 +117,10 @@ public class GuardianKitPvP extends JavaPlugin {
 
                 getKitPvP().getDataStorage().loadDatabase();
 
-                getKitPvP().getCuboidStorage().setCurrentSpawn("spawn");
+                List<String> keys = getKitPvP().getFileStorage().getContent(GuardianFiles.GAMES,"lobby.cuboid-list",false);
+                int ZONE_ID = getUtils().getRandom().nextInt(keys.size());
+                String ZONE_STRING = keys.get(ZONE_ID);
+                getKitPvP().getCuboidStorage().setCurrentSpawn(ZONE_STRING);
 
                 getKitPvP().getItemAbilities().registerAbility(new Ghost(utils.getUtils()))
                         .finishRegister();

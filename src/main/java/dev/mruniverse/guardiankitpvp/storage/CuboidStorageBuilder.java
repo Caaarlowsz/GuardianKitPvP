@@ -144,10 +144,8 @@ public class CuboidStorageBuilder implements CuboidStorage {
 
             if(pos1 != null && pos2 != null) {
                 teleports.put(spawnID,new CuboidBuilder(pos1,pos2));
-                return;
             }
-            plugin.getLogs().error("Can't find pos1 or pos2 of cuboid: " + spawnID);
-            return;
+            plugin.getLogs().error("Can't find pos1 or pos2 of cuboid-teleport: " + spawnID);
         } else {
             plugin.getLogs().error("The spawn with id: " + spawnID + " don't have teleport zone, please add one to prevent issues.");
         }

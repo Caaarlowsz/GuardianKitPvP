@@ -14,11 +14,13 @@ import org.bukkit.inventory.ItemStack;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
+import java.util.Random;
 
 public class GuardianUtils {
     @SuppressWarnings("unused")
     private final Utils utils = GuardianLIB.getControl().getUtils();
     private final GuardianKitPvP plugin;
+    private final Random random = new Random();
 
     public GuardianUtils(GuardianKitPvP plugin) {
         this.plugin = plugin;
@@ -146,6 +148,10 @@ public class GuardianUtils {
         }
         if(plugin.hasPAPI()) { text = PlaceholderAPI.setPlaceholders(player,text); }
         return text;
+    }
+
+    public Random getRandom(){
+        return random;
     }
 
     public void consumeItem(Player player, int count, Material material) {
