@@ -22,6 +22,8 @@ public class ListenerControllerBuilder implements ListenerController {
 
     private final JoinListener joinListener;
 
+    private final ExtrasListener extrasListener;
+
     private Location location;
 
     private Location spawnLocation;
@@ -40,6 +42,7 @@ public class ListenerControllerBuilder implements ListenerController {
         chatListener = new ChatListener(plugin);
         damageListener = new DamageListener(plugin);
         joinListener = new JoinListener(plugin);
+        extrasListener = new ExtrasListener(plugin);
         loadListeners();
         updateSpawnLocation();
         loadMenus();
@@ -102,9 +105,9 @@ public class ListenerControllerBuilder implements ListenerController {
         manager.registerEvents(joinListener,plugin);
         manager.registerEvents(chatListener,plugin);
         manager.registerEvents(damageListener,plugin);
+        manager.registerEvents(extrasListener,plugin);
         manager.registerEvents(new DeathListener(plugin),plugin);
         manager.registerEvents(new InteractListener(plugin),plugin);
-        manager.registerEvents(new ExtrasListener(plugin),plugin);
         manager.registerEvents(new QuitListener(plugin),plugin);
     }
 
@@ -113,6 +116,7 @@ public class ListenerControllerBuilder implements ListenerController {
         shopMenu.updateItems();
         chatListener.update();
         damageListener.update();
+        extrasListener.update();
         /*
          * SOMETHING WILL BE ADDED HERE IN THE NEXT SUMMER
          */

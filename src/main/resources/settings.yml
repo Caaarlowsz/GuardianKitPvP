@@ -11,6 +11,8 @@
 settings:
   # Plugin Date Format
   dateFormat: "dd/MM/yyyy"
+  # Don't unload chunks.
+  unload-chunks: false
   # Toggle perWorldTab option
   perWorldTab: false
   # This is the spawn location

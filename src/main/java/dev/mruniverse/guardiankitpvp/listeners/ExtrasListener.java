@@ -1,9 +1,11 @@
 package dev.mruniverse.guardiankitpvp.listeners;
 
 import dev.mruniverse.guardiankitpvp.GuardianKitPvP;
+import dev.mruniverse.guardiankitpvp.enums.GuardianFiles;
 import dev.mruniverse.guardiankitpvp.enums.KitType;
 import dev.mruniverse.guardiankitpvp.enums.PlayerStatus;
 import dev.mruniverse.guardiankitpvp.interfaces.storage.PlayerManager;
+import dev.mruniverse.guardianlib.core.events.GuardianChunkUnloadEvent;
 import dev.mruniverse.guardianlib.core.events.HologramInteractEvent;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -19,8 +21,15 @@ public class ExtrasListener implements Listener {
 
     private final GuardianKitPvP plugin;
 
+    private boolean chunks;
+
     public ExtrasListener(GuardianKitPvP plugin) {
         this.plugin = plugin;
+        chunks = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS).getBoolean("settings.unload-chunks");
+    }
+
+    public void update() {
+        chunks = plugin.getKitPvP().getFileStorage().getControl(GuardianFiles.SETTINGS).getBoolean("settings.unload-chunks");
     }
 
     @EventHandler
@@ -63,6 +72,11 @@ public class ExtrasListener implements Listener {
                 event.setCancelled(true);
             }
         }
+    }
+
+    @EventHandler
+    public void onChunkDisable(GuardianChunkUnloadEvent event) {
+        event.setCancelled(chunks);
     }
 
     @EventHandler
