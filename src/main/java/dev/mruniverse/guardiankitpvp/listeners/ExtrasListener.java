@@ -43,6 +43,7 @@ public class ExtrasListener implements Listener {
                 }
                 if(plugin.getKitPvP().getCuboidStorage().getTeleport().isIn(player)) {
                     info.setLocationID("MapCenter");
+                    plugin.giveKit(KitType.NORMAL,player);
                     player.teleport(plugin.getKitPvP().getListenerController().getMapLocation());
                 }
             }
