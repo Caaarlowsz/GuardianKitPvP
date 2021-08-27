@@ -81,6 +81,9 @@ public class MainCommand implements CommandExecutor {
                 return true;
             }
             if (args[0].equalsIgnoreCase("admin")) {
+                if(!hasPermission(sender,"gkp.admin.usage",true)) {
+                    return true;
+                }
                 if(args.length == 1 || args[1].equalsIgnoreCase("1")) {
                     if(hasPermission(sender,"gkb.admin.help",true)) {
                         sender.sendMessage(" ");
